@@ -618,22 +618,16 @@ window.addEventListener('load', () => {
                     ⚠️ <b>Peringatan:</b> Ini hanyalah daftar rekomendasi tontonan favorit saya, <b>BUKAN</b> platform atau link untuk menonton!
                 </p>
                 
-                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center;">
                     <h4 style="color: #ff6b6b; margin-bottom: 10px; font-size: 1rem;"><i class="fas fa-ghost"></i> List Tontonan Horor</h4>
-                    <ul style="color: #dbdee1; font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
-                        <li>[Ketik judul Horor 1]</li>
-                        <li>[Ketik judul Horor 2]</li>
-                        <li>[Ketik judul Horor 3]</li>
-                    </ul>
+                    <p style="color: #888; font-size: 0.85rem; margin-bottom: 15px;">Koleksi daftar film dan seri horor terbaik pilihan saya.</p>
+                    <a href="https://my-horror-collection-kgj7.vercel.app/" target="_blank" style="display: inline-block; background: #ff6b6b; color: #111; padding: 10px 20px; border-radius: 8px; font-weight: 700; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Lihat Koleksi Horor <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></a>
                 </div>
 
-                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px;">
+                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: center;">
                     <h4 style="color: #4db8ff; margin-bottom: 10px; font-size: 1rem;"><i class="fas fa-dragon"></i> Anime & Donghua</h4>
-                    <ul style="color: #dbdee1; font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
-                        <li>[Ketik judul Anime/Donghua 1]</li>
-                        <li>[Ketik judul Anime/Donghua 2]</li>
-                        <li>[Ketik judul Anime/Donghua 3]</li>
-                    </ul>
+                    <p style="color: #888; font-size: 0.85rem; margin-bottom: 15px;">Daftar tontonan Anime dan Donghua favorit saya.</p>
+                    <a href="https://my-anime-collection-kappa.vercel.app/" target="_blank" style="display: inline-block; background: #4db8ff; color: #111; padding: 10px 20px; border-radius: 8px; font-weight: 700; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Lihat Koleksi Anime <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></a>
                 </div>
             </div>
         `
