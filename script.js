@@ -613,23 +613,26 @@ window.addEventListener('load', () => {
         `,
         'Watchlist': `
             <div style="text-align: left;">
-                <p style="margin-bottom: 1.5rem; color: #fff; text-align: center; font-size: 1.1rem; font-weight: 600;">📺 My Watchlist</p>
+                <p style="margin-bottom: 0.5rem; color: #fff; text-align: center; font-size: 1.1rem; font-weight: 600;">📺 List Nonton</p>
+                <p style="text-align: center; color: #ffeb3b; font-size: 0.8rem; margin-bottom: 1.5rem; font-style: italic; background: rgba(255,235,59,0.1); padding: 8px; border-radius: 8px; border: 1px solid rgba(255,235,59,0.3);">
+                    ⚠️ <b>Peringatan:</b> Ini hanyalah daftar rekomendasi tontonan favorit saya, <b>BUKAN</b> platform atau link untuk menonton!
+                </p>
                 
                 <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px;">
-                    <h4 style="color: #4db8ff; margin-bottom: 10px; font-size: 1rem;"><i class="fas fa-dragon"></i> Donghua Favorit</h4>
+                    <h4 style="color: #ff6b6b; margin-bottom: 10px; font-size: 1rem;"><i class="fas fa-ghost"></i> List Tontonan Horor</h4>
                     <ul style="color: #dbdee1; font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
-                        <li>[Ketik judul Donghua di sini]</li>
-                        <li>[Ketik judul Donghua di sini]</li>
-                        <li>[Ketik judul Donghua di sini]</li>
+                        <li>[Ketik judul Horor 1]</li>
+                        <li>[Ketik judul Horor 2]</li>
+                        <li>[Ketik judul Horor 3]</li>
                     </ul>
                 </div>
 
                 <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px;">
-                    <h4 style="color: #ff6b6b; margin-bottom: 10px; font-size: 1rem;"><i class="fas fa-tv"></i> Anime Favorit</h4>
+                    <h4 style="color: #4db8ff; margin-bottom: 10px; font-size: 1rem;"><i class="fas fa-dragon"></i> Anime & Donghua</h4>
                     <ul style="color: #dbdee1; font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
-                        <li>[Ketik judul Anime di sini]</li>
-                        <li>[Ketik judul Anime di sini]</li>
-                        <li>[Ketik judul Anime di sini]</li>
+                        <li>[Ketik judul Anime/Donghua 1]</li>
+                        <li>[Ketik judul Anime/Donghua 2]</li>
+                        <li>[Ketik judul Anime/Donghua 3]</li>
                     </ul>
                 </div>
             </div>
