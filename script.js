@@ -612,22 +612,33 @@ window.addEventListener('load', () => {
             </div>
         `,
         'Watchlist': `
-            <div style="text-align: left;">
-                <p style="margin-bottom: 0.5rem; color: #fff; text-align: center; font-size: 1.1rem; font-weight: 600;">📺 List Nonton</p>
-                <p style="text-align: center; color: #ffeb3b; font-size: 0.8rem; margin-bottom: 1.5rem; font-style: italic; background: rgba(255,235,59,0.1); padding: 8px; border-radius: 8px; border: 1px solid rgba(255,235,59,0.3);">
+            <div style="text-align: center;">
+                <p style="margin-bottom: 0.5rem; color: #fff; font-size: 1.1rem; font-weight: 600;">📺 List Nonton</p>
+                <p style="color: #ffeb3b; font-size: 0.8rem; margin-bottom: 1.5rem; font-style: italic; background: rgba(255,235,59,0.1); padding: 8px; border-radius: 8px; border: 1px solid rgba(255,235,59,0.3);">
                     ⚠️ <b>Peringatan:</b> Ini hanyalah daftar rekomendasi tontonan favorit saya, <b>BUKAN</b> platform atau link untuk menonton!
                 </p>
                 
-                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center;">
-                    <h4 style="color: #ff6b6b; margin-bottom: 10px; font-size: 1rem;"><i class="fas fa-ghost"></i> List Tontonan Horor</h4>
-                    <p style="color: #888; font-size: 0.85rem; margin-bottom: 15px;">Koleksi daftar film dan seri horor terbaik pilihan saya.</p>
-                    <a href="https://my-horror-collection-kgj7.vercel.app/" target="_blank" style="display: inline-block; background: #ff6b6b; color: #111; padding: 10px 20px; border-radius: 8px; font-weight: 700; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Lihat Koleksi Horor <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></a>
-                </div>
-
-                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: center;">
-                    <h4 style="color: #4db8ff; margin-bottom: 10px; font-size: 1rem;"><i class="fas fa-dragon"></i> Anime & Donghua</h4>
-                    <p style="color: #888; font-size: 0.85rem; margin-bottom: 15px;">Daftar tontonan Anime dan Donghua favorit saya.</p>
-                    <a href="https://my-anime-collection-kappa.vercel.app/" target="_blank" style="display: inline-block; background: #4db8ff; color: #111; padding: 10px 20px; border-radius: 8px; font-weight: 700; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Lihat Koleksi Anime <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></a>
+                <p style="margin-bottom: 15px; color: #ccc;">Pilih Daftar Tontonan:</p>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <a href="https://my-horror-collection-kgj7.vercel.app/" target="_blank" class="category-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: flex-start; position: relative; overflow: hidden;">
+                        <span class="blob-btn__inner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.3;">
+                            <span class="blob-btn__blobs">
+                                <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
+                            </span>
+                        </span>
+                        <img src="assets/emoji-reputation.gif" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;" onerror="this.onerror=null; this.outerHTML='<span style=\\'font-size:24px; margin-right:12px; z-index:1; position:relative;\\'>👻</span>'"> 
+                        <span style="z-index: 1; position: relative;">List Tontonan Horor</span>
+                    </a>
+                    
+                    <a href="https://my-anime-collection-kappa.vercel.app/" target="_blank" class="category-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: flex-start; position: relative; overflow: hidden;">
+                        <span class="blob-btn__inner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.3;">
+                            <span class="blob-btn__blobs">
+                                <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
+                            </span>
+                        </span>
+                        <img src="assets/emoji-anime.gif" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;" onerror="this.onerror=null; this.outerHTML='<span style=\\'font-size:24px; margin-right:12px; z-index:1; position:relative;\\'>📺</span>'"> 
+                        <span style="z-index: 1; position: relative;">Anime & Donghua</span>
+                    </a>
                 </div>
             </div>
         `
