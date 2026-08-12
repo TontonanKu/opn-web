@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts: Inter (closer to the screenshot font) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <title>Kazura | Personal Links & Joki Service</title>
+
+    <!-- Meta Tags / SEO -->
+    <meta name="description" content="Pusat Jasa Joki Terpercaya. Melayani Wuthering Waves (WuWa), Honkai: Star Rail (HSR), dan Roblox. Cepat, Aman, dan Terpercaya!">
+    <meta name="author" content="Kazura">
+    
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Kazura | Joki Wuthering Waves, HSR & Roblox">
+    <meta property="og:description" content="Pusat Jasa Joki Terpercaya. Melayani eksplorasi, quest, maintenance akun, dan farming. Cek pricelist lengkapnya di sini!">
+    <meta property="og:image" content="assets/profil.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Kazura | Joki Wuthering Waves, HSR & Roblox">
+    <meta property="twitter:description" content="Pusat Jasa Joki Terpercaya. Melayani eksplorasi, quest, maintenance akun, dan farming. Cek pricelist lengkapnya di sini!">
+    <meta property="twitter:image" content="assets/profil.png">
+
+    <!-- CSS / Fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="profile-container">
+        <!-- Banner Section -->
+        <div class="banner">
+            <!-- Video Banner Setup (Pastikan file bernama banner.mp4 ada di folder yang sama) -->
+            <video class="banner-img" autoplay loop muted playsinline>
+                <source src="assets/banner.mp4" type="video/mp4">
+                <!-- Fallback jika browser tidak mendukung video -->
+                Browser Anda tidak mendukung tag video.
+            </video>
+            <div class="banner-gradient"></div>
+        </div>
+
+        <!-- Profile Info Section -->
+        <header class="profile-info">
+            <div class="avatar-wrapper">
+                <!-- Ganti file profil.png dengan foto aslimu -->
+                <img src="assets/profil.png" alt="Profile Picture" class="avatar" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Kazura&background=random&color=fff&size=150'">
+            </div>
+            
+            <div class="name-container" style="margin-bottom: 0.25rem;">
+                <h1 class="name">Kazura</h1>
+                <!-- Ganti file verified.gif dengan file animasi yang kamu punya -->
+                <img src="assets/verified.gif" alt="Verified" class="custom-verified-badge" onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg'">
+            </div>
+
+            <p class="bio" style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem; text-align: center;">"Just a gamer who loves anime and donghua."</p>
+
+            <!-- Baris Kontak (Pindah ke Atas) -->
+            <div class="info-pills" style="margin-bottom: 2rem;">
+                <a href="https://discord.com/users/1056938442061271150" class="pill pill-link" target="_blank">
+                    <i class="fab fa-discord" style="margin-right: 4px;"></i> Discord
+                </a>
+                <a href="https://instagram.com/rezaa_.06?igsh=MXZoMnkwbDRyZnhndQ==" class="pill pill-link" target="_blank">
+                    <i class="fab fa-instagram" style="margin-right: 4px;"></i> Instagram
+                </a>
+                <a href="https://www.tiktok.com/@rez_4_?is_from_webapp=1&sender_device=pc" class="pill pill-link" target="_blank">
+                    <i class="fab fa-tiktok" style="margin-right: 4px;"></i> TikTok
+                </a>
+            </div>
+
+            <!-- Link Utama (Pricelist, dll) -->
+            <div class="more-info-container">
+                <div class="links">
+                    <a href="#" class="link-btn" id="btn-pricelist">
+                        <span class="blob-btn__inner">
+                            <span class="blob-btn__blobs">
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                            </span>
+                        </span>
+                        <img src="assets/emoji-pricelist.gif" alt="🏖️" class="btn-icon-img" onerror="this.onerror=null; this.outerHTML='<span class=\'btn-icon\'>🏖️</span>'">
+                        <span class="btn-text">Pricelist</span>
+                    </a>
+                    <a href="#" class="link-btn" id="btn-reputation">
+                        <span class="blob-btn__inner">
+                            <span class="blob-btn__blobs">
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                            </span>
+                        </span>
+                        <img src="assets/emoji-reputation.gif" alt="💸" class="btn-icon-img" onerror="this.onerror=null; this.outerHTML='<span class=\'btn-icon\'>💸</span>'">
+                        <span class="btn-text">Reputation</span>
+                    </a>
+                    <a href="#" class="link-btn" id="btn-watchlist">
+                        <span class="blob-btn__inner">
+                            <span class="blob-btn__blobs">
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                            </span>
+                        </span>
+                        <img src="assets/emoji-anime.gif" alt="📺" class="btn-icon-img" onerror="this.onerror=null; this.outerHTML='<span class=\'btn-icon\'>📺</span>'">
+                        <span class="btn-text">Anime & Donghua</span>
+                    </a>
+                    <a href="https://discord.com/invite/bFGDDUhhAD" class="link-btn" target="_blank">
+                        <span class="blob-btn__inner">
+                            <span class="blob-btn__blobs">
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                                <span class="blob-btn__blob"></span>
+                            </span>
+                        </span>
+                        <img src="assets/emoji-discord.gif" alt="🏗️" class="btn-icon-img" onerror="this.onerror=null; this.outerHTML='<span class=\'btn-icon\'>🏗️</span>'">
+                        <span class="btn-text">Server Discord</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Activity Widget (Live Data: Spotify/Games) -->
+            <div class="spotify-widget" id="activity-widget" style="display: none;">
+                <div class="spotify-header">
+                    <i class="fab fa-spotify" id="activity-icon" style="color: #1DB954;"></i>
+                    <span id="activity-header-text">Listening to Spotify</span>
+                </div>
+                <div class="spotify-body">
+                    <img src="" alt="Art" class="album-art" id="activity-art">
+                    <div class="song-info">
+                        <div class="song-title" id="activity-title">Loading...</div>
+                        <div class="song-artist" id="activity-details">Loading...</div>
+                        <div class="song-artist" id="activity-state" style="margin-bottom: 4px; display: none;"></div>
+                        <div class="progress-container" id="activity-progress-container">
+                            <span class="time" id="activity-time-start">0:00</span>
+                            <div class="progress-bar"><div class="progress-fill" id="activity-progress"></div></div>
+                            <span class="time" id="activity-time-end">0:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Baris Minat (Paling Bawah) -->
+            <div class="info-pills" style="margin-top: 2rem; margin-bottom: 1.5rem;">
+                <span class="pill">WuWa</span>
+                <span class="pill">Roblox</span>
+                <span class="pill">Donghua</span>
+                <span class="pill">Anime</span>
+            </div>
+
+            <!-- Footer -->
+            <footer style="margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--text-secondary); text-align: center;">
+                <p style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <img src="assets/logo-k.png" alt="K" style="width: 16px; height: 16px; border-radius: 4px; object-fit: cover;" onerror="this.onerror=null; this.outerHTML='<span style=\'font-weight: 900;\'>K</span>'">
+                    powered by reyy
+                </p>
+            </footer>
+        </header>
+    </main>
+
+    <!-- Modal Overlay untuk Pricelist & Reputation -->
+    <div class="modal-overlay" id="custom-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Judul</h2>
+                <button class="close-btn" id="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Konten dinamis akan dimasukkan melalui JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox (Full Image Viewer) -->
+    <div class="lightbox-overlay" id="lightbox">
+        <span class="lightbox-close" id="lightbox-close"><i class="fas fa-times"></i></span>
+        <img class="lightbox-img" id="lightbox-img" src="">
+    </div>
+
+    <!-- SVG Filter for Blob Effect -->
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: none;">
+        <defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 21 -7" result="goo"></feColorMatrix>
+                <feBlend in2="goo" in="SourceGraphic" result="mix"></feBlend>
+            </filter>
+        </defs>
+    </svg>
+
+    <script src="script.js"></script>
+</body>
+</html>

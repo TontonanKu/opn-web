@@ -1,0 +1,652 @@
+/* style.css - Matching the Screenshot Layout */
+:root {
+    --bg-color: #0f0f11;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --pill-bg: #1c1c1e;
+    --font-main: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+}
+
+/* Loading Screen */
+.loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loader-wrapper.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #2c2c2e;
+    border-bottom-color: #ffffff;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.profile-container {
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding-bottom: 2rem;
+}
+
+/* Banner */
+.banner {
+    width: 100%;
+    height: 350px;
+    position: relative;
+    z-index: 0;
+}
+
+.banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+}
+
+.banner-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px; /* How far the gradient goes up */
+    background: linear-gradient(to bottom, transparent, var(--bg-color));
+}
+
+/* Profile Info */
+.profile-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -75px; /* Overlap the banner */
+    z-index: 1;
+    margin-bottom: 2rem;
+}
+
+.avatar-wrapper {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.name-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.name {
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.custom-verified-badge {
+    width: 24px;
+    height: 24px;
+    margin-left: 4px;
+    object-fit: contain;
+    /* Sedikit shadow agar lebih menonjol */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* Info Pills */
+.info-pills {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.pill {
+    background-color: var(--pill-bg);
+    color: var(--text-secondary);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.pill-link {
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pill-link:hover {
+    background-color: #2c2c2e;
+    transform: scale(1.05) translateY(-2px);
+    color: white;
+}
+
+.pill-link:active {
+    transform: scale(0.9);
+    transition: transform 0.1s ease;
+}
+
+/* Footer / Watermark */
+.footer-watermark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: auto;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: lowercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.footer-watermark:hover {
+    opacity: 1;
+}
+
+.logo-k {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+/* More Info Section */
+.more-info-container {
+    width: 100%;
+    max-width: 400px; /* Lebar maksimal tombol agar tidak terlalu melar */
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    text-align: left;
+    padding-left: 0.5rem;
+}
+
+/* Spotify Widget */
+.spotify-widget {
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--pill-bg);
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.spotify-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.spotify-body {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.album-art {
+    width: 65px;
+    height: 65px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.song-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.song-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.song-artist {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.progress-bar {
+    flex-grow: 1;
+    height: 6px; /* Ditebalkan sedikit supaya efeknya lebih kelihatan */
+    background-color: rgba(255, 255, 255, 0.1); /* Background bar lebih gelap */
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    /* Gradient yang kontrasnya tinggi: redup -> SANGAT TERANG -> redup */
+    background: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.2) 100%);
+    background-size: 200% 100%;
+    border-radius: 6px;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.8); /* Pancaran glow yang sangat terang */
+    animation: shimmerProgress 3s infinite linear; /* Diperlambat menjadi 3 detik agar lebih santai */
+    transition: width 1s linear;
+}
+
+@keyframes shimmerProgress {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ==========================================
+   MODAL (POP-UP) OVERLAY STYLES
+   ========================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px); /* Efek blur pada background di belakang modal */
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none; /* Tidak bisa diklik saat sembunyi */
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-content {
+    background-color: var(--pill-bg); /* Menggunakan warna abu-abu khas tema kita */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh; /* Maksimal 80% dari tinggi layar */
+    padding: 2rem;
+    transform: translateY(50px) scale(0.95); /* Muncul dari bawah */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animasi memantul sedikit */
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0) scale(1); /* Posisi akhir */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 1rem;
+}
+
+.modal-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.close-btn {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.1);
+}
+
+.modal-body {
+    overflow-y: auto; /* Bisa discroll kalau isinya panjang */
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    padding-right: 5px; /* Memberi jarak untuk scrollbar */
+}
+
+/* Custom Scrollbar Khusus untuk Modal */
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+.modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+.modal-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+/* ==========================================
+   LIGHTBOX STYLES (FULL IMAGE VIEWER)
+   ========================================== */
+.lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 2000; /* Di atas segalanya */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.lightbox-img {
+    max-width: 95%;
+    max-height: 95%;
+    object-fit: contain;
+    border-radius: 8px;
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.lightbox-overlay.active .lightbox-img {
+    transform: scale(1);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 35px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    background: rgba(0,0,0,0.5);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-close:hover {
+    transform: scale(1.1);
+    background: rgba(255,255,255,0.2);
+}
+
+.testimoni-img {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.testimoni-img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.5);
+}
+
+/* Tombol Kategori Pricelist */
+.category-btn {
+    background: transparent; /* Diubah agar gumpalan terlihat */
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+/* Modifikasi blob khusus untuk kategori (kotak) */
+.category-btn .blob-btn__inner {
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+}
+
+.category-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.category-btn:hover .blob-btn__inner {
+    background: rgba(255,255,255,0.15);
+}
+
+/* Tombol Kembali (Back) */
+.back-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s ease;
+    padding: 0;
+}
+
+.back-btn:hover {
+    color: white;
+}
+
+/* Tombol Pesan (Order Now) */
+.order-btn {
+    display: block;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.order-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    filter: brightness(1.1);
+}
+
+/* Links Section */
+.links {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.link-btn {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 1rem 1.5rem;
+    background-color: transparent; /* Changed for blobs */
+    border-radius: 50px; /* Bentuk bulat memanjang seperti referensi */
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.05); /* Border tipis ala glassmorphism */
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease;
+    z-index: 1;
+}
+
+.link-btn:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: scale(1.03);
+}
+
+/* Animasi saat diklik (squish/bouncy) */
+.link-btn:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+}
+
+/* Blob Effects */
+.blob-btn__inner {
+    z-index: -1;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50px;
+    background: var(--pill-bg);
+}
+
+.blob-btn__blobs {
+    position: relative;
+    display: block;
+    height: 100%;
+    filter: url('#goo');
+}
+
+.blob-btn__blob {
+    position: absolute;
+    top: 2px;
+    width: 30%;
+    height: 100%;
+    background: #2c2c2e; /* Warna gumpalan diubah ke abu-abu gelap agar lebih elegan */
+    border-radius: 100%;
+    transform: translate3d(0, 150%, 0) scale(1.7);
+    transition: transform 0.45s ease;
+}
+
+@supports (filter: url('#goo')) {
+    .blob-btn__blob {
+        transform: translate3d(0, 150%, 0) scale(1.4);
+    }
+}
+
+.blob-btn__blob:nth-child(1) { left: 0%; transition-delay: 0s; }
+.blob-btn__blob:nth-child(2) { left: 30%; transition-delay: 0.08s; }
+.blob-btn__blob:nth-child(3) { left: 60%; transition-delay: 0.16s; }
+.blob-btn__blob:nth-child(4) { left: 90%; transition-delay: 0.24s; }
+
+.link-btn:hover .blob-btn__blob,
+.category-btn:hover .blob-btn__blob {
+    transform: translateZ(0) scale(1.7);
+}
+
+.btn-icon {
+    position: absolute;
+    left: 1.25rem;
+    font-size: 1.2rem;
+}
+
+.btn-icon-img {
+    position: absolute;
+    left: 1.25rem;
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+.btn-text {
+    width: 100%;
+    text-align: center;
+}
+
+
