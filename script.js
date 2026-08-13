@@ -620,7 +620,7 @@ window.addEventListener('load', () => {
                 
                 <p style="margin-bottom: 15px; color: #ccc;">Pilih Daftar Tontonan:</p>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <a href="https://my-horror-collection-kgj7.vercel.app/" target="_blank" class="category-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: flex-start; position: relative; overflow: hidden;">
+                    <a href="https://my-horror-collection.vercel.app/" target="_blank" class="category-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: flex-start; position: relative; overflow: hidden;">
                         <span class="blob-btn__inner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.3;">
                             <span class="blob-btn__blobs">
                                 <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
