@@ -273,6 +273,46 @@ window.addEventListener('load', () => {
     connectLanyard();
 
     // ==========================================
+    // STATUS WIDGET (Online/Offline)
+    // ==========================================
+    function updateStatusWidget() {
+        const liveClock = document.getElementById('live-clock');
+        const statusDot = document.getElementById('status-dot');
+        const statusText = document.getElementById('status-text');
+        
+        if (!liveClock || !statusDot || !statusText) return;
+
+        // Dapatkan waktu saat ini dalam WIB (UTC+7)
+        const now = new Date();
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+        const wibTime = new Date(utc + (3600000 * 7));
+
+        const hours = wibTime.getHours();
+        const minutes = wibTime.getMinutes().toString().padStart(2, '0');
+        const seconds = wibTime.getSeconds().toString().padStart(2, '0');
+        
+        // Update jam
+        liveClock.textContent = `${hours.toString().padStart(2, '0')}:${minutes}:${seconds}`;
+
+        // Cek apakah jam kerja (08:00 - 22:00) (Lebih dari sama dengan 8, kurang dari 22)
+        if (hours >= 8 && hours < 22) {
+            statusDot.style.backgroundColor = '#00ff66';
+            statusDot.style.borderColor = 'rgba(0,255,102,0.3)';
+            statusDot.style.boxShadow = '0 0 10px rgba(0,255,102,0.3)';
+            statusText.textContent = 'Admin Online';
+        } else {
+            statusDot.style.backgroundColor = '#ff4d4d';
+            statusDot.style.borderColor = 'rgba(255,77,77,0.3)';
+            statusDot.style.boxShadow = '0 0 10px rgba(255,77,77,0.3)';
+            statusText.textContent = 'Admin Offline';
+        }
+    }
+
+    // Jalankan pertama kali, lalu update setiap 1 detik
+    updateStatusWidget();
+    setInterval(updateStatusWidget, 1000);
+
+    // ==========================================
     // MODAL SYSTEM (Pricelist & Reputation)
     // ==========================================
     const modal = document.getElementById('custom-modal');
@@ -589,7 +629,7 @@ window.addEventListener('load', () => {
                 <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
                     <p style="margin-bottom: 12px; font-weight: 600; font-size: 0.95rem; color: #fff;">Tertarik? Pesan Joki Sekarang:</p>
                     <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <a href="https://discord.com/users/1056938442061271150" target="_blank" class="order-btn" style="background: #5865F2;"><i class="fab fa-discord"></i> Chat via Discord</a>
+                        <a href="https://wa.me/+6282172795156" target="_blank" class="order-btn" style="background: #25D366;"><i class="fab fa-whatsapp"></i> Chat via WhatsApp</a>
                         <a href="https://instagram.com/rezaa_.06?igsh=MXZoMnkwbDRyZnhndQ==" target="_blank" class="order-btn" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><i class="fab fa-instagram"></i> Chat via Instagram</a>
                         <a href="https://www.tiktok.com/@rez_4_?is_from_webapp=1&sender_device=pc" target="_blank" class="order-btn" style="background: #111; border: 1px solid rgba(255,255,255,0.2);"><i class="fab fa-tiktok"></i> Chat via TikTok</a>
                     </div>
