@@ -319,6 +319,7 @@ window.addEventListener('load', () => {
 
         const dynBanner = document.getElementById('dynamic-banner');
         const dynAvatar = document.getElementById('dynamic-avatar');
+        const dynVerified = document.getElementById('dynamic-verified');
 
         if (dynBanner && dynAvatar) {
             const targetBanner = `assets/banner-${charName}.mp4`;
@@ -328,6 +329,9 @@ window.addEventListener('load', () => {
                 dynBanner.setAttribute('src', targetBanner);
                 dynBanner.load(); // Wajib agar video baru dimainkan
                 dynAvatar.setAttribute('src', `assets/profil-${charName}.png`);
+                if (dynVerified) {
+                    dynVerified.setAttribute('src', `assets/verified-${charName}.gif`);
+                }
             }
         }
     }
