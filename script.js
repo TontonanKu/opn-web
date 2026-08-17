@@ -273,6 +273,70 @@ window.addEventListener('load', () => {
     connectLanyard();
 
     // ==========================================
+    // STATUS WIDGET (Online/Offline)
+    // ==========================================
+    function updateStatusWidget() {
+        const liveClock = document.getElementById('live-clock');
+        const statusDot = document.getElementById('status-dot');
+        const statusText = document.getElementById('status-text');
+        
+        if (!liveClock || !statusDot || !statusText) return;
+
+        // Dapatkan waktu saat ini dalam WIB (UTC+7)
+        const now = new Date();
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+        const wibTime = new Date(utc + (3600000 * 7));
+
+        const hours = wibTime.getHours();
+        const minutes = wibTime.getMinutes().toString().padStart(2, '0');
+        const seconds = wibTime.getSeconds().toString().padStart(2, '0');
+        
+        // Update jam
+        liveClock.textContent = `${hours.toString().padStart(2, '0')}:${minutes}:${seconds}`;
+
+        // Cek apakah jam kerja (08:00 - 22:00) (Lebih dari sama dengan 8, kurang dari 22)
+        if (hours >= 8 && hours < 22) {
+            statusDot.style.backgroundColor = '#00ff66';
+            statusDot.style.borderColor = 'rgba(0,255,102,0.3)';
+            statusDot.style.boxShadow = '0 0 10px rgba(0,255,102,0.3)';
+            statusText.textContent = 'Admin Online';
+        } else {
+            statusDot.style.backgroundColor = '#ff4d4d';
+            statusDot.style.borderColor = 'rgba(255,77,77,0.3)';
+            statusDot.style.boxShadow = '0 0 10px rgba(255,77,77,0.3)';
+            statusText.textContent = 'Admin Offline';
+        }
+
+        // ==========================================
+        // DYNAMIC BANNER & AVATAR (Setiap 4 Jam)
+        // ==========================================
+        let charName = 'lucila'; // 00:00 - 04:00
+        if (hours >= 4 && hours < 8) charName = 'shorekeeper';
+        else if (hours >= 8 && hours < 12) charName = 'chisa';
+        else if (hours >= 12 && hours < 16) charName = 'hiyuki';
+        else if (hours >= 16 && hours < 20) charName = 'yangyang';
+        else if (hours >= 20 && hours < 24) charName = 'carthetiya';
+
+        const dynBanner = document.getElementById('dynamic-banner');
+        const dynAvatar = document.getElementById('dynamic-avatar');
+
+        if (dynBanner && dynAvatar) {
+            const targetBanner = `assets/banner-${charName}.mp4`;
+            
+            // Hanya ganti src jika belum sesuai (mencegah reload video setiap detik)
+            if (dynBanner.getAttribute('src') !== targetBanner) {
+                dynBanner.setAttribute('src', targetBanner);
+                dynBanner.load(); // Wajib agar video baru dimainkan
+                dynAvatar.setAttribute('src', `assets/profil-${charName}.png`);
+            }
+        }
+    }
+
+    // Jalankan pertama kali, lalu update setiap 1 detik
+    updateStatusWidget();
+    setInterval(updateStatusWidget, 1000);
+
+    // ==========================================
     // MODAL SYSTEM (Pricelist & Reputation)
     // ==========================================
     const modal = document.getElementById('custom-modal');
@@ -400,13 +464,13 @@ window.addEventListener('load', () => {
                 <h4 style="color: #4db8ff; margin-top: 15px; margin-bottom: 8px; font-size: 0.95rem;">💎 Farm Astrites</h4>
                 <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>1.600 Astrites</span><strong style="color: white;">Rp 30.000</strong>
+                        <span>1.600 Astrites</span><strong style="color: white;">Rp 20.000</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>3.200 Astrites</span><strong style="color: white;">Rp 55.000</strong>
+                        <span>3.200 Astrites</span><strong style="color: white;">Rp 40.000</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                        <span>4.800 Astrites</span><strong style="color: white;">Rp 75.000</strong>
+                        <span>4.800 Astrites</span><strong style="color: white;">Rp 60.000</strong>
                     </div>
                     <div style="font-size: 0.8rem; color: #ffb86c; font-style: italic;">
                         <i class="fas fa-info-circle"></i> Notes: Wajib punya ladang Astrites beserta event yang memadai.
@@ -417,8 +481,7 @@ window.addEventListener('load', () => {
                 <div style="margin-top: 25px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); text-align: center;">
                     <p style="margin-bottom: 12px; font-weight: 600; font-size: 0.95rem; color: #fff;">Tertarik? Pesan Joki Sekarang:</p>
                     <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <a href="https://discord.com/users/1056938442061271150" target="_blank" class="order-btn" style="background: #5865F2;"><i class="fab fa-discord"></i> Chat via Discord</a>
-                        <a href="https://instagram.com/rezaa_.06?igsh=MXZoMnkwbDRyZnhndQ==" target="_blank" class="order-btn" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><i class="fab fa-instagram"></i> Chat via Instagram</a>
+                        <a href="https://wa.me/+6282172795156" target="_blank" class="order-btn" style="background: #25D366;"><i class="fab fa-whatsapp"></i> Chat via WhatsApp</a>
                         <a href="https://www.tiktok.com/@rez_4_?is_from_webapp=1&sender_device=pc" target="_blank" class="order-btn" style="background: #111; border: 1px solid rgba(255,255,255,0.2);"><i class="fab fa-tiktok"></i> Chat via TikTok</a>
                     </div>
                 </div>
@@ -511,8 +574,7 @@ window.addEventListener('load', () => {
                 <div style="margin-top: 25px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); text-align: center;">
                     <p style="margin-bottom: 12px; font-weight: 600; font-size: 0.95rem; color: #fff;">Tertarik? Pesan Joki Sekarang:</p>
                     <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <a href="https://discord.com/users/1056938442061271150" target="_blank" class="order-btn" style="background: #5865F2;"><i class="fab fa-discord"></i> Chat via Discord</a>
-                        <a href="https://instagram.com/rezaa_.06?igsh=MXZoMnkwbDRyZnhndQ==" target="_blank" class="order-btn" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><i class="fab fa-instagram"></i> Chat via Instagram</a>
+                        <a href="https://wa.me/+6282172795156" target="_blank" class="order-btn" style="background: #25D366;"><i class="fab fa-whatsapp"></i> Chat via WhatsApp</a>
                         <a href="https://www.tiktok.com/@rez_4_?is_from_webapp=1&sender_device=pc" target="_blank" class="order-btn" style="background: #111; border: 1px solid rgba(255,255,255,0.2);"><i class="fab fa-tiktok"></i> Chat via TikTok</a>
                     </div>
                 </div>
@@ -589,8 +651,7 @@ window.addEventListener('load', () => {
                 <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
                     <p style="margin-bottom: 12px; font-weight: 600; font-size: 0.95rem; color: #fff;">Tertarik? Pesan Joki Sekarang:</p>
                     <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <a href="https://discord.com/users/1056938442061271150" target="_blank" class="order-btn" style="background: #5865F2;"><i class="fab fa-discord"></i> Chat via Discord</a>
-                        <a href="https://instagram.com/rezaa_.06?igsh=MXZoMnkwbDRyZnhndQ==" target="_blank" class="order-btn" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><i class="fab fa-instagram"></i> Chat via Instagram</a>
+                        <a href="https://wa.me/+6282172795156" target="_blank" class="order-btn" style="background: #25D366;"><i class="fab fa-whatsapp"></i> Chat via WhatsApp</a>
                         <a href="https://www.tiktok.com/@rez_4_?is_from_webapp=1&sender_device=pc" target="_blank" class="order-btn" style="background: #111; border: 1px solid rgba(255,255,255,0.2);"><i class="fab fa-tiktok"></i> Chat via TikTok</a>
                     </div>
                 </div>
@@ -612,25 +673,33 @@ window.addEventListener('load', () => {
             </div>
         `,
         'Watchlist': `
-            <div style="text-align: left;">
-                <p style="margin-bottom: 1.5rem; color: #fff; text-align: center; font-size: 1.1rem; font-weight: 600;">📺 My Watchlist</p>
+            <div style="text-align: center;">
+                <p style="margin-bottom: 0.5rem; color: #fff; font-size: 1.1rem; font-weight: 600;">📺 List Nonton</p>
+                <p style="color: #ffeb3b; font-size: 0.8rem; margin-bottom: 1.5rem; font-style: italic; background: rgba(255,235,59,0.1); padding: 8px; border-radius: 8px; border: 1px solid rgba(255,235,59,0.3);">
+                    ⚠️ <b>Peringatan:</b> Ini hanyalah daftar rekomendasi tontonan favorit saya, <b>BUKAN</b> platform atau link untuk menonton!
+                </p>
                 
-                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px;">
-                    <h4 style="color: #4db8ff; margin-bottom: 10px; font-size: 1rem;"><i class="fas fa-dragon"></i> Donghua Favorit</h4>
-                    <ul style="color: #dbdee1; font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
-                        <li>[Ketik judul Donghua di sini]</li>
-                        <li>[Ketik judul Donghua di sini]</li>
-                        <li>[Ketik judul Donghua di sini]</li>
-                    </ul>
-                </div>
-
-                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px;">
-                    <h4 style="color: #ff6b6b; margin-bottom: 10px; font-size: 1rem;"><i class="fas fa-tv"></i> Anime Favorit</h4>
-                    <ul style="color: #dbdee1; font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
-                        <li>[Ketik judul Anime di sini]</li>
-                        <li>[Ketik judul Anime di sini]</li>
-                        <li>[Ketik judul Anime di sini]</li>
-                    </ul>
+                <p style="margin-bottom: 15px; color: #ccc;">Pilih Daftar Tontonan:</p>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <a href="https://my-horror-collection.vercel.app/" target="_blank" class="category-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: flex-start; position: relative; overflow: hidden;">
+                        <span class="blob-btn__inner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.3;">
+                            <span class="blob-btn__blobs">
+                                <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
+                            </span>
+                        </span>
+                        <img src="assets/emoji-reputation.gif" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;" onerror="this.onerror=null; this.outerHTML='<span style=\\'font-size:24px; margin-right:12px; z-index:1; position:relative;\\'>👻</span>'"> 
+                        <span style="z-index: 1; position: relative;">List Tontonan Horor</span>
+                    </a>
+                    
+                    <a href="https://my-anime-collection-kappa.vercel.app/" target="_blank" class="category-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: flex-start; position: relative; overflow: hidden;">
+                        <span class="blob-btn__inner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.3;">
+                            <span class="blob-btn__blobs">
+                                <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
+                            </span>
+                        </span>
+                        <img src="assets/emoji-anime.gif" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;" onerror="this.onerror=null; this.outerHTML='<span style=\\'font-size:24px; margin-right:12px; z-index:1; position:relative;\\'>📺</span>'"> 
+                        <span style="z-index: 1; position: relative;">Anime & Donghua</span>
+                    </a>
                 </div>
             </div>
         `
