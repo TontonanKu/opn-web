@@ -457,8 +457,7 @@ window.addEventListener('load', () => {
                 <div style="margin-top: 25px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); text-align: center;">
                     <p style="margin-bottom: 12px; font-weight: 600; font-size: 0.95rem; color: #fff;">Tertarik? Pesan Joki Sekarang:</p>
                     <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <a href="https://discord.com/users/1056938442061271150" target="_blank" class="order-btn" style="background: #5865F2;"><i class="fab fa-discord"></i> Chat via Discord</a>
-                        <a href="https://instagram.com/rezaa_.06?igsh=MXZoMnkwbDRyZnhndQ==" target="_blank" class="order-btn" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><i class="fab fa-instagram"></i> Chat via Instagram</a>
+                        <a href="https://wa.me/+6282172795156" target="_blank" class="order-btn" style="background: #25D366;"><i class="fab fa-whatsapp"></i> Chat via WhatsApp</a>
                         <a href="https://www.tiktok.com/@rez_4_?is_from_webapp=1&sender_device=pc" target="_blank" class="order-btn" style="background: #111; border: 1px solid rgba(255,255,255,0.2);"><i class="fab fa-tiktok"></i> Chat via TikTok</a>
                     </div>
                 </div>
@@ -551,8 +550,7 @@ window.addEventListener('load', () => {
                 <div style="margin-top: 25px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); text-align: center;">
                     <p style="margin-bottom: 12px; font-weight: 600; font-size: 0.95rem; color: #fff;">Tertarik? Pesan Joki Sekarang:</p>
                     <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <a href="https://discord.com/users/1056938442061271150" target="_blank" class="order-btn" style="background: #5865F2;"><i class="fab fa-discord"></i> Chat via Discord</a>
-                        <a href="https://instagram.com/rezaa_.06?igsh=MXZoMnkwbDRyZnhndQ==" target="_blank" class="order-btn" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><i class="fab fa-instagram"></i> Chat via Instagram</a>
+                        <a href="https://wa.me/+6282172795156" target="_blank" class="order-btn" style="background: #25D366;"><i class="fab fa-whatsapp"></i> Chat via WhatsApp</a>
                         <a href="https://www.tiktok.com/@rez_4_?is_from_webapp=1&sender_device=pc" target="_blank" class="order-btn" style="background: #111; border: 1px solid rgba(255,255,255,0.2);"><i class="fab fa-tiktok"></i> Chat via TikTok</a>
                     </div>
                 </div>
