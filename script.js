@@ -440,13 +440,13 @@ window.addEventListener('load', () => {
                 <h4 style="color: #4db8ff; margin-top: 15px; margin-bottom: 8px; font-size: 0.95rem;">💎 Farm Astrites</h4>
                 <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>1.600 Astrites</span><strong style="color: white;">Rp 30.000</strong>
+                        <span>1.600 Astrites</span><strong style="color: white;">Rp 20.000</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>3.200 Astrites</span><strong style="color: white;">Rp 55.000</strong>
+                        <span>3.200 Astrites</span><strong style="color: white;">Rp 40.000</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                        <span>4.800 Astrites</span><strong style="color: white;">Rp 75.000</strong>
+                        <span>4.800 Astrites</span><strong style="color: white;">Rp 60.000</strong>
                     </div>
                     <div style="font-size: 0.8rem; color: #ffb86c; font-style: italic;">
                         <i class="fas fa-info-circle"></i> Notes: Wajib punya ladang Astrites beserta event yang memadai.
@@ -630,7 +630,6 @@ window.addEventListener('load', () => {
                     <p style="margin-bottom: 12px; font-weight: 600; font-size: 0.95rem; color: #fff;">Tertarik? Pesan Joki Sekarang:</p>
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                         <a href="https://wa.me/+6282172795156" target="_blank" class="order-btn" style="background: #25D366;"><i class="fab fa-whatsapp"></i> Chat via WhatsApp</a>
-                        <a href="https://instagram.com/rezaa_.06?igsh=MXZoMnkwbDRyZnhndQ==" target="_blank" class="order-btn" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><i class="fab fa-instagram"></i> Chat via Instagram</a>
                         <a href="https://www.tiktok.com/@rez_4_?is_from_webapp=1&sender_device=pc" target="_blank" class="order-btn" style="background: #111; border: 1px solid rgba(255,255,255,0.2);"><i class="fab fa-tiktok"></i> Chat via TikTok</a>
                     </div>
                 </div>
