@@ -341,6 +341,21 @@ window.addEventListener('load', () => {
     setInterval(updateStatusWidget, 1000);
 
     // ==========================================
+    // VIEW COUNTER (Anti-Owner Increment)
+    // ==========================================
+    const viewContainer = document.getElementById('view-counter-container');
+    if (viewContainer) {
+        // Cek apakah mode admin aktif di browser ini
+        if (localStorage.getItem('isAdmin') !== 'true') {
+            // Pengunjung biasa: Load gambar hit API (View bertambah)
+            viewContainer.innerHTML = `<img src="https://hits.sh/zura-w.my.id.svg?style=flat-square&label=%F0%9F%91%81&color=00000000&labelColor=00000000" alt="Views" style="height: 18px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5));">`;
+        } else {
+            // Mode Admin: Tampilkan teks statis palsu, jangan load gambar API (View TIDAK bertambah)
+            viewContainer.innerHTML = `<div style="font-size: 0.8rem; color: #fff; background: rgba(0,0,0,0.4); padding: 2px 8px; border-radius: 10px; backdrop-filter: blur(5px);"><i class="fas fa-eye"></i> Admin Mode</div>`;
+        }
+    }
+
+    // ==========================================
     // MODAL SYSTEM (Pricelist & Reputation)
     // ==========================================
     const modal = document.getElementById('custom-modal');
