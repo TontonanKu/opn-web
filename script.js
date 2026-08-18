@@ -423,16 +423,16 @@ window.addEventListener('load', () => {
                 <h4 style="color: #4db8ff; margin-top: 15px; margin-bottom: 8px; font-size: 0.95rem;">🌍 Exploration</h4>
                 <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Huanglong</span><strong style="color: white;">Rp 170.000 <span style="font-size:0.75rem; color:#888;">/Area</span></strong>
+                        <span>Huanglong</span><strong style="color: white;">Rp 170.000</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Rinascita</span><strong style="color: white;">Rp 160.000 <span style="font-size:0.75rem; color:#888;">/Area</span></strong>
+                        <span>Rinascita</span><strong style="color: white;">Rp 160.000</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>LahaiRoi</span><strong style="color: white;">Rp 275.000 <span style="font-size:0.75rem; color:#888;">/Area</span></strong>
+                        <span>LahaiRoi</span><strong style="color: white;">Rp 275.000</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                        <span>Mengzhou</span><strong style="color: white;">Rp 115.000 <span style="font-size:0.75rem; color:#888;">/Area</span></strong>
+                        <span>Mengzhou</span><strong style="color: white;">Rp 115.000</strong>
                     </div>
                     <div style="font-size: 0.8rem; color: #ffb86c; font-style: italic;">
                         <i class="fas fa-info-circle"></i> Notes: Harus sudah menyelesaikan Main Story Quest dan Quest Eksplorasi.
