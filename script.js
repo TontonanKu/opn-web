@@ -308,14 +308,12 @@ window.addEventListener('load', () => {
         }
 
         // ==========================================
-        // DYNAMIC BANNER & AVATAR (Setiap 4 Jam)
+        // DYNAMIC BANNER & AVATAR (Setiap 6 Jam)
         // ==========================================
-        let charName = 'carthetiya'; // 00:00 - 04:00
-        if (hours >= 4 && hours < 8) charName = 'shorekeeper';
-        else if (hours >= 8 && hours < 12) charName = 'chisa';
-        else if (hours >= 12 && hours < 16) charName = 'hiyuki';
-        else if (hours >= 16 && hours < 20) charName = 'yangyang';
-        else if (hours >= 20 && hours < 24) charName = 'lucila';
+        let charName = 'lucila'; // 00:00 - 06:00 (Pagi awal)
+        if (hours >= 6 && hours < 12) charName = 'chisa'; // 06:00 - 12:00 (Pagi - Siang)
+        else if (hours >= 12 && hours < 18) charName = 'hiyuki'; // 12:00 - 18:00 (Siang - Sore/Malam awal)
+        else if (hours >= 18 && hours < 24) charName = 'shorekeeper'; // 18:00 - 24:00 (Malam)
 
         const dynBanner = document.getElementById('dynamic-banner');
         const dynAvatar = document.getElementById('dynamic-avatar');
