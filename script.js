@@ -310,12 +310,12 @@ window.addEventListener('load', () => {
         // ==========================================
         // DYNAMIC BANNER & AVATAR (Setiap 4 Jam)
         // ==========================================
-        let charName = 'lucila'; // 00:00 - 04:00
+        let charName = 'carthetiya'; // 00:00 - 04:00
         if (hours >= 4 && hours < 8) charName = 'shorekeeper';
         else if (hours >= 8 && hours < 12) charName = 'chisa';
         else if (hours >= 12 && hours < 16) charName = 'hiyuki';
         else if (hours >= 16 && hours < 20) charName = 'yangyang';
-        else if (hours >= 20 && hours < 24) charName = 'carthetiya';
+        else if (hours >= 20 && hours < 24) charName = 'lucila';
 
         const dynBanner = document.getElementById('dynamic-banner');
         const dynAvatar = document.getElementById('dynamic-avatar');
