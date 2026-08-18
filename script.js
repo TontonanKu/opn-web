@@ -203,7 +203,7 @@ window.addEventListener('load', () => {
                         <strong style="color: white;">SEA</strong>
                     </div>
                     <div style="width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); margin-top: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-                        <img src="assets/showcase-wuwa.jpg" class="showcase-img" onerror="this.onerror=null; this.src='assets/showcase-wuwa.png';" alt="Showcase WuWa" style="width: 100%; height: auto; display: block; object-fit: cover; cursor: zoom-in; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                        <img src="assets/showcase-wuwa.jpeg" class="showcase-img" alt="Showcase WuWa" style="width: 100%; height: auto; display: block; object-fit: cover; cursor: zoom-in; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
                     </div>
                 </div>
             `;
@@ -326,7 +326,9 @@ window.addEventListener('load', () => {
             if (dynBanner.getAttribute('src') !== targetBanner) {
                 dynBanner.setAttribute('src', targetBanner);
                 dynBanner.load(); // Wajib agar video baru dimainkan
-                dynAvatar.setAttribute('src', `assets/profil-${charName}.png`);
+                if (dynAvatar && dynAvatar.getAttribute('src') !== `assets/profil-${charName}.jpeg`) {
+                    dynAvatar.setAttribute('src', `assets/profil-${charName}.jpeg`);
+                }
                 if (dynVerified) {
                     dynVerified.setAttribute('src', `assets/verified-${charName}.gif`);
                 }
