@@ -445,13 +445,13 @@ window.addEventListener('load', () => {
                 <h4 style="color: #4db8ff; margin-top: 15px; margin-bottom: 8px; font-size: 0.95rem;">📜 Quest</h4>
                 <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Main Story Quest</span><strong style="color: white;">Rp 17.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
+                        <span>Main Story Quest</span><strong style="color: white;">Rp 14.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Exploration Quest</span><strong style="color: white;">Rp 12.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
+                        <span>Exploration Quest</span><strong style="color: white;">Rp 9.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Companion Story Quest</span><strong style="color: white;">Rp 12.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
+                        <span>Companion Story Quest</span><strong style="color: white;">Rp 9.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
                     </div>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Side Quests</span><strong style="color: white;">Rp 3.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
