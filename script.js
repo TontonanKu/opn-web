@@ -443,13 +443,13 @@ window.addEventListener('load', () => {
                 <h4 style="color: #4db8ff; margin-top: 15px; margin-bottom: 8px; font-size: 0.95rem;">📜 Quest</h4>
                 <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Main Story Quest</span><strong style="color: white;">Rp 14.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
+                        <span>Main Story Quest</span><strong style="color: white;">Rp 13.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Exploration Quest</span><strong style="color: white;">Rp 9.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
+                        <span>Exploration Quest</span><strong style="color: white;">Rp 8.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Companion Story Quest</span><strong style="color: white;">Rp 9.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
+                        <span>Companion Story Quest</span><strong style="color: white;">Rp 8.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
                     </div>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Side Quests</span><strong style="color: white;">Rp 3.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
@@ -471,10 +471,10 @@ window.addEventListener('load', () => {
                 <h4 style="color: #4db8ff; margin-top: 15px; margin-bottom: 8px; font-size: 0.95rem;">📅 Account Caretaking</h4>
                 <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Daily</span><strong style="color: white;">Rp 5.000</strong>
+                        <span>Daily</span><strong style="color: white;">Rp 4.000</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Weekly</span><strong style="color: white;">Rp 20.000</strong>
+                        <span>Weekly</span><strong style="color: white;">Rp 25.000</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Monthly</span><strong style="color: white;">Rp 65.000</strong>
@@ -488,10 +488,10 @@ window.addEventListener('load', () => {
                         <span>1.600 Astrites</span><strong style="color: white;">Rp 20.000</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>3.200 Astrites</span><strong style="color: white;">Rp 40.000</strong>
+                        <span>3.200 Astrites</span><strong style="color: white;">Rp 39.000</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                        <span>4.800 Astrites</span><strong style="color: white;">Rp 60.000</strong>
+                        <span>4.800 Astrites</span><strong style="color: white;">Rp 58.000</strong>
                     </div>
                     <div style="font-size: 0.8rem; color: #ffb86c; font-style: italic;">
                         <i class="fas fa-info-circle"></i> Notes: Wajib punya ladang Astrites beserta event yang memadai.
