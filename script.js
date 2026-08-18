@@ -423,16 +423,16 @@ window.addEventListener('load', () => {
                 <h4 style="color: #4db8ff; margin-top: 15px; margin-bottom: 8px; font-size: 0.95rem;">🌍 Exploration</h4>
                 <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Jinzhou</span><strong style="color: white;">Rp 30.000 <span style="font-size:0.75rem; color:#888;">/Area</span></strong>
+                        <span>Huanglong</span><strong style="color: white;">Rp 170.000 <span style="font-size:0.75rem; color:#888;">/Area</span></strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Rinascita</span><strong style="color: white;">Rp 25.000 <span style="font-size:0.75rem; color:#888;">/Area</span></strong>
+                        <span>Rinascita</span><strong style="color: white;">Rp 160.000 <span style="font-size:0.75rem; color:#888;">/Area</span></strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Roya Frostland</span><strong style="color: white;">Rp 25.000 <span style="font-size:0.75rem; color:#888;">/Area</span></strong>
+                        <span>LahaiRoi</span><strong style="color: white;">Rp 275.000 <span style="font-size:0.75rem; color:#888;">/Area</span></strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                        <span>Mengzhou</span><strong style="color: white;">Rp 15.000 <span style="font-size:0.75rem; color:#888;">/Area</span></strong>
+                        <span>Mengzhou</span><strong style="color: white;">Rp 115.000 <span style="font-size:0.75rem; color:#888;">/Area</span></strong>
                     </div>
                     <div style="font-size: 0.8rem; color: #ffb86c; font-style: italic;">
                         <i class="fas fa-info-circle"></i> Notes: Harus sudah menyelesaikan Main Story Quest dan Quest Eksplorasi.
@@ -473,11 +473,8 @@ window.addEventListener('load', () => {
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
                         <span>Daily</span><strong style="color: white;">Rp 4.000</strong>
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Weekly</span><strong style="color: white;">Rp 25.000</strong>
-                    </div>
                     <div style="display: flex; justify-content: space-between;">
-                        <span>Monthly</span><strong style="color: white;">Rp 65.000</strong>
+                        <span>Weekly</span><strong style="color: white;">Rp 25.000</strong>
                     </div>
                 </div>
 
@@ -566,11 +563,8 @@ window.addEventListener('load', () => {
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
                         <span>Daily</span><strong style="color: white;">Rp 5.000</strong>
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Weekly</span><strong style="color: white;">Rp 15.000</strong>
-                    </div>
                     <div style="display: flex; justify-content: space-between;">
-                        <span>Monthly</span><strong style="color: white;">Rp 55.000</strong>
+                        <span>Weekly</span><strong style="color: white;">Rp 15.000</strong>
                     </div>
                 </div>
 
