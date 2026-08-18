@@ -363,11 +363,14 @@ window.addEventListener('load', () => {
     const modalBody = document.getElementById('modal-body');
     const closeModal = document.getElementById('close-modal');
 
-    // Load gambar dari folder testimoni otomatis
+    // Disusun silang agar di layout masonry (2 kolom) bacanya dari kiri ke kanan
     const testimoniImages = [
-        'image.webp', 'image (1).webp', 'image (2).webp', 'image (3).webp', 
-        'image (4).webp', 'image (7).webp', 'image (5).webp', 'image (6).webp', 
-        'image (9).webp', 'image (10).webp', 'image (8).webp'
+        // --- Kolom Kiri ---
+        'image.webp', 'image (2).webp', 'image (4).webp', 
+        'image (5).webp', 'image (9).webp', 'image (8).webp',
+        // --- Kolom Kanan ---
+        'image (1).webp', 'image (3).webp', 'image (7).webp', 
+        'image (6).webp', 'image (10).webp'
     ];
     let testimoniHTML = testimoniImages.map(img => 
         `<img src="testimoni/${img}" alt="Testimoni" class="testimoni-img" style="width: 100%; border-radius: 8px; margin-bottom: 10px; break-inside: avoid; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.3);">`
