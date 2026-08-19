@@ -212,22 +212,34 @@
 
     <!-- Promo Popup Modal -->
     <div class="modal-overlay" id="promo-modal" style="display: none; align-items: center; justify-content: center; z-index: 1100;">
-        <div class="modal-content" style="max-width: 400px; padding: 0; background-color: var(--modal-bg);">
-            <img src="assets/promo-agustus.jpg" alt="Promo" style="width: 100%; height: auto; border-top-left-radius: 16px; border-top-right-radius: 16px;">
-            <div style="padding: 20px;">
-                <h3 style="color: white; margin-bottom: 10px; font-size: 1.1rem;">PROMO SPESIAL ASTRITES! 🌸</h3>
-                <p style="color: #ddd; font-size: 0.9rem; margin-bottom: 8px;">Dari 20 s/d 23 Agustus, nikmati diskon khusus joki Astrites hingga 25% OFF!</p>
-                <ul style="color: #aaa; font-size: 0.85rem; margin-bottom: 15px; padding-left: 20px;">
-                    <li>1.600 Astrites: <span style="text-decoration: line-through;">Rp 20.000</span> <strong style="color: #ff4d4d;">Rp 15.000</strong></li>
-                    <li>3.200 Astrites: <span style="text-decoration: line-through;">Rp 39.000</span> <strong style="color: #ff4d4d;">Rp 30.000</strong></li>
-                    <li>4.800 Astrites: <span style="text-decoration: line-through;">Rp 58.000</span> <strong style="color: #ff4d4d;">Rp 45.000</strong></li>
-                </ul>
-                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
-                    <label style="color: #888; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; cursor: pointer;">
-                        <input type="checkbox" id="promo-dont-show"> Jangan tampilkan lagi
-                    </label>
-                    <button id="promo-close" style="background: rgba(255,255,255,0.1); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">Tutup</button>
+        <div class="modal-content" style="max-width: 450px; padding: 20px; background-color: var(--modal-bg); position: relative;">
+            
+            <!-- Header dengan Logo -->
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                <img src="assets/logo-k.png" alt="Logo" style="width: 24px; height: 24px; border-radius: 6px; object-fit: cover;" onerror="this.style.display='none'">
+                <h3 style="color: white; font-size: 1.1rem; margin: 0;">PROMO ASTRITES! 🌸</h3>
+            </div>
+            
+            <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 20px;">
+                <!-- Teks Promo -->
+                <div style="flex: 1;">
+                    <p style="color: #ddd; font-size: 0.9rem; margin-bottom: 10px;">Dari 20 s/d 23 Agustus, diskon joki Astrites hingga <strong style="color: #ff4d4d;">25% OFF!</strong></p>
+                    <ul style="color: #aaa; font-size: 0.85rem; margin: 0; padding-left: 15px;">
+                        <li style="margin-bottom: 4px;">1.600: <s style="opacity:0.6;">Rp 20K</s> <strong style="color: #ff4d4d;">Rp 15K</strong></li>
+                        <li style="margin-bottom: 4px;">3.200: <s style="opacity:0.6;">Rp 39K</s> <strong style="color: #ff4d4d;">Rp 30K</strong></li>
+                        <li>4.800: <s style="opacity:0.6;">Rp 58K</s> <strong style="color: #ff4d4d;">Rp 45K</strong></li>
+                    </ul>
                 </div>
+                <!-- Sticker Chisa -->
+                <img src="assets/sticker-chisa.jpg" alt="Chisa Sticker" style="width: 120px; height: 120px; border-radius: 12px; object-fit: cover;">
+            </div>
+
+            <!-- Footer (Checkbox & Close) -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                <label style="color: #888; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <input type="checkbox" id="promo-dont-show"> Jangan tampilkan lagi
+                </label>
+                <button id="promo-close" style="background: rgba(255,255,255,0.1); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">Tutup</button>
             </div>
         </div>
     </div>
