@@ -215,7 +215,7 @@
     </div>
 
     <!-- Promo Popup Modal -->
-    <div class="modal-overlay" id="promo-modal" style="display: none; align-items: center; justify-content: center; z-index: 1100;">
+    <div class="modal-overlay" id="promo-modal" style="display: none; align-items: center; justify-content: center; z-index: 1100;" onclick="if(event.target === this) this.style.display='none';">
         <div class="modal-content" style="max-width: 450px; padding: 20px; background-color: var(--modal-bg); position: relative;">
             
             <!-- Header dengan Logo -->
@@ -240,7 +240,7 @@
 
             <!-- Footer (Close) -->
             <div style="display: flex; justify-content: flex-end; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
-                <button id="promo-close" style="background: rgba(255,255,255,0.1); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">Close</button>
+                <button id="promo-close" onclick="document.getElementById('promo-modal').style.display='none';" style="background: rgba(255,255,255,0.1); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; position: relative; z-index: 10;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">Close</button>
             </div>
         </div>
     </div>
