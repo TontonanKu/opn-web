@@ -822,27 +822,32 @@ window.addEventListener('load', () => {
     // ==========================================
     const promoModal = document.getElementById('promo-modal');
     const promoClose = document.getElementById('promo-close');
-    const promoDontShow = document.getElementById('promo-dont-show');
+    const openPromoBtn = document.getElementById('open-promo-btn');
 
-    if (promoModal && promoClose && promoDontShow) {
-        // Cek apakah user pernah centang "Jangan tampilkan lagi"
-        const hidePromo = localStorage.getItem('hidePromoAgustus');
-        
-        if (hidePromo !== 'true') {
-            // Tampilkan popup setelah delay 1 detik
+    if (promoModal && promoClose) {
+        // Tampilkan otomatis saat pertama kali dibuka dalam satu sesi browser
+        if (!sessionStorage.getItem('promoShown')) {
             setTimeout(() => {
                 promoModal.style.display = 'flex';
                 promoModal.style.opacity = '0';
                 promoModal.style.transition = 'opacity 0.3s ease';
                 setTimeout(() => { promoModal.style.opacity = '1'; }, 10);
+                sessionStorage.setItem('promoShown', 'true');
             }, 1000);
+        }
+
+        // Fungsi Buka Promo Manual
+        if (openPromoBtn) {
+            openPromoBtn.addEventListener('click', () => {
+                promoModal.style.display = 'flex';
+                promoModal.style.opacity = '0';
+                promoModal.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => { promoModal.style.opacity = '1'; }, 10);
+            });
         }
 
         // Fungsi tutup modal
         const closePromoModal = () => {
-            if (promoDontShow.checked) {
-                localStorage.setItem('hidePromoAgustus', 'true');
-            }
             promoModal.style.opacity = '0';
             setTimeout(() => {
                 promoModal.style.display = 'none';
