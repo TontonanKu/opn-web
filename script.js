@@ -310,10 +310,10 @@ window.addEventListener('load', () => {
         // ==========================================
         // DYNAMIC BANNER & AVATAR (Setiap 6 Jam)
         // ==========================================
-        let charName = 'hiyuki'; // 00:00 - 06:00 (Tengah Malam - Pagi)
-        if (hours >= 6 && hours < 12) charName = 'chisa'; // 06:00 - 12:00 (Pagi - Siang)
-        else if (hours >= 12 && hours < 18) charName = 'lucila'; // 12:00 - 18:00 (Siang - Sore)
-        else if (hours >= 18 && hours < 24) charName = 'shorekeeper'; // 18:00 - 24:00 (Malam)
+        let charName = 'chisa'; // DOKUMENTASI OVERRIDE
+        // if (hours >= 6 && hours < 12) charName = 'chisa'; // 06:00 - 12:00 (Pagi - Siang)
+        // else if (hours >= 12 && hours < 18) charName = 'lucila'; // 12:00 - 18:00 (Siang - Sore)
+        // else if (hours >= 18 && hours < 24) charName = 'shorekeeper'; // 18:00 - 24:00 (Malam)
 
         const dynBanner = document.getElementById('dynamic-banner');
         const dynAvatar = document.getElementById('dynamic-avatar');
