@@ -816,7 +816,6 @@ window.addEventListener('load', () => {
             openModal('Watchlist');
         });
     }
-    }
 
     // ==========================================
     // PROMO POPUP LOGIC
