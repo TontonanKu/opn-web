@@ -364,7 +364,7 @@ window.addEventListener('load', () => {
     const closeModal = document.getElementById('close-modal');
 
     // Disusun silang agar di layout masonry (2 kolom) bacanya dari kiri ke kanan
-    const testimoniImages = [
+    const testimoniRobloxImages = [
         // --- Kolom Kiri ---
         'image.webp', 'image (2).webp', 'image (4).webp', 
         'image (5).webp', 'image (9).webp', 'image (8).webp',
@@ -372,8 +372,15 @@ window.addEventListener('load', () => {
         'image (1).webp', 'image (3).webp', 'image (7).webp', 
         'image (6).webp', 'image (10).webp'
     ];
-    let testimoniHTML = testimoniImages.map(img => 
-        `<img src="testimoni/${img}" alt="Testimoni" class="testimoni-img" style="width: 100%; border-radius: 8px; margin-bottom: 10px; break-inside: avoid; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.3);">`
+    let robloxTestimoniHTML = testimoniRobloxImages.map(img => 
+        `<img src="testimoni-roblox/${img}" alt="Testimoni Roblox" class="testimoni-img" style="width: 100%; border-radius: 8px; margin-bottom: 10px; break-inside: avoid; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.3);">`
+    ).join('');
+
+    const testimoniWuWaImages = [
+        'Group 1.png', 'Group 2.png'
+    ];
+    let wuwaTestimoniHTML = testimoniWuWaImages.map(img => 
+        `<img src="testimoni-wuwa/${img}" alt="Testimoni WuWa" class="testimoni-img" style="width: 100%; border-radius: 8px; margin-bottom: 10px; break-inside: avoid; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.3);">`
     ).join('');
 
     // Data Konten Dinamis
@@ -720,14 +727,19 @@ window.addEventListener('load', () => {
                 <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">(Klik gambar untuk memperbesar)</p>
                 <!-- Layout Masonry -->
                 <div style="column-count: 2; column-gap: 10px;">
-                    ${testimoniHTML}
+                    ${robloxTestimoniHTML}
                 </div>
             </div>
         `,
         'wuwa': `
             <button class="back-btn back-btn-rep"><i class="fas fa-arrow-left"></i> Kembali ke Menu</button>
-            <div style="text-align: center; margin-top: 15px; padding: 30px 10px;">
-                <p style="color: #aaa; font-style: italic;">Belum ada testimoni Wuthering Waves untuk saat ini.</p>
+            <div style="text-align: center; margin-top: 15px;">
+                <p style="margin-bottom: 1rem; color: #fff;">Bukti Transaksi & Testimoni Terpercaya 💯</p>
+                <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">(Klik gambar untuk memperbesar)</p>
+                <!-- Layout Masonry -->
+                <div style="column-count: 2; column-gap: 10px;">
+                    ${wuwaTestimoniHTML}
+                </div>
             </div>
         `,
         'hsr': `
