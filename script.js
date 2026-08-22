@@ -677,10 +677,45 @@ window.addEventListener('load', () => {
         `
     };
 
-    const modalContentData = {
-        'Pricelist': pricelistMenuHTML,
-        'Reputation': `
-            <div style="text-align: center;">
+    const reputationMenuHTML = `
+        <div style="text-align: center;">
+            <p style="margin-bottom: 15px; color: #ccc;">Pilih Kategori Game:</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="category-btn" data-reputation="wuwa">
+                    <span class="blob-btn__inner">
+                        <span class="blob-btn__blobs">
+                            <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
+                        </span>
+                    </span>
+                    <img src="assets/logo-wuwa.jpeg" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;"> 
+                    <span style="z-index: 1; position: relative;">Wuthering Waves (WuWa)</span>
+                </button>
+                <button class="category-btn" data-reputation="hsr">
+                    <span class="blob-btn__inner">
+                        <span class="blob-btn__blobs">
+                            <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
+                        </span>
+                    </span>
+                    <img src="assets/logo-hsr.jpeg" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;"> 
+                    <span style="z-index: 1; position: relative;">Honkai: Star Rail (HSR)</span>
+                </button>
+                <button class="category-btn" data-reputation="roblox">
+                    <span class="blob-btn__inner">
+                        <span class="blob-btn__blobs">
+                            <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
+                        </span>
+                    </span>
+                    <img src="assets/logo-roblox.jpeg" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;"> 
+                    <span style="z-index: 1; position: relative;">Roblox</span>
+                </button>
+            </div>
+        </div>
+    `;
+
+    const reputationDetails = {
+        'roblox': `
+            <button class="back-btn back-btn-rep"><i class="fas fa-arrow-left"></i> Kembali ke Menu</button>
+            <div style="text-align: center; margin-top: 15px;">
                 <p style="margin-bottom: 1rem; color: #fff;">Bukti Transaksi & Testimoni Terpercaya 💯</p>
                 <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">(Klik gambar untuk memperbesar)</p>
                 <!-- Layout Masonry -->
@@ -689,6 +724,23 @@ window.addEventListener('load', () => {
                 </div>
             </div>
         `,
+        'wuwa': `
+            <button class="back-btn back-btn-rep"><i class="fas fa-arrow-left"></i> Kembali ke Menu</button>
+            <div style="text-align: center; margin-top: 15px; padding: 30px 10px;">
+                <p style="color: #aaa; font-style: italic;">Belum ada testimoni Wuthering Waves untuk saat ini.</p>
+            </div>
+        `,
+        'hsr': `
+            <button class="back-btn back-btn-rep"><i class="fas fa-arrow-left"></i> Kembali ke Menu</button>
+            <div style="text-align: center; margin-top: 15px; padding: 30px 10px;">
+                <p style="color: #aaa; font-style: italic;">Belum ada testimoni Honkai: Star Rail untuk saat ini.</p>
+            </div>
+        `
+    };
+
+    const modalContentData = {
+        'Pricelist': pricelistMenuHTML,
+        'Reputation': reputationMenuHTML,
         'Watchlist': `
             <div style="text-align: center;">
                 <p style="margin-bottom: 0.5rem; color: #fff; font-size: 1.1rem; font-weight: 600;">📺 List Nonton</p>
@@ -743,14 +795,24 @@ window.addEventListener('load', () => {
         // 1. Logika untuk klik tombol kategori game (WuWa, HSR, Roblox)
         const categoryBtn = e.target.closest('.category-btn');
         if (categoryBtn) {
-            const category = categoryBtn.getAttribute('data-category');
-            if (pricelistDetails[category]) {
-                // Animasi fade out sederhana
+            const priceCat = categoryBtn.getAttribute('data-category');
+            if (priceCat && pricelistDetails[priceCat]) {
                 modalBody.style.opacity = '0';
                 setTimeout(() => {
-                    modalBody.innerHTML = pricelistDetails[category];
+                    modalBody.innerHTML = pricelistDetails[priceCat];
                     modalBody.style.opacity = '1';
                 }, 200);
+                return;
+            }
+
+            const repCat = categoryBtn.getAttribute('data-reputation');
+            if (repCat && reputationDetails[repCat]) {
+                modalBody.style.opacity = '0';
+                setTimeout(() => {
+                    modalBody.innerHTML = reputationDetails[repCat];
+                    modalBody.style.opacity = '1';
+                }, 200);
+                return;
             }
         }
 
@@ -759,7 +821,12 @@ window.addEventListener('load', () => {
         if (backBtn) {
             modalBody.style.opacity = '0';
             setTimeout(() => {
-                modalBody.innerHTML = pricelistMenuHTML;
+                // Cek apakah tombol back milik reputasi atau pricelist
+                if (backBtn.classList.contains('back-btn-rep')) {
+                    modalBody.innerHTML = reputationMenuHTML;
+                } else {
+                    modalBody.innerHTML = pricelistMenuHTML;
+                }
                 modalBody.style.opacity = '1';
             }, 200);
         }
