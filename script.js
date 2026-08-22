@@ -688,7 +688,7 @@ window.addEventListener('load', () => {
                         </span>
                     </span>
                     <img src="assets/logo-wuwa.jpeg" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;"> 
-                    <span style="z-index: 1; position: relative;">Wuthering Waves (WuWa)</span>
+                    <span style="z-index: 1; position: relative;">Testimoni WuWa</span>
                 </button>
                 <button class="category-btn" data-reputation="hsr">
                     <span class="blob-btn__inner">
@@ -697,7 +697,7 @@ window.addEventListener('load', () => {
                         </span>
                     </span>
                     <img src="assets/logo-hsr.jpeg" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;"> 
-                    <span style="z-index: 1; position: relative;">Honkai: Star Rail (HSR)</span>
+                    <span style="z-index: 1; position: relative;">Testimoni HSR</span>
                 </button>
                 <button class="category-btn" data-reputation="roblox">
                     <span class="blob-btn__inner">
@@ -706,7 +706,7 @@ window.addEventListener('load', () => {
                         </span>
                     </span>
                     <img src="assets/logo-roblox.jpeg" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;"> 
-                    <span style="z-index: 1; position: relative;">Roblox</span>
+                    <span style="z-index: 1; position: relative;">Testimoni Roblox</span>
                 </button>
             </div>
         </div>
