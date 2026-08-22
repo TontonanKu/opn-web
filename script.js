@@ -365,22 +365,20 @@ window.addEventListener('load', () => {
 
     // Disusun silang agar di layout masonry (2 kolom) bacanya dari kiri ke kanan
     const testimoniRobloxImages = [
-        // --- Kolom Kiri ---
-        'image.webp', 'image (2).webp', 'image (4).webp', 
-        'image (5).webp', 'image (9).webp', 'image (8).webp',
-        // --- Kolom Kanan ---
-        'image (1).webp', 'image (3).webp', 'image (7).webp', 
-        'image (6).webp', 'image (10).webp'
+        'image.webp', 'image (1).webp', 'image (2).webp', 
+        'image (3).webp', 'image (4).webp', 'image (5).webp',
+        'image (6).webp', 'image (7).webp', 'image (8).webp', 
+        'image (9).webp', 'image (10).webp'
     ];
     let robloxTestimoniHTML = testimoniRobloxImages.map(img => 
-        `<img src="testimoni-roblox/${img}" alt="Testimoni Roblox" class="testimoni-img" style="width: 100%; border-radius: 8px; margin-bottom: 10px; break-inside: avoid; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.3);">`
+        `<img src="testimoni-roblox/${img}" alt="Testimoni Roblox" class="testimoni-img" style="width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.3);">`
     ).join('');
 
     const testimoniWuWaImages = [
         'Group 1.png', 'Group 2.png'
     ];
     let wuwaTestimoniHTML = testimoniWuWaImages.map(img => 
-        `<img src="testimoni-wuwa/${img}" alt="Testimoni WuWa" class="testimoni-img" style="width: 100%; border-radius: 8px; margin-bottom: 10px; break-inside: avoid; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.3);">`
+        `<img src="testimoni-wuwa/${img}" alt="Testimoni WuWa" class="testimoni-img" style="width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.3);">`
     ).join('');
 
     // Data Konten Dinamis
@@ -725,8 +723,8 @@ window.addEventListener('load', () => {
             <div style="text-align: center; margin-top: 15px;">
                 <p style="margin-bottom: 1rem; color: #fff;">Bukti Transaksi & Testimoni Terpercaya 💯</p>
                 <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">(Klik gambar untuk memperbesar)</p>
-                <!-- Layout Masonry -->
-                <div style="column-count: 2; column-gap: 10px;">
+                <!-- Layout Grid (Kiri ke Kanan) -->
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; align-items: start;">
                     ${robloxTestimoniHTML}
                 </div>
             </div>
@@ -736,8 +734,8 @@ window.addEventListener('load', () => {
             <div style="text-align: center; margin-top: 15px;">
                 <p style="margin-bottom: 1rem; color: #fff;">Bukti Transaksi & Testimoni Terpercaya 💯</p>
                 <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">(Klik gambar untuk memperbesar)</p>
-                <!-- Layout Masonry -->
-                <div style="column-count: 2; column-gap: 10px;">
+                <!-- Layout Grid (Kiri ke Kanan) -->
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; align-items: start;">
                     ${wuwaTestimoniHTML}
                 </div>
             </div>
