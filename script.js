@@ -902,7 +902,8 @@ window.addEventListener('load', () => {
     const openPromoBtn = document.getElementById('open-promo-btn');
 
     if (promoModal && promoClose) {
-        // Tampilkan otomatis saat pertama kali dibuka dalam satu sesi browser
+        // Tampilkan otomatis dimatikan karena promo sudah habis
+        /*
         if (!sessionStorage.getItem('promoShown')) {
             setTimeout(() => {
                 promoModal.style.display = 'flex';
@@ -912,6 +913,7 @@ window.addEventListener('load', () => {
                 sessionStorage.setItem('promoShown', 'true');
             }, 1000);
         }
+        */
 
         // Fungsi Buka Promo Manual
         if (openPromoBtn) {
