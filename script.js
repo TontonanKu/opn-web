@@ -382,9 +382,9 @@ window.addEventListener('load', () => {
     ).join('');
     const wuwaEvents = [
         { name: "Tidal Defense Simulator", price: "Rp 25.000", image: "event1.jpg" },
-        { name: "Nama Event 2", price: "Rp -", image: "event2.jpg" },
-        { name: "Nama Event 3", price: "Rp -", image: "event3.jpg" },
-        { name: "Nama Event 4", price: "Rp -", image: "event4.jpg" }
+        { name: "Nama Event 2", price: "Rp 20.000", image: "event2.jpg" },
+        { name: "Nama Event 3", price: "Rp 25.000", image: "event3.jpg" },
+        { name: "Nama Event 4", price: "Rp 20.000", image: "event4.jpg" }
     ];
     let wuwaEventHTML = wuwaEvents.map(ev => `
         <div style="background: rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
