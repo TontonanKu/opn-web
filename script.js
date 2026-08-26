@@ -389,7 +389,7 @@ window.addEventListener('load', () => {
     let wuwaEventHTML = wuwaEvents.map(ev => `
         <div style="background: rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
             <div style="width: 100%; aspect-ratio: 16/9; background: #222; overflow: hidden; position: relative;">
-                <img src="assets/${ev.image}" alt="${ev.name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.outerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#555; font-size:0.8rem;\\'>Upload image as ${ev.image}</div>';">
+                <img src="assets/${ev.image}" alt="${ev.name}" class="testimoni-img" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onerror="this.onerror=null; this.outerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#555; font-size:0.8rem;\\'>Upload image as ${ev.image}</div>';">
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 15px;">
                 <span style="font-weight: 700; color: #fff; font-size: 0.95rem; text-align: left;">${ev.name}</span>
