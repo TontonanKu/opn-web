@@ -386,15 +386,27 @@ window.addEventListener('load', () => {
         <div style="text-align: center;">
             <p style="margin-bottom: 15px; color: #ccc;">Pilih Kategori Game:</p>
             <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button class="category-btn" data-category="wuwa">
-                    <span class="blob-btn__inner">
-                        <span class="blob-btn__blobs">
-                            <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
+                <div style="display: flex; flex-direction: column; gap: 5px;">
+                    <button class="category-btn toggle-submenu">
+                        <span class="blob-btn__inner">
+                            <span class="blob-btn__blobs">
+                                <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
+                            </span>
                         </span>
-                    </span>
-                    <img src="assets/logo-wuwa.jpeg" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;"> 
-                    <span style="z-index: 1; position: relative;">Wuthering Waves (WuWa)</span>
-                </button>
+                        <img src="assets/logo-wuwa.jpeg" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;"> 
+                        <span style="z-index: 1; position: relative;">Wuthering Waves (WuWa)</span>
+                    </button>
+                    <div class="submenu-container" style="display: none; flex-direction: column; gap: 8px; margin-left: 15px; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 15px;">
+                        <button class="category-btn" data-category="wuwa" style="padding: 12px 15px; font-size: 0.9rem;">
+                            <span class="blob-btn__inner"><span class="blob-btn__blobs"><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span></span></span>
+                            <span style="z-index: 1; position: relative;">Joki Umum</span>
+                        </button>
+                        <button class="category-btn" data-category="wuwa-event" style="padding: 12px 15px; font-size: 0.9rem;">
+                            <span class="blob-btn__inner"><span class="blob-btn__blobs"><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span></span></span>
+                            <span style="z-index: 1; position: relative;">Joki Event</span>
+                        </button>
+                    </div>
+                </div>
                 <button class="category-btn" data-category="hsr">
                     <span class="blob-btn__inner">
                         <span class="blob-btn__blobs">
@@ -679,6 +691,23 @@ window.addEventListener('load', () => {
                 </div>
                 
             </div>
+        `,
+        'wuwa-event': `
+            <button class="back-btn"><i class="fas fa-arrow-left"></i> Kembali ke Menu</button>
+            <h3 style="color: white; margin-bottom: 5px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                <img src="assets/logo-wuwa.jpeg" style="width:24px; height:24px; border-radius:4px;"> Joki Event WuWa
+            </h3>
+            <div style="text-align: center; margin-top: 15px; padding: 20px;">
+                <p style="color: #aaa; font-style: italic;">List harga event belum tersedia.</p>
+            </div>
+            <!-- Tombol Pesan -->
+            <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+                <p style="margin-bottom: 12px; font-weight: 600; font-size: 0.95rem; color: #fff;">Tertarik? Pesan Joki Sekarang:</p>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <a href="https://wa.me/+6282172795156" target="_blank" class="order-btn" style="background: #25D366;"><i class="fab fa-whatsapp"></i> Chat via WhatsApp</a>
+                    <a href="https://www.tiktok.com/@rez_4_?is_from_webapp=1&sender_device=pc" target="_blank" class="order-btn" style="background: #111; border: 1px solid rgba(255,255,255,0.2);"><i class="fab fa-tiktok"></i> Chat via TikTok</a>
+                </div>
+            </div>
         `
     };
 
@@ -802,9 +831,23 @@ window.addEventListener('load', () => {
 
     // Event Delegation di dalam Modal Body (Untuk Pricelist Category & Lightbox)
     modalBody.addEventListener('click', (e) => {
+        // Logika untuk toggle submenu akordion (misalnya WuWa)
+        const toggleSubBtn = e.target.closest('.toggle-submenu');
+        if (toggleSubBtn) {
+            const submenuContainer = toggleSubBtn.nextElementSibling;
+            if (submenuContainer && submenuContainer.classList.contains('submenu-container')) {
+                if (submenuContainer.style.display === 'none') {
+                    submenuContainer.style.display = 'flex';
+                } else {
+                    submenuContainer.style.display = 'none';
+                }
+            }
+            return; // Jangan lanjutkan logika kategori jika tombol ini adalah toggle
+        }
+
         // 1. Logika untuk klik tombol kategori game (WuWa, HSR, Roblox)
         const categoryBtn = e.target.closest('.category-btn');
-        if (categoryBtn) {
+        if (categoryBtn && !categoryBtn.classList.contains('toggle-submenu')) {
             const priceCat = categoryBtn.getAttribute('data-category');
             if (priceCat && pricelistDetails[priceCat]) {
                 modalBody.style.opacity = '0';
