@@ -380,6 +380,23 @@ window.addEventListener('load', () => {
     let wuwaTestimoniHTML = testimoniWuWaImages.map(img => 
         `<img src="testimoni-wuwa/${img}" alt="Testimoni WuWa" class="testimoni-img" style="width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.3);">`
     ).join('');
+    const wuwaEvents = [
+        { name: "Tidal Defense Simulator", price: "Rp 25.000", image: "event1.jpg" },
+        { name: "Nama Event 2", price: "Rp -", image: "event2.jpg" },
+        { name: "Nama Event 3", price: "Rp -", image: "event3.jpg" },
+        { name: "Nama Event 4", price: "Rp -", image: "event4.jpg" }
+    ];
+    let wuwaEventHTML = wuwaEvents.map(ev => `
+        <div style="background: rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
+            <div style="width: 100%; aspect-ratio: 16/9; background: #222; overflow: hidden; position: relative;">
+                <img src="assets/${ev.image}" alt="${ev.name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.outerHTML='<div style=\\'width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#555; font-size:0.8rem;\\'>Upload image as ${ev.image}</div>';">
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 15px;">
+                <span style="font-weight: 700; color: #fff; font-size: 0.95rem; text-align: left;">${ev.name}</span>
+                <span style="font-weight: 700; color: #fff; font-size: 0.95rem; white-space: nowrap;">${ev.price}</span>
+            </div>
+        </div>
+    `).join('');
 
     // Data Konten Dinamis
     const pricelistMenuHTML = `
@@ -697,8 +714,8 @@ window.addEventListener('load', () => {
             <h3 style="color: white; margin-bottom: 5px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
                 <img src="assets/logo-wuwa.jpeg" style="width:24px; height:24px; border-radius:4px;"> Joki Event WuWa
             </h3>
-            <div style="text-align: center; margin-top: 15px; padding: 20px;">
-                <p style="color: #aaa; font-style: italic;">List harga event belum tersedia.</p>
+            <div style="text-align: center; margin-top: 15px;">
+                ${wuwaEventHTML}
             </div>
             <!-- Tombol Pesan -->
             <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
