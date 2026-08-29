@@ -375,7 +375,7 @@ window.addEventListener('load', () => {
     ).join('');
 
     const testimoniWuWaImages = [
-        'Group 1.png', 'Group 2.png', 'Group 3.png'
+        'Group 1.png', 'Group 2.png', 'Group 3.png', 'Group 4.png', 'Group 5.png'
     ];
     let wuwaTestimoniHTML = testimoniWuWaImages.map(img => 
         `<img src="testimoni-wuwa/${img}" alt="Testimoni WuWa" class="testimoni-img" style="width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 6px rgba(0,0,0,0.3);">`
