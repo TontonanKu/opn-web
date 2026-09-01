@@ -459,10 +459,10 @@ window.addEventListener('load', () => {
                 <h4 style="color: #4db8ff; margin-top: 15px; margin-bottom: 8px; font-size: 0.95rem;">🌍 Exploration</h4>
                 <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Huanglong</span><strong style="color: white;">Rp 170.000</strong>
+                        <span>Huanglong</span><strong style="color: white;">Rp 160.000</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Rinascita</span><strong style="color: white;">Rp 160.000</strong>
+                        <span>Rinascita</span><strong style="color: white;">Rp 115.000</strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
                         <span>LahaiRoi</span><strong style="color: white;">Rp 275.000</strong>
@@ -479,38 +479,59 @@ window.addEventListener('load', () => {
                 <h4 style="color: #4db8ff; margin-top: 15px; margin-bottom: 8px; font-size: 0.95rem;">📜 Quest</h4>
                 <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Main Story Quest</span><strong style="color: white;">Rp 13.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
+                        <span>Main Story Quest</span><strong style="color: white;">Rp 10.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Exploration Quest</span><strong style="color: white;">Rp 8.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
+                        <span>Exploration Quest</span><strong style="color: white;">Rp 7.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Companion Story Quest</span><strong style="color: white;">Rp 8.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
+                        <span>Companion Story Quest</span><strong style="color: white;">Rp 7.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
                     </div>
                     <div style="display: flex; justify-content: space-between;">
-                        <span>Side Quests</span><strong style="color: white;">Rp 3.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
+                        <span>Side Quests</span><strong style="color: white;">Rp 2.000 <span style="font-size:0.75rem; color:#888;">/Quest</span></strong>
                     </div>
                 </div>
 
-                <!-- Character Building -->
-                <h4 style="color: #4db8ff; margin-top: 15px; margin-bottom: 8px; font-size: 0.95rem;">⚔️ Character Building</h4>
+                <!-- Jasa Rawat Akun Wuthering Waves -->
+                <h4 style="color: #4db8ff; margin-top: 15px; margin-bottom: 8px; font-size: 0.95rem;">🎮 Jasa Rawat Akun</h4>
                 <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                        <span>All in (Lvl, Weapon, Talent, Echo)</span><strong style="color: white;">Rp 75.000 <span style="font-size:0.75rem; color:#888;">/Char</span></strong>
+                    
+                    <h5 style="color: #fff; margin-top: 5px; margin-bottom: 8px; font-size: 0.85rem;"><i class="far fa-calendar-alt"></i> Paket 15 Hari</h5>
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
+                            <div style="flex: 1;"><strong style="color: #ccc;">Basic</strong><br><span style="font-size: 0.75rem; color: #aaa;">Daily, Waveplate (tidak termasuk waveplate kuning)</span></div>
+                            <strong style="color: white; margin-left: 10px;">Rp 18.000</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
+                            <div style="flex: 1;"><strong style="color: #ccc;">Standard</strong><br><span style="font-size: 0.75rem; color: #aaa;">Daily, Waveplate, Weekly, Endgame</span></div>
+                            <strong style="color: white; margin-left: 10px;">Rp 30.000</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div style="flex: 1;"><strong style="color: #ccc;">Premium</strong><br><span style="font-size: 0.75rem; color: #aaa;">Daily, Waveplate, Weekly, Endgame, Event, Bonus</span></div>
+                            <strong style="color: white; margin-left: 10px;">Rp 50.000</strong>
+                        </div>
                     </div>
-                    <div style="font-size: 0.8rem; color: #ffb86c; font-style: italic;">
-                        <i class="fas fa-info-circle"></i> Notes: Akun wajib memiliki Waveplates & stok Crystal Solvent mencukupi. Untuk karakter DPS, Echo diusahakan Double CRIT.
-                    </div>
-                </div>
 
-                <!-- Account Caretaking -->
-                <h4 style="color: #4db8ff; margin-top: 15px; margin-bottom: 8px; font-size: 0.95rem;">📅 Account Caretaking</h4>
-                <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
-                        <span>Daily</span><strong style="color: white;">Rp 4.000</strong>
+                    <h5 style="color: #fff; margin-top: 5px; margin-bottom: 8px; font-size: 0.85rem;"><i class="far fa-calendar-alt"></i> Paket 30 Hari</h5>
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
+                            <div style="flex: 1;"><strong style="color: #ccc;">Basic</strong><br><span style="font-size: 0.75rem; color: #aaa;">Daily, Waveplate (tidak termasuk waveplate kuning)</span></div>
+                            <strong style="color: white; margin-left: 10px;">Rp 33.000</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 6px;">
+                            <div style="flex: 1;"><strong style="color: #ccc;">Standard</strong><br><span style="font-size: 0.75rem; color: #aaa;">Daily, Waveplate, Weekly, Endgame</span></div>
+                            <strong style="color: white; margin-left: 10px;">Rp 55.000</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div style="flex: 1;"><strong style="color: #ccc;">Premium</strong><br><span style="font-size: 0.75rem; color: #aaa;">Daily, Waveplate, Weekly, Endgame, Event, Bonus (Holo)</span></div>
+                            <strong style="color: white; margin-left: 10px;">Rp 90.000</strong>
+                        </div>
                     </div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <span>Weekly</span><strong style="color: white;">Rp 25.000</strong>
+                    
+                    <div style="font-size: 0.8rem; color: #ffb86c; font-style: italic; margin-top: 15px; line-height: 1.4;">
+                        <i class="fas fa-thumbtack"></i> <strong>Catatan:</strong><br>
+                        - <strong>Holo</strong> sudah dikerjakan menyeluruh — termasuk Huanglong, Rinascita, dan map terbaru.<br>
+                        - <strong>Weekly</strong> sudah mencakup semua jenis: Weekly Echo dan Weekly Event.
                     </div>
                 </div>
 
