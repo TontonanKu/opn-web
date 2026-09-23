@@ -13,14 +13,16 @@ window.addEventListener('load', () => {
     const profileInfo = document.querySelector('.profile-info');
     const links = document.querySelectorAll('.link-btn');
     
-    profileInfo.style.opacity = '0';
-    profileInfo.style.transform = 'translateY(20px)';
-    
-    setTimeout(() => {
-        profileInfo.style.transition = 'all 0.6s ease';
-        profileInfo.style.opacity = '1';
-        profileInfo.style.transform = 'translateY(0)';
-    }, 100);
+    if (profileInfo) {
+        profileInfo.style.opacity = '0';
+        profileInfo.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            profileInfo.style.transition = 'all 0.6s ease';
+            profileInfo.style.opacity = '1';
+            profileInfo.style.transform = 'translateY(0)';
+        }, 100);
+    }
 
     links.forEach((link, index) => {
         link.style.opacity = '0';
