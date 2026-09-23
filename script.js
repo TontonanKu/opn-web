@@ -891,6 +891,17 @@ window.addEventListener('load', () => {
     modalBody.style.transition = 'opacity 0.2s ease';
 
     // ==========================================
+    
+// Make openLightbox global so it can be called from inline onclick handlers
+window.openLightbox = function(src, index = 0) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    if (lightbox && lightboxImg) {
+        lightboxImg.src = src;
+        lightbox.classList.add('active');
+    }
+};
+
     // LIGHTBOX SYSTEM (KLIK GAMBAR UNTUK FULLSCREEN)
     // ==========================================
     const lightbox = document.getElementById('lightbox');
