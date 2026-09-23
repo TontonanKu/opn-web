@@ -89,6 +89,23 @@ window.addEventListener('load', () => {
         });
     }
 
+    
+    const btnContactNav = document.getElementById('btn-contact-nav');
+    const contactModal = document.getElementById('contact-modal');
+    const closeContactBtn = document.getElementById('close-contact-btn');
+
+    if(btnContactNav) {
+        btnContactNav.addEventListener('click', (e) => {
+            e.preventDefault();
+            contactModal.classList.add('active');
+        });
+    }
+    if(closeContactBtn) {
+        closeContactBtn.addEventListener('click', () => {
+            contactModal.classList.remove('active');
+        });
+    }
+
     // ==========================================
     // DISCORD LIVE ACTIVITY (SPOTIFY / GAMES)
     // ==========================================
