@@ -928,7 +928,7 @@ window.addEventListener('load', () => {
         // Let's populate the grid
         const repGrid = document.getElementById('reputation-grid');
         if(repGrid) {
-            repGrid.innerHTML = [...testimoniWuWaImages, ...testimoniRobloxImages].map((src, i) => `
+            repGrid.innerHTML = [...testimoniWuWaImages.map(img => 'testimoni-wuwa/' + img), ...testimoniRobloxImages.map(img => 'testimoni-roblox/' + img)].map((src, i) => `
                 <div class="testi-img-wrapper" onclick="openLightbox('${src}', ${i})" style="cursor: pointer; overflow: hidden; border-radius: 12px; border: 1px solid var(--border-color); aspect-ratio: 1;">
                     <img src="${src}" alt="Testimoni ${i+1}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                 </div>
