@@ -1192,3 +1192,7 @@ a {
 .pd-preview-img:hover {
     transform: scale(1.05);
 }
+
+@media (max-width: 1024px) {
+    .desktop-only { display: none !important; }
+}
