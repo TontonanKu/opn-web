@@ -1,5 +1,41 @@
 // script.js
 window.addEventListener('load', () => {
+    // NAVBAR SLIDING TABS LOGIC
+    const bar = document.querySelector(".t-tabs");
+    if (bar) {
+        const pill = bar.querySelector(".t-tabs-pill");
+        const tabs = [...bar.querySelectorAll(".t-tab")];
+
+        function moveTo(tab, animate) {
+            if (!tab) return;
+            if (!animate) {
+                const prev = pill.style.transition;
+                pill.style.transition = "none";
+                pill.style.transform = `translateX(${tab.offsetLeft}px)`;
+                pill.style.width = `${tab.offsetWidth}px`;
+                void pill.offsetWidth;
+                pill.style.transition = prev;
+            } else {
+                pill.style.transform = `translateX(${tab.offsetLeft}px)`;
+                pill.style.width = `${tab.offsetWidth}px`;
+            }
+        }
+        
+        const active = () => tabs.find((t) => t.getAttribute("aria-selected") === "true") || tabs[0];
+
+        tabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+                tabs.forEach((t) =>
+                    t.setAttribute("aria-selected", t === tab ? "true" : "false")
+                );
+                moveTo(tab, true);
+            });
+        });
+        
+        requestAnimationFrame(() => moveTo(active(), false));
+        window.addEventListener("resize", () => moveTo(active(), false));
+    }
+
     // Hide loader
     const loader = document.querySelector('.loader-wrapper');
     if (loader) {
@@ -34,6 +70,24 @@ window.addEventListener('load', () => {
             link.style.transform = 'translateY(0)';
         }, 300 + (index * 80));
     });
+
+    
+    const btnProjectNav = document.getElementById('btn-project-nav');
+    const projectModal = document.getElementById('project-modal');
+    const closeProjectBtn = document.getElementById('close-project-btn');
+
+    if(btnProjectNav) {
+        btnProjectNav.addEventListener('click', (e) => {
+            e.preventDefault();
+            projectModal.classList.add('active');
+            renderProjects('all');
+        });
+    }
+    if(closeProjectBtn) {
+        closeProjectBtn.addEventListener('click', () => {
+            projectModal.classList.remove('active');
+        });
+    }
 
     // ==========================================
     // DISCORD LIVE ACTIVITY (SPOTIFY / GAMES)
@@ -1139,7 +1193,17 @@ const projectsData = [
         category: "Web Design",
         icon: "fas fa-desktop",
         desc: "Platform sistem informasi atau profil kampus dengan tampilan modern.",
+        
+        // FOTO UTAMA (di Project Card)
         img: "assets/showcase-wuwa.jpeg",
+        
+        // FOTO PREVIEW (di dalam Laci Detail) - Isi dengan 3 link gambar
+        previews: [
+            "assets/showcase-wuwa.jpeg",
+            "assets/showcase-wuwa.jpeg",
+            "assets/showcase-wuwa.jpeg"
+        ],
+
         completed: "2023",
         tools: "HTML, CSS, JS",
         about: "Project web base untuk sistem informasi kampus. Berfokus pada tampilan yang informatif, aksesibilitas, dan kemudahan dalam mencari informasi akademik secara online.",
@@ -1152,7 +1216,17 @@ const projectsData = [
         category: "Web Design",
         icon: "fas fa-desktop",
         desc: "Aplikasi web responsif untuk platform ZuraDown.",
+        
+        // FOTO UTAMA (di Project Card)
         img: "assets/showcase-wuwa.jpeg",
+        
+        // FOTO PREVIEW (di dalam Laci Detail) - Isi dengan 3 link gambar
+        previews: [
+            "assets/showcase-wuwa.jpeg",
+            "assets/showcase-wuwa.jpeg",
+            "assets/showcase-wuwa.jpeg"
+        ],
+
         completed: "2024",
         tools: "Web Tech",
         about: "Project website ZuraDown. Menampilkan antarmuka yang simpel, clean, dan difokuskan pada fungsionalitas serta kecepatan akses bagi para pengguna platform.",
@@ -1216,9 +1290,8 @@ function openProjectDrawer(p) {
     const gallery = document.getElementById('pd-preview-gallery');
     gallery.style.display = 'grid';
     gallery.innerHTML = `
-        <img src="${p.img}" class="pd-preview-img" onclick="openLightbox('${p.img}', 0)">
-        <img src="${p.img}" class="pd-preview-img" onclick="openLightbox('${p.img}', 1)">
-        <img src="${p.img}" class="pd-preview-img" onclick="openLightbox('${p.img}', 2)">
+        ${p.previews.map((imgSrc, idx) => `
+        <img src="${imgSrc}" class="pd-preview-img" onclick="openLightbox('${imgSrc}', ${idx})">`).join('')}
     `;
     
     // Live View Container Logic (Left Side)

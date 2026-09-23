@@ -44,11 +44,13 @@
             <img src="assets/logo-k.png" alt="Logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg'">
             <span>reyy</span>
         </div>
-        <div class="nav-links">
-            <a href="#" class="active">Home</a>
-            <a href="#" id="btn-pricelist-nav">Pricelist</a>
-            <a href="#" id="btn-reputation-nav">Testimonials</a>
-            <a href="https://wa.me/+6282172795156" target="_blank">Contact</a>
+        <div class="nav-links t-tabs" role="tablist">
+            <span class="t-tabs-pill" aria-hidden="true"></span>
+            <button class="t-tab" role="tab" aria-selected="true" onclick="location.href='#'">Home</button>
+            <button class="t-tab" role="tab" aria-selected="false" id="btn-pricelist-nav">Pricelist</button>
+            <button class="t-tab" role="tab" aria-selected="false" id="btn-project-nav">Projects</button>
+            <button class="t-tab" role="tab" aria-selected="false" id="btn-reputation-nav">Testimonials</button>
+            <button class="t-tab" role="tab" aria-selected="false" onclick="window.open('https://wa.me/+6282172795156', '_blank')">Contact</button>
         </div>
         <div class="nav-actions">
             <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
