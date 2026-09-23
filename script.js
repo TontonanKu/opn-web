@@ -1124,55 +1124,29 @@ window.addEventListener('DOMContentLoaded', () => {
 const projectsData = [
     {
         id: 1,
-        title: "Kreyy Portfolio Website",
+        title: "Ngampus Platform",
         category: "Web Design",
         icon: "fas fa-desktop",
-        desc: "Website portofolio pribadi dengan tampilan modern, responsif, dan dark mode.",
+        desc: "Platform sistem informasi atau profil kampus dengan tampilan modern.",
         img: "assets/showcase-wuwa.jpeg",
-        completed: "Jun 2025",
-        tools: "Figma, VS Code",
-        about: "Project ini dibuat untuk kebutuhan portofolio pribadi saya. Website ini menampilkan informasi seputar diri saya, project yang pernah saya buat, serta kontak yang bisa dihubungi. Dibuat dengan fokus pada tampilan modern, responsif, dan performa yang ringan.",
-        features: ["Desain modern dan minimalis", "Responsif untuk desktop & mobile", "Dark mode & light mode", "Halaman project, pricelist, dan kontak", "Animasi ringan dan smooth"],
-        link: "https://kreyy.vercel.app"
+        completed: "2023",
+        tools: "HTML, CSS, JS",
+        about: "Project web base untuk sistem informasi kampus. Berfokus pada tampilan yang informatif, aksesibilitas, dan kemudahan dalam mencari informasi akademik secara online.",
+        features: ["Desain UI modern & bersih", "Responsif di berbagai device desktop dan mobile", "Navigasi informasi terstruktur", "Optimalisasi performa ringan"],
+        link: "https://tontonanku.github.io/ngampus/#"
     },
     {
         id: 2,
-        title: "Barbershop Booking App",
-        category: "Mobile App",
-        icon: "fas fa-mobile-alt",
-        desc: "Aplikasi untuk booking jadwal barbershop beserta informasi barber.",
+        title: "ZuraDown",
+        category: "Web Design",
+        icon: "fas fa-desktop",
+        desc: "Aplikasi web responsif untuk platform ZuraDown.",
         img: "assets/showcase-wuwa.jpeg",
-        completed: "Aug 2024",
-        tools: "Flutter, Firebase",
-        about: "Aplikasi mobile booking untuk mempermudah pelanggan mengatur jadwal potong rambut tanpa perlu mengantri panjang.",
-        features: ["Booking sistem real-time", "Notifikasi push", "Profil Barber", "Integrasi payment gateway"],
-        link: "#"
-    },
-    {
-        id: 3,
-        title: "2D Game Asset Pack",
-        category: "Game Assets",
-        icon: "fas fa-gamepad",
-        desc: "Kumpulan aset 2D pixel dengan gaya modern dan clean.",
-        img: "assets/showcase-wuwa.jpeg",
-        completed: "Jan 2025",
-        tools: "Aseprite, Photoshop",
-        about: "Koleksi aset grafis 2D yang dapat digunakan oleh game developer indie untuk mempercepat proses prototyping game mereka.",
-        features: ["100+ Item Icons", "Tilesets", "Character Sprites", "Siap pakai untuk Unity/Godot"],
-        link: "#"
-    },
-    {
-        id: 4,
-        title: "AI Dashboard UI",
-        category: "UI/UX",
-        icon: "fas fa-layer-group",
-        desc: "Desain interface dashboard untuk aplikasi AI tools dengan tampilan clean.",
-        img: "assets/showcase-wuwa.jpeg",
-        completed: "Dec 2024",
-        tools: "Figma",
-        about: "Eksplorasi UI/UX untuk SaaS Artificial Intelligence yang menampilkan statistik, grafik, dan manajemen prompt.",
-        features: ["Dark theme eksklusif", "Sistem Grid Dashboard", "Komponen UI Kit", "Tipografi yang mudah dibaca"],
-        link: "#"
+        completed: "2024",
+        tools: "Web Tech",
+        about: "Project website ZuraDown. Menampilkan antarmuka yang simpel, clean, dan difokuskan pada fungsionalitas serta kecepatan akses bagi para pengguna platform.",
+        features: ["Tampilan minimalis dan modern", "Waktu loading yang cepat dan ringan", "Mobile-friendly UI", "Interaksi pengguna yang mudah dipahami"],
+        link: "https://zuradown.vercel.app/"
     }
 ];
 
