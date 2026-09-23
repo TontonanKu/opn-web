@@ -1116,3 +1116,167 @@ window.addEventListener('DOMContentLoaded', () => {
         designModal.addEventListener('click', (e) => { if(e.target === designModal) designModal.classList.remove('active'); });
     }
 });
+
+
+// ==========================================
+// PROJECT MODAL & DRAWER LOGIC (Bento 2.0)
+// ==========================================
+const projectsData = [
+    {
+        id: 1,
+        title: "Kreyy Portfolio Website",
+        category: "Web Design",
+        icon: "fas fa-desktop",
+        desc: "Website portofolio pribadi dengan tampilan modern, responsif, dan dark mode.",
+        img: "assets/showcase-wuwa.jpeg",
+        completed: "Jun 2025",
+        tools: "Figma, VS Code",
+        about: "Project ini dibuat untuk kebutuhan portofolio pribadi saya. Website ini menampilkan informasi seputar diri saya, project yang pernah saya buat, serta kontak yang bisa dihubungi. Dibuat dengan fokus pada tampilan modern, responsif, dan performa yang ringan.",
+        features: ["Desain modern dan minimalis", "Responsif untuk desktop & mobile", "Dark mode & light mode", "Halaman project, pricelist, dan kontak", "Animasi ringan dan smooth"],
+        link: "https://kreyy.vercel.app"
+    },
+    {
+        id: 2,
+        title: "Barbershop Booking App",
+        category: "Mobile App",
+        icon: "fas fa-mobile-alt",
+        desc: "Aplikasi untuk booking jadwal barbershop beserta informasi barber.",
+        img: "assets/showcase-wuwa.jpeg",
+        completed: "Aug 2024",
+        tools: "Flutter, Firebase",
+        about: "Aplikasi mobile booking untuk mempermudah pelanggan mengatur jadwal potong rambut tanpa perlu mengantri panjang.",
+        features: ["Booking sistem real-time", "Notifikasi push", "Profil Barber", "Integrasi payment gateway"],
+        link: "#"
+    },
+    {
+        id: 3,
+        title: "2D Game Asset Pack",
+        category: "Game Assets",
+        icon: "fas fa-gamepad",
+        desc: "Kumpulan aset 2D pixel dengan gaya modern dan clean.",
+        img: "assets/showcase-wuwa.jpeg",
+        completed: "Jan 2025",
+        tools: "Aseprite, Photoshop",
+        about: "Koleksi aset grafis 2D yang dapat digunakan oleh game developer indie untuk mempercepat proses prototyping game mereka.",
+        features: ["100+ Item Icons", "Tilesets", "Character Sprites", "Siap pakai untuk Unity/Godot"],
+        link: "#"
+    },
+    {
+        id: 4,
+        title: "AI Dashboard UI",
+        category: "UI/UX",
+        icon: "fas fa-layer-group",
+        desc: "Desain interface dashboard untuk aplikasi AI tools dengan tampilan clean.",
+        img: "assets/showcase-wuwa.jpeg",
+        completed: "Dec 2024",
+        tools: "Figma",
+        about: "Eksplorasi UI/UX untuk SaaS Artificial Intelligence yang menampilkan statistik, grafik, dan manajemen prompt.",
+        features: ["Dark theme eksklusif", "Sistem Grid Dashboard", "Komponen UI Kit", "Tipografi yang mudah dibaca"],
+        link: "#"
+    }
+];
+
+function renderProjects(filter = 'all') {
+    const grid = document.getElementById('project-grid');
+    if (!grid) return;
+    
+    grid.innerHTML = '';
+    
+    const filtered = filter === 'all' ? projectsData : projectsData.filter(p => p.category === filter);
+    
+    if (filtered.length === 0) {
+        grid.innerHTML = `<div style="color:var(--text-secondary); padding: 20px;">Belum ada project di kategori ini.</div>`;
+        return;
+    }
+    
+    filtered.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'project-card-custom';
+        card.innerHTML = `
+            <div class="project-card-img-wrapper">
+                <img src="${p.img}" alt="${p.title}">
+                <div class="project-card-badge"><i class="${p.icon}"></i> ${p.category}</div>
+            </div>
+            <div class="project-card-content">
+                <div class="project-card-title">${p.title}</div>
+                <div class="project-card-desc">${p.desc}</div>
+                <div class="project-card-footer">
+                    View Project &rarr;
+                    <i class="fas fa-external-link-alt"></i>
+                </div>
+            </div>
+        `;
+        
+        card.addEventListener('click', () => openProjectDrawer(p));
+        grid.appendChild(card);
+    });
+}
+
+function openProjectDrawer(p) {
+    const drawer = document.getElementById('project-detail-modal');
+    if (!drawer) return;
+    
+    document.getElementById('pd-img').src = p.img;
+    document.getElementById('pd-category').innerHTML = `<i class="${p.icon}"></i> ${p.category}`;
+    document.getElementById('pd-title').textContent = p.title;
+    document.getElementById('pd-desc').textContent = p.desc;
+    document.getElementById('pd-date').textContent = p.completed;
+    document.getElementById('pd-tools').textContent = p.tools;
+    document.getElementById('pd-about').textContent = p.about;
+    document.getElementById('pd-link').href = p.link;
+    
+    const featuresList = document.getElementById('pd-features');
+    featuresList.innerHTML = p.features.map(f => `<li>${f}</li>`).join('');
+    
+    const gallery = document.getElementById('pd-preview-gallery');
+    gallery.innerHTML = `
+        <img src="${p.img}" class="pd-preview-img" onclick="openLightbox('${p.img}', 0)">
+        <img src="${p.img}" class="pd-preview-img" onclick="openLightbox('${p.img}', 1)">
+        <img src="${p.img}" class="pd-preview-img" onclick="openLightbox('${p.img}', 2)">
+    `;
+    
+    drawer.classList.add('active');
+    setTimeout(() => {
+        document.getElementById('pd-drawer').style.transform = 'translateX(0)';
+    }, 10);
+}
+
+function closeProjectDrawer() {
+    const drawer = document.getElementById('project-detail-modal');
+    if (!drawer) return;
+    document.getElementById('pd-drawer').style.transform = 'translateX(100%)';
+    setTimeout(() => {
+        drawer.classList.remove('active');
+    }, 400);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    // Project Tabs Logic
+    const projTabs = document.querySelectorAll('#project-tabs-container .jasa-tab');
+    if(projTabs.length > 0) {
+        projTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                projTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                renderProjects(tab.getAttribute('data-filter'));
+            });
+        });
+        
+        // Initial render
+        renderProjects('all');
+    }
+    
+    // Project Drawer Listeners
+    const btnClosePd = document.getElementById('close-pd-btn');
+    const btnClosePdX = document.getElementById('close-pd-btn-x');
+    const drawerOverlay = document.getElementById('project-detail-modal');
+    
+    if(btnClosePd) btnClosePd.addEventListener('click', closeProjectDrawer);
+    if(btnClosePdX) btnClosePdX.addEventListener('click', closeProjectDrawer);
+    
+    if(drawerOverlay) {
+        drawerOverlay.addEventListener('click', (e) => {
+            if(e.target === drawerOverlay) closeProjectDrawer();
+        });
+    }
+});
