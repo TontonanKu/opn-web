@@ -919,12 +919,27 @@ window.addEventListener('load', () => {
         });
     }
 
-    if(btnReputation) {
-        btnReputation.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal('Reputation');
-        });
+        // NEW REPUTATION MODAL LOGIC
+    const repModal = document.getElementById('reputation-modal');
+    if(btnReputation && repModal) {
+        // Remove old listener by cloning the button (quick hack) or we just override it?
+        // Actually, we can just replace the old block in the code.
+        
+        // Let's populate the grid
+        const repGrid = document.getElementById('reputation-grid');
+        if(repGrid) {
+            repGrid.innerHTML = [...wuwaTestimoniImages, ...robloxTestimoniImages].map((src, i) => `
+                <div class="testi-card" onclick="openLightbox('${src}', ${i})">
+                    <img src="${src}" alt="Testimoni ${i+1}" loading="lazy">
+                </div>
+            `).join('');
+        }
+        
+        document.getElementById('close-reputation-btn').addEventListener('click', () => repModal.classList.remove('active'));
+        repModal.addEventListener('click', (e) => { if(e.target === repModal) repModal.classList.remove('active'); });
     }
+
+    if(btnReputation && repModal) { btnReputation.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); repModal.classList.add('active'); }); }
 
     if(btnWatchlist) {
         btnWatchlist.addEventListener('click', (e) => {
@@ -1087,14 +1102,17 @@ window.addEventListener('DOMContentLoaded', () => {
     // Wire up Project and Design buttons
     const btnProject = document.getElementById('btn-project');
     const btnDesign = document.getElementById('btn-design');
-    if(btnProject) {
-        btnProject.addEventListener('click', () => {
-            alert('Fitur Project sedang dalam tahap pengembangan!');
-        });
+    const projectModal = document.getElementById('project-modal');
+    const designModal = document.getElementById('design-modal');
+    
+    if(btnProject && projectModal) {
+        btnProject.addEventListener('click', () => projectModal.classList.add('active'));
+        document.getElementById('close-project-btn').addEventListener('click', () => projectModal.classList.remove('active'));
+        projectModal.addEventListener('click', (e) => { if(e.target === projectModal) projectModal.classList.remove('active'); });
     }
-    if(btnDesign) {
-        btnDesign.addEventListener('click', () => {
-            alert('Fitur Design sedang dalam tahap pengembangan!');
-        });
+    if(btnDesign && designModal) {
+        btnDesign.addEventListener('click', () => designModal.classList.add('active'));
+        document.getElementById('close-design-btn').addEventListener('click', () => designModal.classList.remove('active'));
+        designModal.addEventListener('click', (e) => { if(e.target === designModal) designModal.classList.remove('active'); });
     }
 });
