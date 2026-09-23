@@ -1203,11 +1203,25 @@ function openProjectDrawer(p) {
     featuresList.innerHTML = p.features.map(f => `<li>${f}</li>`).join('');
     
     const gallery = document.getElementById('pd-preview-gallery');
-    gallery.innerHTML = `
-        <img src="${p.img}" class="pd-preview-img" onclick="openLightbox('${p.img}', 0)">
-        <img src="${p.img}" class="pd-preview-img" onclick="openLightbox('${p.img}', 1)">
-        <img src="${p.img}" class="pd-preview-img" onclick="openLightbox('${p.img}', 2)">
-    `;
+    if (p.link !== '#' && p.link !== '') {
+        // Embed the live website using an iframe for a real preview!
+        gallery.style.display = 'block';
+        gallery.innerHTML = `
+            <div style="width: 100%; height: 300px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); position: relative;">
+                <iframe src="${p.link}" style="width: 100%; height: 100%; border: none;" title="Live Preview"></iframe>
+                <div style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 5px 10px; border-radius: 8px; font-size: 0.75rem; pointer-events: none; border: 1px solid rgba(255,255,255,0.1);">
+                    <i class="fas fa-circle" style="color: #4CAF50; font-size: 0.6rem; margin-right: 5px;"></i> Live View
+                </div>
+            </div>
+        `;
+    } else {
+        gallery.style.display = 'grid';
+        gallery.innerHTML = `
+            <div style="grid-column: span 3; text-align: center; color: var(--text-secondary); padding: 20px; border: 1px dashed var(--border-color); border-radius: 8px;">
+                Preview belum tersedia
+            </div>
+        `;
+    }
     
     drawer.classList.add('active');
     setTimeout(() => {
