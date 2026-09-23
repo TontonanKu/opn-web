@@ -28,9 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 2. Real-time Clock Logic
+        // 2. Real-time Clock & Admin Status Logic
     const clockElement = document.getElementById('realtime-clock');
     const dateElement = document.getElementById('realtime-date');
+    const statusDot = document.getElementById('status-dot');
+    const statusText = document.getElementById('status-text-display');
 
     function updateClock() {
         const now = new Date();
@@ -43,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
             second: '2-digit'
         });
         
-        // Date formatter (e.g., Wed, Sep 26, 2025)
+        // Date formatter
         const dateStr = now.toLocaleDateString('en-US', {
             weekday: 'short',
             month: 'short',
@@ -53,6 +55,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (clockElement) clockElement.textContent = timeStr;
         if (dateElement) dateElement.textContent = dateStr;
+
+        // Admin Online/Offline Logic (08:00 - 22:00 WIB)
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+        const wibTime = new Date(utc + (3600000 * 7));
+        const hours = wibTime.getHours();
+
+        if (statusDot && statusText) {
+            if (hours >= 8 && hours < 22) {
+                statusDot.style.backgroundColor = '#00ff66';
+                statusDot.style.boxShadow = '0 0 10px rgba(0,255,102,0.5)';
+                statusText.textContent = 'Admin Online';
+            } else {
+                statusDot.style.backgroundColor = '#ff4d4d';
+                statusDot.style.boxShadow = '0 0 10px rgba(255,77,77,0.5)';
+                statusText.textContent = 'Admin Offline';
+            }
+        }
     }
 
     setInterval(updateClock, 1000);

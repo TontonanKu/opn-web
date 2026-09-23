@@ -357,36 +357,11 @@ window.addEventListener('load', () => {
     // STATUS WIDGET (Online/Offline)
     // ==========================================
     function updateStatusWidget() {
-        const liveClock = document.getElementById('live-clock');
-        const statusDot = document.getElementById('status-dot');
-        const statusText = document.getElementById('status-text');
-        
-        if (!liveClock || !statusDot || !statusText) return;
-
         // Dapatkan waktu saat ini dalam WIB (UTC+7)
         const now = new Date();
         const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
         const wibTime = new Date(utc + (3600000 * 7));
-
         const hours = wibTime.getHours();
-        const minutes = wibTime.getMinutes().toString().padStart(2, '0');
-        const seconds = wibTime.getSeconds().toString().padStart(2, '0');
-        
-        // Update jam
-        liveClock.textContent = `${hours.toString().padStart(2, '0')}:${minutes}:${seconds}`;
-
-        // Cek apakah jam kerja (08:00 - 22:00) (Lebih dari sama dengan 8, kurang dari 22)
-        if (hours >= 8 && hours < 22) {
-            statusDot.style.backgroundColor = '#00ff66';
-            statusDot.style.borderColor = 'rgba(0,255,102,0.3)';
-            statusDot.style.boxShadow = '0 0 10px rgba(0,255,102,0.3)';
-            statusText.textContent = 'Admin Online';
-        } else {
-            statusDot.style.backgroundColor = '#ff4d4d';
-            statusDot.style.borderColor = 'rgba(255,77,77,0.3)';
-            statusDot.style.boxShadow = '0 0 10px rgba(255,77,77,0.3)';
-            statusText.textContent = 'Admin Offline';
-        }
 
         // ==========================================
         // DYNAMIC BANNER & AVATAR (Setiap 6 Jam)
