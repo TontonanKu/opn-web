@@ -111,11 +111,29 @@
                 </div>
             </section>
 
-            <!-- SERVICE CARDS (4 boxes spanning 3 each) -->
-            <div class="bento-card card-square" id="btn-pricelist">
+                        <!-- SERVICE CARDS (4 boxes spanning 3 each) -->
+            <div class="bento-card card-square" id="btn-project">
+                <div class="card-icon"><i class="fas fa-folder-open"></i></div>
+                <div class="card-info">
+                    <h3>Project</h3>
+                    <p>Hasil pengerjaan project.</p>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+            </div>
+
+            <div class="bento-card card-square" id="btn-design">
+                <div class="card-icon"><i class="fas fa-paint-brush"></i></div>
+                <div class="card-info">
+                    <h3>Design</h3>
+                    <p>Portofolio desain grafis.</p>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+            </div>
+
+            <div class="bento-card card-square" id="btn-joki">
                 <div class="card-icon"><i class="fas fa-gamepad"></i></div>
                 <div class="card-info">
-                    <h3>Pricelist Joki</h3>
+                    <h3>Joki Game</h3>
                     <p>Wuthering Waves, HSR, Roblox.</p>
                 </div>
                 <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
@@ -130,22 +148,69 @@
                 <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </div>
 
-            <div class="bento-card card-square" id="btn-watchlist">
-                <div class="card-icon"><i class="fas fa-tv"></i></div>
-                <div class="card-info">
-                    <h3>List Nonton</h3>
-                    <p>Rekomendasi Anime & Donghua.</p>
+            
+            <!-- SCROLLING MARQUEE -->
+            <div class="marquee-container">
+                <div class="marquee-track">
+                    <div class="marquee-item">
+                        <div class="marquee-stars">⭐⭐⭐⭐⭐</div>
+                        <p class="marquee-user">08****17</p>
+                        <p class="marquee-desc">Pelayanan Terbaik!</p>
+                        <img src="assets/logo-wuwa.jpeg" alt="Wuwa">
+                        <div class="marquee-flag">🇮🇩</div>
+                    </div>
+                    <div class="marquee-item">
+                        <div class="marquee-stars">⭐⭐⭐⭐⭐</div>
+                        <p class="marquee-user">08****63</p>
+                        <p class="marquee-desc">Terpercaya dan Aman</p>
+                        <img src="assets/logo-hsr.jpeg" alt="HSR">
+                        <div class="marquee-flag">🇮🇩</div>
+                    </div>
+                    <div class="marquee-item">
+                        <div class="marquee-stars">⭐⭐⭐⭐⭐</div>
+                        <p class="marquee-user">08****14</p>
+                        <p class="marquee-desc">Proses Cepat dan Mudah</p>
+                        <img src="assets/logo-roblox.jpeg" alt="Roblox">
+                        <div class="marquee-flag">🇮🇩</div>
+                    </div>
+                    <div class="marquee-item">
+                        <div class="marquee-stars">⭐⭐⭐⭐⭐</div>
+                        <p class="marquee-user">08****26</p>
+                        <p class="marquee-desc">Sangat Memuaskan</p>
+                        <img src="assets/logo-wuwa.jpeg" alt="Wuwa">
+                        <div class="marquee-flag">🇮🇩</div>
+                    </div>
+                    
+                    <!-- DUPLICATE FOR INFINITE SCROLL -->
+                    <div class="marquee-item">
+                        <div class="marquee-stars">⭐⭐⭐⭐⭐</div>
+                        <p class="marquee-user">08****17</p>
+                        <p class="marquee-desc">Pelayanan Terbaik!</p>
+                        <img src="assets/logo-wuwa.jpeg" alt="Wuwa">
+                        <div class="marquee-flag">🇮🇩</div>
+                    </div>
+                    <div class="marquee-item">
+                        <div class="marquee-stars">⭐⭐⭐⭐⭐</div>
+                        <p class="marquee-user">08****63</p>
+                        <p class="marquee-desc">Terpercaya dan Aman</p>
+                        <img src="assets/logo-hsr.jpeg" alt="HSR">
+                        <div class="marquee-flag">🇮🇩</div>
+                    </div>
+                    <div class="marquee-item">
+                        <div class="marquee-stars">⭐⭐⭐⭐⭐</div>
+                        <p class="marquee-user">08****14</p>
+                        <p class="marquee-desc">Proses Cepat dan Mudah</p>
+                        <img src="assets/logo-roblox.jpeg" alt="Roblox">
+                        <div class="marquee-flag">🇮🇩</div>
+                    </div>
+                    <div class="marquee-item">
+                        <div class="marquee-stars">⭐⭐⭐⭐⭐</div>
+                        <p class="marquee-user">08****26</p>
+                        <p class="marquee-desc">Sangat Memuaskan</p>
+                        <img src="assets/logo-wuwa.jpeg" alt="Wuwa">
+                        <div class="marquee-flag">🇮🇩</div>
+                    </div>
                 </div>
-                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
-            </div>
-
-            <div class="bento-card card-square" onclick="document.getElementById('promo-modal').style.display='flex'">
-                <div class="card-icon"><i class="fas fa-gift"></i></div>
-                <div class="card-info">
-                    <h3>Promo Info</h3>
-                    <p>Check active discounts & offers.</p>
-                </div>
-                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </div>
 
             <!-- FEATURED PROJECTS HEADER -->
@@ -217,6 +282,106 @@
 
         </div>
     </main>
+
+    
+    <!-- JASA MODAL (Tampilan Bento Baru) -->
+    <div class="modal-overlay" id="jasa-modal">
+        <div class="jasa-modal-content">
+            <!-- Header Background Image -->
+            <div class="jasa-modal-header-bg">
+                <img src="assets/showcase-wuwa.jpeg" id="jasa-header-img" alt="Background">
+                <div class="jasa-header-gradient"></div>
+            </div>
+
+            <div class="jasa-modal-inner">
+                <!-- Top Section -->
+                <button class="close-jasa-btn" id="close-jasa-btn"><i class="fas fa-arrow-left"></i> Kembali ke Home</button>
+                <div class="jasa-title-section">
+                    <p class="jasa-subtitle">PRICELIST</p>
+                    <h2 class="jasa-title">Daftar Harga Jasa</h2>
+                    <p class="jasa-desc">Harga bisa berubah sewaktu-waktu tergantung tingkat kesulitan dan request khusus. Untuk info lebih lanjut, bisa langsung hubungi melalui WhatsApp.</p>
+                </div>
+
+                <!-- Tabs -->
+                <div class="jasa-tabs">
+                    <button class="jasa-tab active" data-target="jasa-wuwa">
+                        <img src="assets/logo-wuwa.jpeg" alt="Wuwa"> Wuthering Waves
+                    </button>
+                    <button class="jasa-tab" data-target="jasa-hsr">
+                        <img src="assets/logo-hsr.jpeg" alt="HSR"> Honkai: Star Rail
+                    </button>
+                    <button class="jasa-tab" data-target="jasa-roblox">
+                        <img src="assets/logo-roblox.jpeg" alt="Roblox"> Roblox
+                    </button>
+                </div>
+
+                <!-- Tab Contents -->
+                <div class="jasa-content-area">
+                    <!-- WUWA -->
+                    <div class="jasa-pane active" id="jasa-wuwa">
+                        <div class="jasa-pane-header">
+                            <img src="assets/profil-shorekeeper.jpeg" class="jasa-pane-icon">
+                            <div>
+                                <h3>Wuthering Waves</h3>
+                                <p>Jasa untuk game Wuthering Waves.</p>
+                            </div>
+                        </div>
+                        <div class="jasa-grid" id="wuwa-grid">
+                            <!-- Cards akan diisi oleh JS -->
+                        </div>
+                        
+                        <div class="jasa-pane-header" style="margin-top: 30px;">
+                            <img src="assets/profil-chisa.jpeg" class="jasa-pane-icon">
+                            <div>
+                                <h3>Event Wuthering Waves</h3>
+                                <p>Jasa khusus event berjalan.</p>
+                            </div>
+                        </div>
+                        <div class="jasa-grid" id="wuwa-event-grid">
+                            <!-- Event Cards -->
+                        </div>
+                    </div>
+
+                    <!-- HSR -->
+                    <div class="jasa-pane" id="jasa-hsr">
+                        <div class="jasa-pane-header">
+                            <img src="assets/logo-hsr.jpeg" class="jasa-pane-icon">
+                            <div>
+                                <h3>Honkai: Star Rail</h3>
+                                <p>Jasa untuk game Honkai: Star Rail.</p>
+                            </div>
+                        </div>
+                        <div class="jasa-grid" id="hsr-grid">
+                            <!-- Cards -->
+                        </div>
+                    </div>
+
+                    <!-- ROBLOX -->
+                    <div class="jasa-pane" id="jasa-roblox">
+                        <div class="jasa-pane-header">
+                            <img src="assets/logo-roblox.jpeg" class="jasa-pane-icon">
+                            <div>
+                                <h3>Roblox</h3>
+                                <p>Jasa untuk game Roblox.</p>
+                            </div>
+                        </div>
+                        <div class="jasa-grid" id="roblox-grid">
+                            <!-- Cards -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Note -->
+                <div class="jasa-footer-note">
+                    <div class="note-box">
+                        <i class="fas fa-info-circle"></i>
+                        <p><strong>Note</strong><br>Harga dapat berubah sewaktu-waktu. Untuk pemesanan atau pertanyaan lebih lanjut, silakan hubungi melalui WhatsApp.</p>
+                    </div>
+                    <a href="https://wa.me/+6282172795156" class="contact-btn"><i class="fab fa-whatsapp"></i> Hubungi Sekarang</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal Overlay untuk Pricelist & Reputation -->
     <div class="modal-overlay" id="custom-modal">

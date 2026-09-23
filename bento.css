@@ -686,3 +686,391 @@ a {
  } 
   
  
+/* =========================================
+   SCROLLING MARQUEE (Testimonials & Showcase)
+   ========================================= */
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    margin: 40px 0;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marquee-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: scroll-marquee 20s linear infinite;
+}
+
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
+.marquee-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+.marquee-stars {
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+}
+
+.marquee-user {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.marquee-desc {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.marquee-item img {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.marquee-flag {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+}
+
+@keyframes scroll-marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-50% - 10px));
+    }
+}
+
+/* =========================================
+   JASA WIDE MODAL
+   ========================================= */
+.jasa-modal-content {
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    width: 95%;
+    max-width: 1200px;
+    height: 90vh;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transform: translateY(50px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-overlay.active .jasa-modal-content {
+    transform: translateY(0) scale(1);
+}
+
+.jasa-modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+.jasa-modal-content::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.jasa-modal-header-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 350px;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.jasa-modal-header-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right top;
+}
+
+.jasa-header-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(10, 10, 10, 0.3) 0%, var(--bg-main) 100%),
+                linear-gradient(to right, var(--bg-main) 30%, transparent 100%);
+}
+
+.jasa-modal-inner {
+    position: relative;
+    z-index: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.close-jasa-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    align-self: flex-start;
+    transition: color 0.2s;
+}
+
+.close-jasa-btn:hover {
+    color: white;
+}
+
+.jasa-title-section {
+    max-width: 600px;
+    margin-bottom: 30px;
+}
+
+.jasa-subtitle {
+    color: var(--accent-orange);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.jasa-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.jasa-desc {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.jasa-tabs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.jasa-tab {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 10px 20px;
+    border-radius: 30px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.jasa-tab img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.jasa-tab.active, .jasa-tab:hover {
+    background: var(--accent-orange);
+    color: white;
+    border-color: var(--accent-orange);
+}
+
+.jasa-pane {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.jasa-pane.active {
+    display: block;
+}
+
+.jasa-pane-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.jasa-pane-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.jasa-pane-header h3 {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 2px;
+}
+
+.jasa-pane-header p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.jasa-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.jasa-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.jasa-card:hover {
+    border-color: var(--accent-orange);
+    transform: translateY(-2px);
+    background: var(--bg-card-hover);
+}
+
+.jasa-card-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.jasa-card-info {
+    flex: 1;
+}
+
+.jasa-card-title {
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.jasa-card-desc {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.jasa-card-price {
+    color: #4db8ff;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.jasa-card-arrow {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-secondary);
+    transition: all 0.3s;
+}
+
+.jasa-card:hover .jasa-card-arrow {
+    background: var(--accent-orange);
+    color: white;
+}
+
+.jasa-footer-note {
+    margin-top: auto;
+    padding-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.note-box {
+    display: flex;
+    gap: 15px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    max-width: 600px;
+    line-height: 1.5;
+}
+
+.note-box i {
+    font-size: 1.5rem;
+    color: rgba(255,255,255,0.3);
+}
+
+.contact-btn {
+    background: transparent;
+    border: 1px solid var(--accent-orange);
+    color: var(--accent-orange);
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.contact-btn:hover {
+    background: var(--accent-orange);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .jasa-modal-inner {
+        padding: 20px;
+    }
+    .jasa-title {
+        font-size: 2rem;
+    }
+    .jasa-footer-note {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .contact-btn {
+        justify-content: center;
+    }
+}

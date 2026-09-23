@@ -982,3 +982,119 @@ window.addEventListener('load', () => {
     }
 
 });
+
+// ==========================================
+// NEW JASA MODAL LOGIC (BENTO 2.0)
+// ==========================================
+window.addEventListener('DOMContentLoaded', () => {
+    const btnJoki = document.getElementById('btn-joki');
+    const jasaModal = document.getElementById('jasa-modal');
+    const closeJasaBtn = document.getElementById('close-jasa-btn');
+    const jasaTabs = document.querySelectorAll('.jasa-tab');
+    const jasaPanes = document.querySelectorAll('.jasa-pane');
+
+    if (btnJoki && jasaModal && closeJasaBtn) {
+        // Open Modal
+        btnJoki.addEventListener('click', () => {
+            jasaModal.classList.add('active');
+        });
+
+        // Close Modal
+        closeJasaBtn.addEventListener('click', () => {
+            jasaModal.classList.remove('active');
+        });
+
+        // Close on outside click
+        jasaModal.addEventListener('click', (e) => {
+            if (e.target === jasaModal) {
+                jasaModal.classList.remove('active');
+            }
+        });
+
+        // Tabs Logic
+        jasaTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active from all tabs & panes
+                jasaTabs.forEach(t => t.classList.remove('active'));
+                jasaPanes.forEach(p => p.classList.remove('active'));
+
+                // Add active to clicked tab
+                tab.classList.add('active');
+                
+                // Show corresponding pane
+                const targetId = tab.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+
+        // Data for Cards
+        const wuwaCards = [
+            { img: 'assets/logo-wuwa.jpeg', title: 'Exploration Huanglong', desc: 'Jasa eksplorasi map Huanglong hingga 100%.', price: 'Rp 160.000' },
+            { img: 'assets/logo-wuwa.jpeg', title: 'Exploration Rinascita', desc: 'Jasa eksplorasi map Rinascita hingga 100%.', price: 'Rp 115.000' },
+            { img: 'assets/logo-wuwa.jpeg', title: 'Exploration LahaiRoi', desc: 'Jasa eksplorasi map LahaiRoi hingga 100%.', price: 'Rp 275.000' },
+            { img: 'assets/logo-wuwa.jpeg', title: 'Exploration Mengzhou', desc: 'Jasa eksplorasi map Mengzhou hingga 100%.', price: 'Rp 115.000' },
+            { img: 'assets/logo-wuwa.jpeg', title: 'Main Story Quest', desc: 'Penyelesaian Main Story Quest per act.', price: 'Rp 10.000 /Quest' },
+            { img: 'assets/logo-wuwa.jpeg', title: 'Exploration Quest', desc: 'Penyelesaian Exploration Quest.', price: 'Rp 7.000 /Quest' },
+            { img: 'assets/logo-wuwa.jpeg', title: 'Companion Story Quest', desc: 'Penyelesaian Companion Story Quest.', price: 'Rp 7.000 /Quest' },
+            { img: 'assets/logo-wuwa.jpeg', title: 'Side Quests', desc: 'Penyelesaian Side Quests satuan.', price: 'Rp 2.000 /Quest' },
+            { img: 'assets/profil-shorekeeper.jpeg', title: 'Farm 1.600 Astrites', desc: 'Wajib punya ladang Astrites beserta event yang memadai.', price: 'Rp 18.000' },
+            { img: 'assets/profil-shorekeeper.jpeg', title: 'Farm 3.200 Astrites', desc: 'Wajib punya ladang Astrites beserta event yang memadai.', price: 'Rp 35.000' },
+            { img: 'assets/profil-shorekeeper.jpeg', title: 'Farm 4.800 Astrites', desc: 'Wajib punya ladang Astrites beserta event yang memadai.', price: 'Rp 50.000' },
+            { img: 'assets/profil-lucila.jpeg', title: 'Rawat Akun 15 Hari', desc: 'Daily, Waveplates, Event kecil, BP harian.', price: 'Rp 40.000' },
+            { img: 'assets/profil-lucila.jpeg', title: 'Rawat Akun 30 Hari', desc: 'Daily, Waveplates, Event kecil, BP harian.', price: 'Rp 75.000' }
+        ];
+
+        const wuwaEventCards = [
+            { img: 'assets/event1.jpg', title: 'Joki Event 1', desc: 'Penyelesaian full event berjalan.', price: 'Rp 25.000' },
+            { img: 'assets/event2.jpg', title: 'Joki Event 2', desc: 'Penyelesaian full event berjalan.', price: 'Rp 20.000' },
+            { img: 'assets/event3.jpg', title: 'Joki Event 3', desc: 'Penyelesaian full event berjalan.', price: 'Rp 25.000' },
+            { img: 'assets/event4.jpg', title: 'Joki Event 4', desc: 'Penyelesaian full event berjalan.', price: 'Rp 20.000' }
+        ];
+
+        const hsrCards = [
+            { img: 'assets/logo-hsr.jpeg', title: 'MOC / Pure Fiction / AS', desc: 'Jasa joki endgame Honkai Star Rail.', price: 'Mulai Rp 10.000' },
+            { img: 'assets/logo-hsr.jpeg', title: 'Simulated Universe', desc: 'Farming SU / Swarm Disaster / G&G.', price: 'Mulai Rp 15.000' },
+            { img: 'assets/logo-hsr.jpeg', title: 'Story & Event', desc: 'Penyelesaian Story dan Event HSR.', price: 'Mulai Rp 15.000' },
+            { img: 'assets/logo-hsr.jpeg', title: 'Rawat Akun', desc: 'Daily training, trailblaze power, event.', price: 'Mulai Rp 35.000' }
+        ];
+
+        const robloxCards = [
+            { img: 'assets/logo-roblox.jpeg', title: 'Blox Fruits Leveling', desc: 'Jasa joki level Blox Fruits.', price: 'Mulai Rp 10.000' },
+            { img: 'assets/logo-roblox.jpeg', title: 'Blox Fruits Raid / Item', desc: 'Bounty hunting, Raid, Item drop.', price: 'Mulai Rp 15.000' },
+            { img: 'assets/logo-roblox.jpeg', title: 'Game Lainnya', desc: 'Request joki game Roblox lainnya.', price: 'Mulai Rp 10.000' }
+        ];
+
+        function createCardHTML(card) {
+            return `
+                <div class="jasa-card" onclick="window.open('https://wa.me/+6282172795156?text=Halo%20reyy,%20saya%20mau%20order%20${encodeURIComponent(card.title)}', '_blank')">
+                    <img src="${card.img}" class="jasa-card-img" onerror="this.src='assets/profil.png'">
+                    <div class="jasa-card-info">
+                        <div class="jasa-card-title">${card.title}</div>
+                        <div class="jasa-card-desc">${card.desc}</div>
+                        <div class="jasa-card-price">${card.price}</div>
+                    </div>
+                    <div class="jasa-card-arrow"><i class="fas fa-arrow-right"></i></div>
+                </div>
+            `;
+        }
+
+        document.getElementById('wuwa-grid').innerHTML = wuwaCards.map(createCardHTML).join('');
+        document.getElementById('wuwa-event-grid').innerHTML = wuwaEventCards.map(createCardHTML).join('');
+        document.getElementById('hsr-grid').innerHTML = hsrCards.map(createCardHTML).join('');
+        document.getElementById('roblox-grid').innerHTML = robloxCards.map(createCardHTML).join('');
+    }
+    
+    // Wire up Project and Design buttons
+    const btnProject = document.getElementById('btn-project');
+    const btnDesign = document.getElementById('btn-design');
+    if(btnProject) {
+        btnProject.addEventListener('click', () => {
+            alert('Fitur Project sedang dalam tahap pengembangan!');
+        });
+    }
+    if(btnDesign) {
+        btnDesign.addEventListener('click', () => {
+            alert('Fitur Design sedang dalam tahap pengembangan!');
+        });
+    }
+});
