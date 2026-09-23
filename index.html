@@ -30,6 +30,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="bento.css">
 </head>
 <body>
     <!-- Loading Screen -->
@@ -37,168 +38,184 @@
         <div class="loader"></div>
     </div>
 
-    <!-- Animated Background Bubbles -->
-    <ul class="bg-bubbles">
-        <li></li><li></li><li></li><li></li><li></li>
-        <li></li><li></li><li></li><li></li><li></li>
-    </ul>
-
-    <!-- Main Content Container -->
-    <main class="profile-container">
-        <!-- Banner Section -->
-        <div class="banner">
-            <!-- Video Banner Setup -->
-            <video id="dynamic-banner" class="banner-img" autoplay loop muted playsinline src=""></video>
-            <div class="banner-gradient"></div>
-            
-            <!-- View Counter Container (Dipindah ke pojok atas banner) -->
-            <div id="view-counter-container" style="position: absolute; top: 15px; left: 15px; display: flex; align-items: center; justify-content: center; z-index: 1000; pointer-events: none; background: rgba(0,0,0,0.5); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 0.85rem; backdrop-filter: blur(5px); transition: all 0.3s ease;"></div>
-            
-            <div id="open-promo-btn" style="position: absolute; top: 15px; right: 15px; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer; background: rgba(0,0,0,0.5); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 0.85rem; backdrop-filter: blur(5px); transition: all 0.3s ease;" onmouseover="this.style.background='rgba(0,0,0,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.5)'">
-                🎁 Promo
+    <!-- NAVBAR -->
+    <nav class="bento-nav">
+        <div class="nav-brand">
+            <img src="assets/logo-k.png" alt="Logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg'">
+            <span>Kazura</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="active">Home</a>
+            <a href="#" id="btn-pricelist-nav">Pricelist</a>
+            <a href="#" id="btn-reputation-nav">Testimonials</a>
+            <a href="https://wa.me/+6282172795156" target="_blank">Contact</a>
+        </div>
+        <div class="nav-actions">
+            <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="dev-mode-btn">
+                <i class="fas fa-code"></i> Dev Mode
             </div>
         </div>
+    </nav>
 
-        <!-- Profile Info Section -->
-        <header class="profile-info">
-            <div class="avatar-wrapper">
-                <!-- Foto Profil -->
-                <img id="dynamic-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" class="avatar">
-            </div>
+    <!-- BENTO GRID CONTAINER -->
+    <main class="bento-container">
+        <div class="bento-grid">
             
-            <div class="name-container" style="margin-bottom: 0.25rem;">
-                <h1 class="name">Kazura</h1>
-                <!-- Verified Badge Dinamis -->
-                <img id="dynamic-verified" src="" alt="" class="custom-verified-badge" style="display: none;" onload="this.style.display='inline-block'" onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg'">
-            </div>
-
-            <p class="bio" style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem; text-align: center;">"A life made of small moments, still unfolding. <img src='assets/leaf.gif' style='width: 18px; vertical-align: middle;' alt='🌿'>"</p>
-
-            <!-- Baris Kontak (Pindah ke Atas) -->
-            <div class="info-pills" style="margin-bottom: 2rem;">
-                <a href="https://wa.me/+6282172795156" class="pill pill-link" target="_blank">
-                    <i class="fab fa-whatsapp" style="margin-right: 4px;"></i> WhatsApp
-                </a>
-                <a href="https://instagram.com/rezaa_.06?igsh=MXZoMnkwbDRyZnhndQ==" class="pill pill-link" target="_blank">
-                    <i class="fab fa-instagram" style="margin-right: 4px;"></i> Instagram
-                </a>
-                <a href="https://www.tiktok.com/@rez_4_?is_from_webapp=1&sender_device=pc" class="pill pill-link" target="_blank">
-                    <i class="fab fa-tiktok" style="margin-right: 4px;"></i> TikTok
-                </a>
-            </div>
-
-            <!-- Status Widget -->
-            <div id="status-widget" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; max-width: 400px; width: 100%; margin-left: auto; margin-right: auto; box-sizing: border-box;">
-                <!-- Left Side: Status -->
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <div id="status-dot" style="width: 14px; height: 14px; border-radius: 50%; background-color: #00ff66; border: 2px solid rgba(0,255,102,0.3); box-shadow: 0 0 10px rgba(0,255,102,0.3); transition: all 0.3s;"></div>
-                    <div style="display: flex; flex-direction: column; text-align: left;">
-                        <span id="status-text" style="color: #fff; font-weight: 700; font-size: 1rem; letter-spacing: 0.5px;">Memuat...</span>
-                        <span style="color: #888; font-size: 0.75rem; font-weight: 500;">08:00 - 22:00 WIB</span>
+            <!-- HERO SECTION (Spans 12) -->
+            <section class="hero-card">
+                <!-- Background Image or Video -->
+                <img src="assets/profil.png" alt="Hero Background" class="hero-bg" id="dynamic-avatar" onerror="this.src='assets/showcase-wuwa.jpeg'">
+                <div class="hero-gradient"></div>
+                
+                <div class="hero-content">
+                    <div class="hero-subtitle">Design / Code / Create</div>
+                    <h1 class="hero-title">
+                        Hi, I'm <br> Kazura <i class="fas fa-check-circle verified-badge"></i>
+                    </h1>
+                    <p class="hero-desc">"A life made of small moments, still unfolding."<br>Melayani jasa joki Wuthering Waves, Honkai: Star Rail & Roblox.</p>
+                    
+                    <div class="social-links">
+                        <a href="https://wa.me/+6282172795156" class="social-btn" target="_blank">
+                            <i class="fab fa-whatsapp"></i> <span>WhatsApp</span>
+                        </a>
+                        <a href="https://instagram.com/rezaa_.06?igsh=MXZoMnkwbDRyZnhndQ==" class="social-btn" target="_blank">
+                            <i class="fab fa-instagram"></i> <span>Instagram</span>
+                        </a>
+                        <a href="https://www.tiktok.com/@rez_4_?is_from_webapp=1&sender_device=pc" class="social-btn" target="_blank">
+                            <i class="fab fa-tiktok"></i> <span>TikTok</span>
+                        </a>
                     </div>
                 </div>
+            </section>
 
-                <!-- Divider -->
-                <div style="width: 1px; height: 30px; background: rgba(255,255,255,0.1);"></div>
-
-                <!-- Right Side: Clock -->
-                <div style="display: flex; align-items: center; gap: 6px;">
-                    <i class="far fa-clock" style="color: #ccc; font-size: 1.1rem;"></i>
-                    <span id="live-clock" style="color: #fff; font-weight: 700; font-size: 1.1rem; font-variant-numeric: tabular-nums;">--:--:--</span>
+            <!-- STATUS BAR (Spans 12) -->
+            <section class="status-bar">
+                <div class="status-left">
+                    <div class="status-dot"></div>
+                    <div class="status-text">
+                        <h4 id="status-text-display">Admin Online</h4>
+                        <p>08:00 - 22:00 WIB</p>
+                    </div>
                 </div>
+                
+                <div class="status-wave">
+                    <!-- Wave will be injected via JS -->
+                </div>
+                
+                <div class="status-right">
+                    <h4 id="realtime-clock">--:--:--</h4>
+                    <p id="realtime-date">Loading...</p>
+                </div>
+            </section>
+
+            <!-- SERVICE CARDS (4 boxes spanning 3 each) -->
+            <div class="bento-card card-square" id="btn-pricelist">
+                <div class="card-icon"><i class="fas fa-gamepad"></i></div>
+                <div class="card-info">
+                    <h3>Pricelist Joki</h3>
+                    <p>Wuthering Waves, HSR, Roblox.</p>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </div>
 
-            <!-- Link Utama (Pricelist, dll) -->
-            <div class="more-info-container">
-                <div class="links">
-                    <a href="#" class="link-btn" id="btn-pricelist">
-                        <span class="blob-btn__inner">
-                            <span class="blob-btn__blobs">
-                                <span class="blob-btn__blob"></span>
-                                <span class="blob-btn__blob"></span>
-                                <span class="blob-btn__blob"></span>
-                                <span class="blob-btn__blob"></span>
-                            </span>
-                        </span>
-                        <img src="assets/emoji-pricelist.gif" alt="🏖️" class="btn-icon-img" onerror="this.onerror=null; this.outerHTML='<span class=\'btn-icon\'>🏖️</span>'">
-                        <span class="btn-text">Pricelist</span>
-                    </a>
-                    <a href="#" class="link-btn" id="btn-reputation">
-                        <span class="blob-btn__inner">
-                            <span class="blob-btn__blobs">
-                                <span class="blob-btn__blob"></span>
-                                <span class="blob-btn__blob"></span>
-                                <span class="blob-btn__blob"></span>
-                                <span class="blob-btn__blob"></span>
-                            </span>
-                        </span>
-                        <img src="assets/emoji-reputation.gif" alt="💸" class="btn-icon-img" onerror="this.onerror=null; this.outerHTML='<span class=\'btn-icon\'>💸</span>'">
-                        <span class="btn-text">Reputation</span>
-                    </a>
-                    <a href="#" class="link-btn" id="btn-watchlist">
-                        <span class="blob-btn__inner">
-                            <span class="blob-btn__blobs">
-                                <span class="blob-btn__blob"></span>
-                                <span class="blob-btn__blob"></span>
-                                <span class="blob-btn__blob"></span>
-                                <span class="blob-btn__blob"></span>
-                            </span>
-                        </span>
-                        <img src="assets/emoji-anime.gif" alt="📺" class="btn-icon-img" onerror="this.onerror=null; this.outerHTML='<span class=\'btn-icon\'>📺</span>'">
-                        <span class="btn-text">List Nonton</span>
-                    </a>
-                    <a href="https://discord.com/invite/bFGDDUhhAD" class="link-btn" target="_blank">
-                        <span class="blob-btn__inner">
-                            <span class="blob-btn__blobs">
-                                <span class="blob-btn__blob"></span>
-                                <span class="blob-btn__blob"></span>
-                                <span class="blob-btn__blob"></span>
-                                <span class="blob-btn__blob"></span>
-                            </span>
-                        </span>
-                        <img src="assets/emoji-discord.gif" alt="🏗️" class="btn-icon-img" onerror="this.onerror=null; this.outerHTML='<span class=\'btn-icon\'>🏗️</span>'">
-                        <span class="btn-text">Server Discord</span>
-                    </a>
+            <div class="bento-card card-square" id="btn-reputation">
+                <div class="card-icon"><i class="fas fa-comments"></i></div>
+                <div class="card-info">
+                    <h3>Testimonials</h3>
+                    <p>What people say about my service.</p>
                 </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
             </div>
 
-            <!-- Activity Widget (Live Data: Spotify/Games) -->
-            <div class="spotify-widget" id="activity-widget" style="display: none;">
-                <div class="spotify-header">
-                    <i class="fab fa-spotify" id="activity-icon" style="color: #1DB954;"></i>
-                    <span id="activity-header-text">Listening to Spotify</span>
+            <div class="bento-card card-square" id="btn-watchlist">
+                <div class="card-icon"><i class="fas fa-tv"></i></div>
+                <div class="card-info">
+                    <h3>List Nonton</h3>
+                    <p>Rekomendasi Anime & Donghua.</p>
                 </div>
-                <div class="spotify-body">
-                    <img src="" alt="Art" class="album-art" id="activity-art">
-                    <div class="song-info">
-                        <div class="song-title" id="activity-title">Loading...</div>
-                        <div class="song-artist" id="activity-details">Loading...</div>
-                        <div class="song-artist" id="activity-state" style="margin-bottom: 4px; display: none;"></div>
-                        <div class="progress-container" id="activity-progress-container">
-                            <span class="time" id="activity-time-start">0:00</span>
-                            <div class="progress-bar"><div class="progress-fill" id="activity-progress"></div></div>
-                            <span class="time" id="activity-time-end">0:00</span>
-                        </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+            </div>
+
+            <div class="bento-card card-square" onclick="document.getElementById('promo-modal').style.display='flex'">
+                <div class="card-icon"><i class="fas fa-gift"></i></div>
+                <div class="card-info">
+                    <h3>Promo Info</h3>
+                    <p>Check active discounts & offers.</p>
+                </div>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+            </div>
+
+            <!-- FEATURED PROJECTS HEADER -->
+            <div class="section-header">
+                <div class="section-title">
+                    <span>GAMES & SERVICES</span>
+                    <h2>Supported Games</h2>
+                </div>
+                <a href="#" class="view-all">Pricelist Details &rarr;</a>
+            </div>
+
+            <!-- FEATURED CARDS (3 boxes spanning 4 each) -->
+            <div class="project-card" onclick="document.getElementById('btn-pricelist').click()">
+                <div class="project-img">
+                    <span class="project-tag">RPG / Gacha</span>
+                    <img src="assets/showcase-wuwa.jpeg" alt="WuWa">
+                </div>
+                <div class="project-info">
+                    <h3>Wuthering Waves</h3>
+                    <p>Exploration, Quests, Farm Astrites, Account Caretaking (Basic/Premium).</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Exploration</span>
+                        <span class="tech-tag">Farming</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Baris Minat (Paling Bawah) -->
-            <div class="info-pills" style="margin-top: 1rem; margin-bottom: 1.5rem;">
-                <span class="pill">WuWa</span>
-                <span class="pill">Roblox</span>
-                <span class="pill">Donghua</span>
-                <span class="pill">Anime</span>
+            <div class="project-card" onclick="document.getElementById('btn-pricelist').click()">
+                <div class="project-img">
+                    <span class="project-tag">Turn-based</span>
+                    <img src="assets/logo-hsr.jpeg" alt="HSR">
+                </div>
+                <div class="project-info">
+                    <h3>Honkai: Star Rail</h3>
+                    <p>Exploration (Herta, Belobog, Luofu), Quest, dan Jasa Rawat Akun Harian.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Quests</span>
+                        <span class="tech-tag">Maintenance</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- Footer -->
-            <footer style="margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--text-secondary); text-align: center;">
-                <p style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-                    <img src="assets/logo-k.png" alt="K" style="width: 16px; height: 16px; border-radius: 4px; object-fit: cover;" onerror="this.onerror=null; this.outerHTML='<span style=\'font-weight: 900;\'>K</span>'">
-                    powered by reyy
-                </p>
+            <div class="project-card" onclick="document.getElementById('btn-pricelist').click()">
+                <div class="project-img">
+                    <span class="project-tag">Sandbox</span>
+                    <img src="assets/logo-roblox.jpeg" alt="Roblox">
+                </div>
+                <div class="project-info">
+                    <h3>Roblox</h3>
+                    <p>Jasa GB Blox Fruits (Lvl, Mastery, Bounty) dan game Roblox lainnya.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Blox Fruits</span>
+                        <span class="tech-tag">Grinding</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <footer class="bento-footer">
+                <div class="footer-copy">
+                    &copy; 2026 Kazura. All rights reserved. (Powered by reyy)
+                </div>
+                <div class="footer-social">
+                    <a href="https://wa.me/+6282172795156"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://instagram.com/rezaa_.06"><i class="fab fa-instagram"></i></a>
+                    <a href="https://tiktok.com/@rez_4_"><i class="fab fa-tiktok"></i></a>
+                </div>
             </footer>
-        </header>
+
+        </div>
     </main>
 
     <!-- Modal Overlay untuk Pricelist & Reputation -->
@@ -258,5 +275,6 @@
     </svg>
 
     <script src="script.js"></script>
+    <script src="bento.js"></script>
 </body>
 </html>
