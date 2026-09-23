@@ -105,6 +105,14 @@ window.addEventListener('load', () => {
             contactModal.classList.remove('active');
         });
     }
+    if(contactModal) {
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.classList.remove('active');
+            }
+        });
+    }
+
 
     // ==========================================
     // DISCORD LIVE ACTIVITY (SPOTIFY / GAMES)
