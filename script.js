@@ -403,46 +403,34 @@ window.addEventListener('load', () => {
     // Data Konten Dinamis
     const pricelistMenuHTML = `
         <div style="text-align: center;">
-            <p style="margin-bottom: 15px; color: #ccc;">Pilih Kategori Game:</p>
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <div style="display: flex; flex-direction: column; gap: 5px;">
-                    <button class="category-btn toggle-submenu">
-                        <span class="blob-btn__inner">
-                            <span class="blob-btn__blobs">
-                                <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
-                            </span>
-                        </span>
-                        <img src="assets/logo-wuwa.jpeg" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;"> 
-                        <span style="z-index: 1; position: relative;">Wuthering Waves (WuWa)</span>
+            <p style="margin-bottom: 20px; color: var(--text-secondary); font-weight: 600;">Pilih Kategori Game:</p>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <button class="bento-modal-btn toggle-submenu">
+                        <img src="assets/logo-wuwa.jpeg"> 
+                        <span>Wuthering Waves (WuWa)</span>
+                        <i class="fas fa-chevron-down"></i>
                     </button>
-                    <div class="submenu-container" style="display: none; flex-direction: column; gap: 8px; margin-left: 15px; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 15px;">
-                        <button class="category-btn" data-category="wuwa" style="padding: 12px 15px; font-size: 0.9rem;">
-                            <span class="blob-btn__inner"><span class="blob-btn__blobs"><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span></span></span>
-                            <span style="z-index: 1; position: relative;">Joki Umum</span>
+                    <div class="submenu-container" style="display: none; flex-direction: column; gap: 8px; margin-left: 20px; border-left: 2px solid var(--border-color); padding-left: 15px;">
+                        <button class="bento-modal-btn" data-category="wuwa" style="padding: 10px 15px; font-size: 0.9rem;">
+                            <span>Joki Umum</span>
+                            <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i>
                         </button>
-                        <button class="category-btn" data-category="wuwa-event" style="padding: 12px 15px; font-size: 0.9rem;">
-                            <span class="blob-btn__inner"><span class="blob-btn__blobs"><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span></span></span>
-                            <span style="z-index: 1; position: relative;">Joki Event</span>
+                        <button class="bento-modal-btn" data-category="wuwa-event" style="padding: 10px 15px; font-size: 0.9rem;">
+                            <span>Joki Event</span>
+                            <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i>
                         </button>
                     </div>
                 </div>
-                <button class="category-btn" data-category="hsr">
-                    <span class="blob-btn__inner">
-                        <span class="blob-btn__blobs">
-                            <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
-                        </span>
-                    </span>
-                    <img src="assets/logo-hsr.jpeg" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;"> 
-                    <span style="z-index: 1; position: relative;">Honkai: Star Rail (HSR)</span>
+                <button class="bento-modal-btn" data-category="hsr">
+                    <img src="assets/logo-hsr.jpeg"> 
+                    <span>Honkai: Star Rail (HSR)</span>
+                    <i class="fas fa-arrow-right"></i>
                 </button>
-                <button class="category-btn" data-category="roblox">
-                    <span class="blob-btn__inner">
-                        <span class="blob-btn__blobs">
-                            <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
-                        </span>
-                    </span>
-                    <img src="assets/logo-roblox.jpeg" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;"> 
-                    <span style="z-index: 1; position: relative;">Roblox</span>
+                <button class="bento-modal-btn" data-category="roblox">
+                    <img src="assets/logo-roblox.jpeg"> 
+                    <span>Roblox (Blox Fruits)</span>
+                    <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
         </div>
@@ -752,36 +740,12 @@ window.addEventListener('load', () => {
     };
 
     const reputationMenuHTML = `
-        <div style="text-align: center;">
-            <p style="margin-bottom: 15px; color: #ccc;">Pilih Kategori Game:</p>
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button class="category-btn" data-reputation="wuwa">
-                    <span class="blob-btn__inner">
-                        <span class="blob-btn__blobs">
-                            <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
-                        </span>
-                    </span>
-                    <img src="assets/logo-wuwa.jpeg" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;"> 
-                    <span style="z-index: 1; position: relative;">Testimoni WuWa</span>
-                </button>
-                <button class="category-btn" data-reputation="hsr">
-                    <span class="blob-btn__inner">
-                        <span class="blob-btn__blobs">
-                            <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
-                        </span>
-                    </span>
-                    <img src="assets/logo-hsr.jpeg" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;"> 
-                    <span style="z-index: 1; position: relative;">Testimoni HSR</span>
-                </button>
-                <button class="category-btn" data-reputation="roblox">
-                    <span class="blob-btn__inner">
-                        <span class="blob-btn__blobs">
-                            <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
-                        </span>
-                    </span>
-                    <img src="assets/logo-roblox.jpeg" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;"> 
-                    <span style="z-index: 1; position: relative;">Testimoni Roblox</span>
-                </button>
+        <div style="text-align: center; margin-top: 5px;">
+            <p style="margin-bottom: 1rem; color: var(--text-primary); font-weight: 600;">Semua Testimoni Terpercaya 💯</p>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 15px;">(Klik gambar untuk memperbesar)</p>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; align-items: start;">
+                ${wuwaTestimoniHTML}
+                ${robloxTestimoniHTML}
             </div>
         </div>
     `;
@@ -822,31 +786,23 @@ window.addEventListener('load', () => {
         'Reputation': reputationMenuHTML,
         'Watchlist': `
             <div style="text-align: center;">
-                <p style="margin-bottom: 0.5rem; color: #fff; font-size: 1.1rem; font-weight: 600;">📺 List Nonton</p>
+                <p style="margin-bottom: 0.5rem; color: var(--text-primary); font-size: 1.1rem; font-weight: 600;">📺 List Nonton</p>
                 <p style="color: #ffeb3b; font-size: 0.8rem; margin-bottom: 1.5rem; font-style: italic; background: rgba(255,235,59,0.1); padding: 8px; border-radius: 8px; border: 1px solid rgba(255,235,59,0.3);">
                     ⚠️ <b>Peringatan:</b> Ini hanyalah daftar rekomendasi tontonan favorit saya, <b>BUKAN</b> platform atau link untuk menonton!
                 </p>
                 
-                <p style="margin-bottom: 15px; color: #ccc;">Pilih Daftar Tontonan:</p>
+                <p style="margin-bottom: 15px; color: var(--text-secondary);">Pilih Daftar Tontonan:</p>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <a href="https://my-horror-collection.vercel.app/" target="_blank" class="category-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: flex-start; position: relative; overflow: hidden;">
-                        <span class="blob-btn__inner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.3;">
-                            <span class="blob-btn__blobs">
-                                <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
-                            </span>
-                        </span>
-                        <img src="assets/emoji-reputation.gif" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;" onerror="this.onerror=null; this.outerHTML='<span style=\\'font-size:24px; margin-right:12px; z-index:1; position:relative;\\'>👻</span>'"> 
-                        <span style="z-index: 1; position: relative;">List Tontonan Horor</span>
+                    <a href="https://my-horror-collection.vercel.app/" target="_blank" class="bento-modal-btn" style="text-decoration: none;">
+                        <span style="font-size:24px; margin-right:15px; position:relative;">👻</span>
+                        <span>List Tontonan Horor</span>
+                        <i class="fas fa-arrow-right"></i>
                     </a>
                     
-                    <a href="https://my-anime-collection-kappa.vercel.app/" target="_blank" class="category-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: flex-start; position: relative; overflow: hidden;">
-                        <span class="blob-btn__inner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.3;">
-                            <span class="blob-btn__blobs">
-                                <span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span><span class="blob-btn__blob"></span>
-                            </span>
-                        </span>
-                        <img src="assets/emoji-anime.gif" style="width:24px; height:24px; border-radius:4px; margin-right:12px; z-index: 1; position: relative;" onerror="this.onerror=null; this.outerHTML='<span style=\\'font-size:24px; margin-right:12px; z-index:1; position:relative;\\'>📺</span>'"> 
-                        <span style="z-index: 1; position: relative;">Anime & Donghua</span>
+                    <a href="https://my-anime-collection-kappa.vercel.app/" target="_blank" class="bento-modal-btn" style="text-decoration: none;">
+                        <img src="assets/emoji-anime.gif" style="width:24px; height:24px; border-radius:4px; margin-right:15px; position: relative;" onerror="this.onerror=null; this.outerHTML='<span style=\'font-size:24px; margin-right:15px; position:relative;\'>🎌</span>'"> 
+                        <span>List Tontonan Anime</span>
+                        <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
@@ -886,7 +842,7 @@ window.addEventListener('load', () => {
         }
 
         // 1. Logika untuk klik tombol kategori game (WuWa, HSR, Roblox)
-        const categoryBtn = e.target.closest('.category-btn');
+        const categoryBtn = e.target.closest('.category-btn') || e.target.closest('.bento-modal-btn');
         if (categoryBtn && !categoryBtn.classList.contains('toggle-submenu')) {
             const priceCat = categoryBtn.getAttribute('data-category');
             if (priceCat && pricelistDetails[priceCat]) {
