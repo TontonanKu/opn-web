@@ -290,11 +290,12 @@ a {
 .status-wave {
     flex: 1;
     margin: 0 40px;
-    height: 20px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.2;
+    transform: scale(0.65);
+    transform-origin: center;
 }
 
 .status-right {
@@ -631,33 +632,55 @@ a {
 @media (max-width: 768px) {
     .bento-nav {
         padding: 15px 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    .nav-brand {
+        flex: 1;
+    }
+    .nav-actions {
+        flex: 1;
+        justify-content: flex-end;
     }
     .nav-links {
-        display: none; /* Hide on mobile */
+        display: inline-flex !important;
+        order: 3;
+        width: 100%;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 5px;
+    }
+    /* Hide scrollbar for nav-links on mobile but keep it scrollable */
+    .nav-links::-webkit-scrollbar {
+        display: none;
     }
     .bento-container {
         padding: 0 15px 20px 15px;
     }
     .hero-card {
-        padding: 25px;
+        padding: 25px 15px;
         min-height: 300px;
     }
     .hero-title {
         font-size: 2.5rem;
     }
     .social-btn span {
-        display: none; /* Hide text on mobile, just icons */
+        display: none;
     }
     .status-bar {
         flex-direction: column;
         gap: 15px;
-        align-items: flex-start;
+        align-items: center;
+        text-align: center;
     }
     .status-wave {
-        display: none;
+        display: flex;
+        margin: 10px 0;
+        width: 100%;
+        transform: scale(0.8);
     }
     .status-right {
-        text-align: left;
+        text-align: center;
     }
     .card-square { grid-column: span 12; }
     .project-card { grid-column: span 12; }
