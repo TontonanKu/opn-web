@@ -1528,7 +1528,7 @@ a {
 /* =========================================
    TRUCK ANIMATION (from Uiverse.io)
    ========================================= */
-.loader {
+.truck-loader {
   width: fit-content;
   height: fit-content;
   display: flex;
