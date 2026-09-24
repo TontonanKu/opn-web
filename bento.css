@@ -1532,70 +1532,95 @@ a {
 }
 
 /* =========================================
-   TRUCK ANIMATION (from Uiverse.io)
+   BOUNCING LOADER ANIMATION (from Uiverse.io)
    ========================================= */
-.truck-loader {
-  width: fit-content;
-  height: fit-content;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.truckWrapper {
+.b-wrapper {
   width: 200px;
-  height: 100px;
-  display: flex;
-  flex-direction: column;
+  height: 60px;
   position: relative;
-  align-items: center;
-  justify-content: flex-end;
-  overflow-x: hidden;
+  z-index: 1;
 }
 
-.truckBody {
-  width: 130px;
-  height: fit-content;
-  margin-bottom: 6px;
-  animation: motion 1s linear infinite;
-}
-
-@keyframes motion {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(3px); }
-  100% { transform: translateY(0px); }
-}
-
-.truckTires {
-  width: 130px;
-  height: fit-content;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0px 10px 0px 15px;
+.b-circle {
+  width: 20px;
+  height: 20px;
   position: absolute;
-  bottom: 0;
-}
-.truckTires svg {
-  width: 24px;
-}
-
-.road {
-  width: 100%;
-  height: 1.5px;
-  background-color: #282828;
-  position: relative;
-  bottom: 0;
-  border-radius: 3px;
-  margin: 0px;
-  animation: roadAnimation 1.4s linear infinite;
-  border-left: 300px dashed #282828;
-  border-right: 300px dashed #282828;
+  border-radius: 50%;
+  background-color: #fff;
+  left: 15%;
+  transform-origin: 50%;
+  animation: circle7124 .5s alternate infinite ease;
 }
 
-@keyframes roadAnimation {
-  0% { transform: translateX(0px); }
-  100% { transform: translateX(-350px); }
+@keyframes circle7124 {
+  0% {
+    top: 60px;
+    height: 5px;
+    border-radius: 50px 50px 25px 25px;
+    transform: scaleX(1.7);
+  }
+
+  40% {
+    height: 20px;
+    border-radius: 50%;
+    transform: scaleX(1);
+  }
+
+  100% {
+    top: 0%;
+  }
+}
+
+.b-circle:nth-child(2) {
+  left: 45%;
+  animation-delay: .2s;
+}
+
+.b-circle:nth-child(3) {
+  left: auto;
+  right: 15%;
+  animation-delay: .3s;
+}
+
+.b-shadow {
+  width: 20px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(0,0,0,0.9);
+  position: absolute;
+  top: 62px;
+  transform-origin: 50%;
+  z-index: -1;
+  left: 15%;
+  filter: blur(1px);
+  animation: shadow046 .5s alternate infinite ease;
+}
+
+@keyframes shadow046 {
+  0% {
+    transform: scaleX(1.5);
+  }
+
+  40% {
+    transform: scaleX(1);
+    opacity: .7;
+  }
+
+  100% {
+    transform: scaleX(.2);
+    opacity: .4;
+  }
+}
+
+.b-shadow:nth-child(4) {
+  left: 45%;
+  animation-delay: .2s
+}
+
+.b-shadow:nth-child(5) {
+  left: auto;
+  right: 15%;
+  animation-delay: .3s;
 }
 
 /* Hide all scrollbars for a cleaner UI */
