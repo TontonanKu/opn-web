@@ -79,13 +79,13 @@ window.addEventListener('load', () => {
     if(btnProjectNav) {
         btnProjectNav.addEventListener('click', (e) => {
             e.preventDefault();
-            projectModal.classList.add('active');
+            window.closeAllNavModals(); projectModal.classList.add('active');
             renderProjects('all');
         });
     }
     if(closeProjectBtn) {
         closeProjectBtn.addEventListener('click', () => {
-            projectModal.classList.remove('active');
+            projectModal.classList.remove('active'); window.resetNavToHome();
         });
     }
 
@@ -97,18 +97,19 @@ window.addEventListener('load', () => {
     if(btnContactNav) {
         btnContactNav.addEventListener('click', (e) => {
             e.preventDefault();
-            contactModal.classList.add('active');
+            window.closeAllNavModals(); contactModal.classList.add('active');
         });
     }
     if(closeContactBtn) {
         closeContactBtn.addEventListener('click', () => {
-            contactModal.classList.remove('active');
+            contactModal.classList.remove('active'); window.resetNavToHome();
         });
     }
     if(contactModal) {
         contactModal.addEventListener('click', (e) => {
             if (e.target === contactModal) {
                 contactModal.classList.remove('active');
+                window.resetNavToHome();
             }
         });
     }
@@ -1000,11 +1001,11 @@ window.openLightbox = function(src, index = 0) {
             `).join('');
         }
         
-        document.getElementById('close-reputation-btn').addEventListener('click', () => repModal.classList.remove('active'));
-        repModal.addEventListener('click', (e) => { if(e.target === repModal) repModal.classList.remove('active'); });
+        document.getElementById('close-reputation-btn').addEventListener('click', () => { repModal.classList.remove('active'); window.resetNavToHome(); });
+        repModal.addEventListener('click', (e) => { if(e.target === repModal) { repModal.classList.remove('active'); window.resetNavToHome(); } });
     }
 
-    if(btnReputation && repModal) { btnReputation.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); repModal.classList.add('active'); }); }
+    if(btnReputation && repModal) { btnReputation.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); window.closeAllNavModals(); repModal.classList.add('active'); }); }
 
     if(btnWatchlist) {
         btnWatchlist.addEventListener('click', (e) => {
@@ -1067,7 +1068,27 @@ window.openLightbox = function(src, index = 0) {
 // NEW JASA MODAL LOGIC (BENTO 2.0)
 // ==========================================
 window.addEventListener('DOMContentLoaded', () => {
-    const btnJoki = document.getElementById('btn-joki');
+ 
+
+    // Nav Helper Functions
+    window.resetNavToHome = function() {
+        const homeTab = document.querySelectorAll('.t-tab')[0];
+        if (homeTab) {
+            homeTab.click();
+        }
+        if (typeof updateDock === 'function') {
+            updateDock('mdock-home');
+        }
+    };
+
+    window.closeAllNavModals = function() {
+        const modals = ['project-modal', 'reputation-modal', 'contact-modal'];
+        modals.forEach(id => {
+            const m = document.getElementById(id);
+            if (m) m.classList.remove('active');
+        });
+    };
+   const btnJoki = document.getElementById('btn-joki');
     const jasaModal = document.getElementById('jasa-modal');
     const closeJasaBtn = document.getElementById('close-jasa-btn');
     const jasaTabs = document.querySelectorAll('.jasa-tab');
@@ -1172,8 +1193,8 @@ window.addEventListener('DOMContentLoaded', () => {
     
     if(btnProject && projectModal) {
         btnProject.addEventListener('click', () => projectModal.classList.add('active'));
-        document.getElementById('close-project-btn').addEventListener('click', () => projectModal.classList.remove('active'));
-        projectModal.addEventListener('click', (e) => { if(e.target === projectModal) projectModal.classList.remove('active'); });
+        document.getElementById('close-project-btn').addEventListener('click', () => { projectModal.classList.remove('active'); window.resetNavToHome(); });
+        projectModal.addEventListener('click', (e) => { if(e.target === projectModal) { projectModal.classList.remove('active'); window.resetNavToHome(); } });
     }
     if(btnDesign && designModal) {
         btnDesign.addEventListener('click', () => designModal.classList.add('active'));
