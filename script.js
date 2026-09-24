@@ -72,6 +72,17 @@ window.addEventListener('load', () => {
     });
 
     
+    
+    const btnHomeNav = document.getElementById('btn-home-nav');
+    if(btnHomeNav) {
+        btnHomeNav.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.closeAllNavModals();
+            if (typeof updateDock === 'function') updateDock('mdock-home');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
     const btnProjectNav = document.getElementById('btn-project-nav');
     const projectModal = document.getElementById('project-modal');
     const closeProjectBtn = document.getElementById('close-project-btn');
@@ -1410,8 +1421,8 @@ window.addEventListener('DOMContentLoaded', () => {
     if(mdockHome) {
         mdockHome.addEventListener('click', (e) => {
             e.preventDefault();
-            document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
-            updateDock('mdock-home');
+            window.closeAllNavModals();
+            window.resetNavToHome();
         });
     }
 
