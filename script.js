@@ -1371,4 +1371,64 @@ window.addEventListener('DOMContentLoaded', () => {
             if(e.target === drawerOverlay) closeProjectDrawer();
         });
     }
+
+    // Mobile Dock Logic
+    const dockItems = document.querySelectorAll('.dock-item');
+    
+    function updateDock(activeId) {
+        dockItems.forEach(item => {
+            if(item.id === activeId) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+
+    const mdockHome = document.getElementById('mdock-home');
+    if(mdockHome) {
+        mdockHome.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+            updateDock('mdock-home');
+        });
+    }
+
+    const mdockProjects = document.getElementById('mdock-projects');
+    if(mdockProjects) {
+        mdockProjects.addEventListener('click', (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-project-nav');
+            if(btn) btn.click();
+            updateDock('mdock-projects');
+        });
+    }
+
+    const mdockReputation = document.getElementById('mdock-reputation');
+    if(mdockReputation) {
+        mdockReputation.addEventListener('click', (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-reputation-nav');
+            if(btn) btn.click();
+            updateDock('mdock-reputation');
+        });
+    }
+
+    const mdockContact = document.getElementById('mdock-contact');
+    if(mdockContact) {
+        mdockContact.addEventListener('click', (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-contact-nav');
+            if(btn) btn.click();
+            updateDock('mdock-contact');
+        });
+    }
+
+    // Reset dock to home when modals are closed
+    document.querySelectorAll('.close-modal').forEach(btn => {
+        btn.addEventListener('click', () => {
+            updateDock('mdock-home');
+        });
+    });
+
 });

@@ -643,7 +643,7 @@ a {
         justify-content: flex-end;
     }
     .nav-links {
-        display: inline-flex !important;
+        display: none !important;
         order: 3;
         width: 100%;
         overflow-x: auto;
@@ -683,6 +683,74 @@ a {
         text-align: center;
     }
     .card-square { grid-column: span 12; }
+
+    .mobile-dock {
+        display: flex;
+        position: fixed;
+        bottom: 25px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(21, 21, 26, 0.7); /* var(--bg-card) with opacity */
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 8px 12px;
+        border-radius: 35px;
+        z-index: 2000;
+        gap: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+    [data-theme="light"] .mobile-dock {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+    .dock-item {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-secondary);
+        border-radius: 20px;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        position: relative;
+    }
+    .dock-item:active {
+        transform: scale(0.85);
+    }
+    .dock-item i {
+        font-size: 1.25rem;
+        transition: all 0.3s;
+    }
+    .dock-item.active {
+        color: var(--text-primary);
+        background: rgba(255, 255, 255, 0.05);
+    }
+    [data-theme="light"] .dock-item.active {
+        background: rgba(0, 0, 0, 0.05);
+    }
+    .dock-item.active i {
+        transform: translateY(-2px);
+        color: var(--text-primary);
+    }
+    .dock-indicator {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--text-primary);
+        position: absolute;
+        bottom: 6px;
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform: scale(0);
+    }
+    .dock-item.active .dock-indicator {
+        opacity: 1;
+        transform: scale(1);
+    }
+
     .project-card { grid-column: span 12; }
     .testi-card { grid-column: span 12; }
     .bento-footer {
@@ -1653,4 +1721,8 @@ a {
 * {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+}
+
+.mobile-dock {
+    display: none;
 }
