@@ -1087,9 +1087,13 @@ window.addEventListener('DOMContentLoaded', () => {
         if (homeTab) {
             homeTab.click();
         }
-        if (typeof updateDock === 'function') {
-            updateDock('mdock-home');
-        }
+        document.querySelectorAll('.dock-item').forEach(item => {
+            if(item.id === 'mdock-home') {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
     };
 
     window.closeAllNavModals = function() {
