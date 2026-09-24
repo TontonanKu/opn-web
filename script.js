@@ -1218,13 +1218,13 @@ const projectsData = [
         desc: "Aplikasi web responsif untuk platform ZuraDown.",
         
         // FOTO UTAMA (di Project Card)
-        img: "assets/showcase-wuwa.jpeg",
+        img: "assets/zuradown-cover.png",
         
         // FOTO PREVIEW (di dalam Laci Detail) - Isi dengan 3 link gambar
         previews: [
-            "assets/showcase-wuwa.jpeg",
-            "assets/showcase-wuwa.jpeg",
-            "assets/showcase-wuwa.jpeg"
+            "assets/zuradown-preview-1.png",
+            "assets/zuradown-preview-2.png",
+            "assets/zuradown-preview-3.png"
         ],
 
         completed: "2024",

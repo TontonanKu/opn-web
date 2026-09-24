@@ -77,17 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateClock, 1000);
     updateClock(); // Initial call
 
-    // 3. Simple Wave Animation using Canvas (Optional enhancement for the status bar)
-    const waveContainer = document.querySelector('.status-wave');
-    if (waveContainer) {
-        // Can be replaced with SVG, for now just a placeholder for the visual in the design
-        waveContainer.innerHTML = `
-            <svg width="200" height="20" viewBox="0 0 200 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0,10 Q25,20 50,10 T100,10 T150,10 T200,10" fill="none" stroke="var(--accent-orange)" stroke-width="1.5" stroke-linecap="round"/>
-                <circle cx="100" cy="10" r="3" fill="var(--accent-orange)"/>
-            </svg>
-        `;
-    }
+    // 3. Truck animation is hardcoded in HTML
 
     // 4. Hook Nav buttons to click existing buttons
     const btnPricelistNav = document.getElementById('btn-pricelist-nav');
