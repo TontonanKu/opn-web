@@ -1085,6 +1085,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const closeDonateBtn = document.getElementById('close-donate-btn');
     const confirmDonateBtn = document.getElementById('confirm-donate-btn');
     const donateSuccessAnim = document.getElementById('donate-success-anim');
+    const donateQrisContainer = document.getElementById('donate-qris-container');
 
     if(btnDonateNav) {
         btnDonateNav.addEventListener('click', (e) => {
@@ -1092,8 +1093,8 @@ window.addEventListener('DOMContentLoaded', () => {
             window.closeAllNavModals();
             donateModal.classList.add('active');
             // Reset state
-            confirmDonateBtn.style.display = 'flex';
-            donateSuccessAnim.style.display = 'none';
+            if(donateQrisContainer) donateQrisContainer.style.display = 'block';
+            if(donateSuccessAnim) donateSuccessAnim.style.display = 'none';
         });
     }
     if(closeDonateBtn) {
@@ -1110,9 +1111,10 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     if(confirmDonateBtn) {
         confirmDonateBtn.addEventListener('click', () => {
-            // Animasi transisi
-            confirmDonateBtn.style.display = 'none';
-            donateSuccessAnim.style.display = 'block';
+            // Sembunyikan QRIS dan tombol
+            if(donateQrisContainer) donateQrisContainer.style.display = 'none';
+            // Tampilkan pesan sukses
+            if(donateSuccessAnim) donateSuccessAnim.style.display = 'block';
         });
     }
 
