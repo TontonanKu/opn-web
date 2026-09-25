@@ -1080,6 +1080,42 @@ window.openLightbox = function(src, index = 0) {
 // ==========================================
 window.addEventListener('DOMContentLoaded', () => {
  
+    const btnDonateNav = document.getElementById('btn-donate-nav');
+    const donateModal = document.getElementById('donate-modal');
+    const closeDonateBtn = document.getElementById('close-donate-btn');
+    const confirmDonateBtn = document.getElementById('confirm-donate-btn');
+    const donateSuccessAnim = document.getElementById('donate-success-anim');
+
+    if(btnDonateNav) {
+        btnDonateNav.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.closeAllNavModals();
+            donateModal.classList.add('active');
+            // Reset state
+            confirmDonateBtn.style.display = 'flex';
+            donateSuccessAnim.style.display = 'none';
+        });
+    }
+    if(closeDonateBtn) {
+        closeDonateBtn.addEventListener('click', () => {
+            donateModal.classList.remove('active'); 
+        });
+    }
+    if(donateModal) {
+        donateModal.addEventListener('click', (e) => {
+            if (e.target === donateModal) {
+                donateModal.classList.remove('active');
+            }
+        });
+    }
+    if(confirmDonateBtn) {
+        confirmDonateBtn.addEventListener('click', () => {
+            // Animasi transisi
+            confirmDonateBtn.style.display = 'none';
+            donateSuccessAnim.style.display = 'block';
+        });
+    }
+
 
     // Nav Helper Functions
     window.resetNavToHome = function() {

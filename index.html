@@ -55,8 +55,8 @@
             <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
                 <i class="fas fa-moon"></i>
             </button>
-            <div class="dev-mode-btn">
-                <i class="fas fa-code"></i> Dev Mode
+            <div class="donate-btn" id="btn-donate-nav">
+                <i class="fas fa-hand-holding-heart"></i> Donate
             </div>
         </div>
     </nav>
@@ -770,6 +770,32 @@
             <div class="dock-indicator"></div>
         </a>
     </nav>
+
+
+    <!-- DONATE MODAL -->
+    <div class="modal-overlay" id="donate-modal">
+        <div class="modal-content donate-content">
+            <div class="modal-header">
+                <h2 class="section-title"><i class="fas fa-gift"></i> Support Me</h2>
+                <button class="close-modal" id="close-donate-btn">&times;</button>
+            </div>
+            
+            <div class="donate-body" style="text-align: center; padding: 20px 0;">
+                <p style="color: var(--text-secondary); margin-bottom: 20px;">Support kreator dengan berdonasi via QRIS</p>
+                <img src="assets/qris.png" alt="QRIS" style="max-width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                <button id="confirm-donate-btn" class="b-btn" style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px; background: var(--accent-orange); color: white;">
+                    <i class="fas fa-check-circle"></i> Saya Sudah Donasi
+                </button>
+                <div id="donate-success-anim" style="display: none; margin-top: 20px;">
+                    <div style="font-size: 3rem; color: #4CAF50; animation: bounceIn 0.5s;">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 style="margin-top: 10px; color: var(--text-primary);">Terima Kasih! 🎉</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Donasi kamu sangat berarti buat kreator.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
