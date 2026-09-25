@@ -1004,12 +1004,33 @@ window.openLightbox = function(src, index = 0) {
         
         // Let's populate the grid
         const repGrid = document.getElementById('reputation-grid');
-        if(repGrid) {
-            repGrid.innerHTML = [...testimoniWuWaImages.map(img => 'testimoni-wuwa/' + img), ...testimoniRobloxImages.map(img => 'testimoni-roblox/' + img)].map((src, i) => `
-                <div class="testi-img-wrapper" onclick="openLightbox('${src}', ${i})" style="cursor: pointer; overflow: hidden; border-radius: 12px; border: 1px solid var(--border-color); aspect-ratio: 1;">
-                    <img src="${src}" alt="Testimoni ${i+1}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        const testiTabs = document.querySelectorAll('#testi-tabs-container .jasa-tab');
+        
+        const allTestis = [
+            ...testimoniWuWaImages.map(img => ({src: 'testimoni-wuwa/' + img, category: 'wuwa'})),
+            ...testimoniRobloxImages.map(img => ({src: 'testimoni-roblox/' + img, category: 'roblox'}))
+        ];
+
+        function renderTestis(filter) {
+            if(!repGrid) return;
+            const filtered = filter === 'all' ? allTestis : allTestis.filter(t => t.category === filter);
+            repGrid.innerHTML = filtered.map((t, i) => `
+                <div class="testi-img-wrapper" onclick="openLightbox('${t.src}')" style="cursor: pointer; overflow: hidden; border-radius: 12px; border: 1px solid var(--border-color); aspect-ratio: 1;">
+                    <img src="${t.src}" alt="Testimoni" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                 </div>
             `).join('');
+        }
+
+        if(repGrid) {
+            renderTestis('all');
+            
+            testiTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    testiTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    renderTestis(tab.getAttribute('data-testi-filter'));
+                });
+            });
         }
         
         document.getElementById('close-reputation-btn').addEventListener('click', () => { repModal.classList.remove('active'); window.resetNavToHome(); });
