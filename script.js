@@ -1100,6 +1100,8 @@ window.openLightbox = function(src, index = 0) {
 // NEW JASA MODAL LOGIC (BENTO 2.0)
 // ==========================================
 window.addEventListener('DOMContentLoaded', () => {
+    window.scrollTo(0, 0);
+    if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
  
     const btnDonateNav = document.getElementById('btn-donate-nav');
     const donateModal = document.getElementById('donate-modal');
