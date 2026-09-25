@@ -1898,3 +1898,13 @@ a {
   transform: translate(3px,3px);
   transition-duration: .3s;
 }
+
+/* Fix mobile dock overlapping modal contents */
+@media (max-width: 768px) {
+    .jasa-modal-inner {
+        padding-bottom: 100px !important;
+    }
+    .donate-body {
+        padding-bottom: 100px !important;
+    }
+}
