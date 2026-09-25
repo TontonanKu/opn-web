@@ -1585,7 +1585,7 @@ a {
 /* Location Banner */
 .contact-location-banner {
     margin-top: 30px;
-    background: linear-gradient(rgba(26,26,26,0.85), rgba(26,26,26,0.85)), url('assets/showcase-wuwa.jpeg') center/cover;
+    background: linear-gradient(rgba(26,26,26,0.85), rgba(26,26,26,0.85)), url('assets/banner-desktop-new.png') center/cover;
     border: 1px solid var(--border-color);
     border-radius: 20px;
     padding: 30px;
