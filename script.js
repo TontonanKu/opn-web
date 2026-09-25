@@ -1165,8 +1165,8 @@ window.addEventListener('DOMContentLoaded', () => {
    const btnJoki = document.getElementById('btn-joki');
     const jasaModal = document.getElementById('jasa-modal');
     const closeJasaBtn = document.getElementById('close-jasa-btn');
-    const jasaTabs = document.querySelectorAll('.jasa-tab');
-    const jasaPanes = document.querySelectorAll('.jasa-pane');
+    const jasaTabs = document.querySelectorAll('#jasa-modal .jasa-tab');
+    const jasaPanes = document.querySelectorAll('#jasa-modal .jasa-pane');
 
     if (btnJoki && jasaModal && closeJasaBtn) {
         // Open Modal
