@@ -1901,10 +1901,17 @@ a {
 
 /* Fix mobile dock overlapping modal contents */
 @media (max-width: 768px) {
-    .jasa-modal-inner {
-        padding-bottom: 100px !important;
+    /* Centered modals (Donate, Promo, etc) */
+    .modal-content {
+        margin-bottom: 100px !important;
     }
-    .donate-body {
-        padding-bottom: 100px !important;
+    
+    /* Full height drawers/modals (Project, Jasa, Testi, Project Detail) */
+    .jasa-modal-inner::after,
+    #pd-drawer > div::after {
+        content: "";
+        display: block;
+        height: 100px;
+        flex-shrink: 0;
     }
 }
