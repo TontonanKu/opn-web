@@ -31,6 +31,7 @@
     
     --glass-bg: rgba(255, 255, 255, 0.8);
     --glass-border: rgba(0, 0, 0, 0.08);
+    --pill-bg: #FFFFFF;
 }
 
 /* =========================================
@@ -1845,6 +1846,7 @@ a {
 /* Custom Donate Button from Uiverse */
 .Btn {
   height: 40px;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1870,6 +1872,8 @@ a {
 }
 
 .Btn::before {
+  z-index: 2;
+  pointer-events: none;
   width: 120%;
   height: 0;
   padding-bottom: 120%;
@@ -1893,4 +1897,40 @@ a {
 .Btn:active {
   transform: translate(3px,3px);
   transition-duration: .3s;
+}
+
+/* Apply Uiverse sweeping animation to bento cards */
+.bento-card {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* We need to override the old expanding orange circles */
+.bento-card::before,
+.bento-card::after {
+  display: none !important;
+}
+
+/* Create the sweeping white circle for bento cards */
+.bento-card > .sweeping-bg {
+  width: 250%;
+  height: 0;
+  padding-bottom: 250%;
+  position: absolute;
+  content: "";
+  background-color: white;
+  border-radius: 50%;
+  left: -50%;
+  top: -50%;
+  transition-duration: 0.6s;
+  mix-blend-mode: difference;
+  transform: translateX(-100%);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.bento-card:hover > .sweeping-bg {
+  transform: translateX(50%);
+  border-radius: 0;
 }
