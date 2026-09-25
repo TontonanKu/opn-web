@@ -1902,7 +1902,7 @@ a {
 /* Fix mobile dock overlapping modal contents */
 @media (max-width: 768px) {
     /* Push centered modals up by reducing bottom flex space, avoiding overflow clipping */
-    .modal-overlay {
+    #donate-modal, #promo-modal, #custom-modal {
         padding-bottom: 100px;
     }
     .modal-content {
