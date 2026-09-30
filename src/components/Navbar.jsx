@@ -23,30 +23,31 @@ export default function Navbar({ activeTab = 'home', onSelectTab, onOpenDonate }
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#FAF4E8]/95 backdrop-blur-md border-b-2 border-[#9E1B28] px-4 md:px-8 py-3 transition-all">
-      <div className="max-w-6xl mx-auto flex items-center justify-between">
-        {/* Brand */}
-        <button 
-          onClick={() => handleTabClick('home')} 
-          className="flex items-center gap-2.5 group text-left cursor-pointer"
-        >
-          <div className="w-10 h-10 rounded-xl bg-[#9E1B28] flex items-center justify-center text-white font-black text-xl shadow-xs group-hover:scale-105 transition-transform border border-[#7A111C]">
-            Z
-          </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-xl text-[#9E1B28] tracking-tight font-['Outfit']">
-                zura-w
-              </span>
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#E58327] text-white">
-                GameTech & AI
-              </span>
+    <>
+      <header className="fixed top-0 left-0 right-0 z-50 w-full bg-[#FAF4E8]/95 backdrop-blur-md border-b-2 border-[#9E1B28] px-4 md:px-8 py-3 shadow-md transition-all">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          {/* Brand */}
+          <button 
+            onClick={() => handleTabClick('home')} 
+            className="flex items-center gap-2.5 group text-left cursor-pointer"
+          >
+            <div className="w-10 h-10 rounded-xl bg-[#9E1B28] flex items-center justify-center text-white font-black text-xl shadow-xs group-hover:scale-105 transition-transform border border-[#7A111C]">
+              Z
             </div>
-            <p className="text-[11px] text-[#6B5B5E] font-medium hidden sm:block">
-              {personalInfo.name} • Polibatam
-            </p>
-          </div>
-        </button>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-xl text-[#9E1B28] tracking-tight font-['Outfit']">
+                  zura-w
+                </span>
+                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#E58327] text-white">
+                  Official Store
+                </span>
+              </div>
+              <p className="text-[11px] text-[#6B5B5E] font-medium hidden sm:block">
+                {personalInfo.name} • Game & Store
+              </p>
+            </div>
+          </button>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-2">
@@ -125,5 +126,8 @@ export default function Navbar({ activeTab = 'home', onSelectTab, onOpenDonate }
         </div>
       )}
     </header>
+    {/* Spacer so the page content never gets covered by the fixed navbar */}
+    <div className="h-[68px] sm:h-[72px] w-full shrink-0" aria-hidden="true" />
+  </>
   );
 }
