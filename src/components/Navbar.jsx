@@ -1,0 +1,129 @@
+import React, { useState } from 'react';
+import { Gamepad2, Sparkles, Menu, X, Heart, Home, MessageSquareQuote, HelpCircle, Layers } from 'lucide-react';
+import { personalInfo } from '../data/portfolioData';
+
+export default function Navbar({ activeTab = 'home', onSelectTab, onOpenDonate }) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navLinks = [
+    { id: 'home', name: 'Home', icon: Home },
+    { id: 'ai-projects', name: 'Project AI', icon: Sparkles },
+    { id: 'joki-game', name: 'Joki Game & Kalkulator', icon: Gamepad2 },
+    { id: 'testimoni', name: 'Testimoni', icon: MessageSquareQuote },
+    { id: 'faq', name: 'FAQ & Kontak', icon: HelpCircle },
+  ];
+
+  const waOrderUrl = `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(
+    'Halo Reihan (zura-w), saya tertarik untuk order Joki Game / diskusi Project AI.'
+  )}`;
+
+  const handleTabClick = (id) => {
+    onSelectTab(id);
+    setMobileMenuOpen(false);
+  };
+
+  return (
+    <header className="sticky top-0 z-50 bg-[#FAF4E8]/95 backdrop-blur-md border-b-2 border-[#9E1B28] px-4 md:px-8 py-3 transition-all">
+      <div className="max-w-6xl mx-auto flex items-center justify-between">
+        {/* Brand */}
+        <button 
+          onClick={() => handleTabClick('home')} 
+          className="flex items-center gap-2.5 group text-left cursor-pointer"
+        >
+          <div className="w-10 h-10 rounded-xl bg-[#9E1B28] flex items-center justify-center text-white font-black text-xl shadow-xs group-hover:scale-105 transition-transform border border-[#7A111C]">
+            Z
+          </div>
+          <div>
+            <div className="flex items-center gap-1.5">
+              <span className="font-extrabold text-xl text-[#9E1B28] tracking-tight font-['Outfit']">
+                zura-w
+              </span>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#E58327] text-white">
+                GameTech & AI
+              </span>
+            </div>
+            <p className="text-[11px] text-[#6B5B5E] font-medium hidden sm:block">
+              {personalInfo.name} • Polibatam
+            </p>
+          </div>
+        </button>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center gap-2">
+          {navLinks.map((link) => {
+            const isActive = activeTab === link.id;
+            const Icon = link.icon;
+            return (
+              <button
+                key={link.id}
+                onClick={() => handleTabClick(link.id)}
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs md:text-sm font-black transition-all cursor-pointer ${
+                  isActive
+                    ? 'bg-[#9E1B28] text-white shadow-sm border border-[#7A111C] -translate-y-0.5'
+                    : 'text-[#2B1618] hover:bg-[#F3ECE0] hover:text-[#9E1B28]'
+                }`}
+              >
+                <Icon className={`w-4 h-4 ${isActive ? 'text-[#FDE047]' : 'text-[#9E1B28]'}`} />
+                <span>{link.name}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Action Button */}
+        <div className="hidden sm:flex items-center gap-3">
+          <button
+            onClick={onOpenDonate}
+            className="flex items-center gap-2 bg-[#9E1B28] hover:bg-[#80141F] text-white text-xs md:text-sm font-extrabold px-4 py-2 rounded-full border border-[#7A111C] shadow-sm hover:shadow-md transition-all active:translate-y-0.5 cursor-pointer"
+          >
+            <Heart className="w-4 h-4 fill-[#FDE047] text-[#FDE047]" />
+            <span>Donate</span>
+          </button>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="lg:hidden p-2 rounded-lg text-[#9E1B28] hover:bg-[#F3ECE0] transition-colors"
+          aria-label="Toggle Menu"
+        >
+          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+
+      {/* Mobile Dropdown */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden mt-3 pt-3 border-t border-[#9E1B28]/20 pb-4 flex flex-col gap-2">
+          {navLinks.map((link) => {
+            const isActive = activeTab === link.id;
+            const Icon = link.icon;
+            return (
+              <button
+                key={link.id}
+                onClick={() => handleTabClick(link.id)}
+                className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl font-black text-sm text-left transition-colors cursor-pointer ${
+                  isActive
+                    ? 'bg-[#9E1B28] text-white'
+                    : 'text-[#2B1618] hover:bg-[#F3ECE0]'
+                }`}
+              >
+                <Icon className={`w-4 h-4 ${isActive ? 'text-[#FDE047]' : 'text-[#9E1B28]'}`} />
+                <span>{link.name}</span>
+              </button>
+            );
+          })}
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              onOpenDonate();
+            }}
+            className="mt-2 flex items-center justify-center gap-2 bg-[#9E1B28] text-white font-extrabold py-2.5 rounded-xl text-sm cursor-pointer shadow-sm"
+          >
+            <Heart className="w-4 h-4 fill-[#FDE047] text-[#FDE047]" />
+            <span>Donate via QRIS</span>
+          </button>
+        </div>
+      )}
+    </header>
+  );
+}
