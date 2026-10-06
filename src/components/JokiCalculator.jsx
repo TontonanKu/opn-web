@@ -3,12 +3,14 @@ import {
   Calculator, MessageCircle, Sparkles, Check, Flame, Clock, 
   ShieldCheck, Download, Copy, AlertCircle, ArrowRight 
 } from 'lucide-react';
-import { jokiGames, personalInfo } from '../data/portfolioData';
+import { getJokiGames, personalInfo } from '../data/portfolioData';
 import { generateInvoiceImage } from '../utils/generateInvoiceImage';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function JokiCalculator() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const jokiGames = useMemo(() => getJokiGames(lang), [lang]);
+
   const [selectedGameId, setSelectedGameId] = useState('mlbb');
   const [currentRankIndex, setCurrentRankIndex] = useState(2); // e.g. Epic
   const [targetRankIndex, setTargetRankIndex] = useState(4);  // e.g. Mythic
@@ -39,13 +41,13 @@ export default function JokiCalculator() {
   const calculation = useMemo(() => {
     let basePrice = 0;
     let description = '';
-    let estimatedTime = '1 - 2 Hari';
+    let estimatedTime = lang === 'en' ? '1 - 2 Days' : '1 - 2 Hari';
 
     if (isDirectServiceGame) {
       const service = activeGame.ranks[safeServiceIndex] || activeGame.ranks[0];
       basePrice = service.pricePerStar;
       description = service.name;
-      estimatedTime = service.estimatedTime || '1 - 3 Hari';
+      estimatedTime = service.estimatedTime || (lang === 'en' ? '1 - 3 Days' : '1 - 3 Hari');
     } else {
       // MOBA Rank Progression (MLBB)
       const fromRank = activeGame.ranks[safeCurrentRank];
@@ -64,7 +66,9 @@ export default function JokiCalculator() {
         basePrice = Math.round(avgPrice * starCount * Math.max(1, safeTargetRank - safeCurrentRank));
       }
 
-      estimatedTime = safeTargetRank - safeCurrentRank <= 1 ? '1 - 2 Hari' : '2 - 4 Hari';
+      estimatedTime = safeTargetRank - safeCurrentRank <= 1 
+        ? (lang === 'en' ? '1 - 2 Days' : '1 - 2 Hari') 
+        : (lang === 'en' ? '2 - 4 Days' : '2 - 4 Hari');
     }
 
     // Addons calculations
@@ -73,18 +77,18 @@ export default function JokiCalculator() {
 
     if (isExpress) {
       const cost = Math.round(basePrice * 0.20);
-      activeAddons.push({ name: 'Express Kilat (+20%)', price: cost });
+      activeAddons.push({ name: lang === 'en' ? 'Express Rush (+20%)' : 'Express Kilat (+20%)', price: cost });
       addonSum += cost;
     }
 
     if (isLiveStream) {
       const cost = 15000;
-      activeAddons.push({ name: 'Private Live Stream Discord', price: cost });
+      activeAddons.push({ name: lang === 'en' ? 'Private Live Stream Discord' : 'Private Live Stream Discord', price: cost });
       addonSum += cost;
     }
 
     if (isHeroRequest) {
-      activeAddons.push({ name: 'Request Hero / Jam Main (Gratis)', price: 0 });
+      activeAddons.push({ name: lang === 'en' ? 'Request Hero / Playing Hours (Free)' : 'Request Hero / Jam Main (Gratis)', price: 0 });
     }
 
     const finalTotal = basePrice + addonSum;
@@ -96,7 +100,7 @@ export default function JokiCalculator() {
       finalTotal,
       estimatedTime
     };
-  }, [activeGame, isDirectServiceGame, safeCurrentRank, safeTargetRank, safeServiceIndex, starCount, isExpress, isLiveStream, isHeroRequest]);
+  }, [activeGame, isDirectServiceGame, safeCurrentRank, safeTargetRank, safeServiceIndex, starCount, isExpress, isLiveStream, isHeroRequest, lang]);
 
   // Unique Order ID
   const orderId = useMemo(() => {
@@ -126,11 +130,11 @@ export default function JokiCalculator() {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      setToastMessage('✓ Gambar struk berhasil disimpan ke perangkatmu!');
+      setToastMessage(t.joki.toastDownloaded);
       setTimeout(() => setToastMessage(''), 4000);
     } catch (err) {
       console.error(err);
-      alert('Gagal membuat gambar struk kalkulator.');
+      alert(lang === 'en' ? 'Failed to generate calculator receipt image.' : 'Gagal membuat gambar struk kalkulator.');
     } finally {
       setIsGeneratingImage(false);
     }
@@ -155,7 +159,7 @@ export default function JokiCalculator() {
           new ClipboardItem({ 'image/png': blob })
         ]);
         setCopySuccess(true);
-        setToastMessage('✓ Gambar struk tersalin! Tekan Ctrl+V di WhatsApp untuk tempel.');
+        setToastMessage(t.joki.toastCopiedImg);
         setTimeout(() => {
           setCopySuccess(false);
           setToastMessage('');
@@ -169,7 +173,7 @@ export default function JokiCalculator() {
     const text = `Simulasi Kalkulator Joki ${activeGame.name}\n${calculation.description} = Rp ${calculation.finalTotal.toLocaleString('id-ID')}\nInvoice: ${orderId}`;
     navigator.clipboard.writeText(text);
     setCopySuccess(true);
-    setToastMessage('✓ Simulasi order berhasil disalin!');
+    setToastMessage(t.joki.toastCopiedText);
     setTimeout(() => {
       setCopySuccess(false);
       setToastMessage('');
@@ -180,9 +184,21 @@ export default function JokiCalculator() {
   const waOrderUrl = useMemo(() => {
     const addonListStr = calculation.activeAddons.length > 0 
       ? calculation.activeAddons.map(a => a.name).join(', ') 
-      : 'Standar Handplay';
+      : (lang === 'en' ? 'Standard Handplay' : 'Standar Handplay');
 
-    const msg = `Halo zura-w!
+    const msg = lang === 'en'
+      ? `Hello zura-w!
+I would like to order Game Boost via Calculator:
+🎮 Game: ${activeGame.name}
+📍 Details: ${calculation.description}
+⚡ Add-ons: ${addonListStr}
+💰 Total Estimated Cost: Rp ${calculation.finalTotal.toLocaleString('id-ID')}
+⏱ Estimate: ${calculation.estimatedTime}
+📄 Invoice No: ${orderId}
+
+(I have saved the calculator receipt image and will attach it in this chat)
+Are boosting slots currently available?`
+      : `Halo zura-w!
 Saya mau order Joki Game hasil kalkulator:
 🎮 Game: ${activeGame.name}
 📍 Detail: ${calculation.description}
@@ -195,7 +211,7 @@ Saya mau order Joki Game hasil kalkulator:
 Apakah slot pengerjaan masih tersedia?`;
 
     return `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(msg)}`;
-  }, [activeGame, calculation, orderId]);
+  }, [activeGame, calculation, orderId, lang]);
 
   return (
     <section id="kalkulator" className="py-12 md:py-20 px-3 sm:px-6">

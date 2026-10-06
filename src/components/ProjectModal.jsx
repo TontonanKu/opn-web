@@ -5,10 +5,12 @@ import { useLanguage } from '../context/LanguageContext';
 
 export default function ProjectModal({ project, onClose }) {
   if (!project) return null;
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   const waProjectUrl = `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(
-    `Halo zura-w! Saya tertarik dengan project kamu: "${project.title}" (${project.demoUrl}). Mau tanya info lebih lanjut.`
+    lang === 'en'
+      ? `Hello zura-w! I am interested in your project: "${project.title}" (${project.demoUrl}). Could you provide more details?`
+      : `Halo zura-w! Saya tertarik dengan project kamu: "${project.title}" (${project.demoUrl}). Mau tanya info lebih lanjut.`
   )}`;
 
   return (
@@ -21,7 +23,7 @@ export default function ProjectModal({ project, onClose }) {
         <button
           onClick={onClose}
           className="absolute top-4 right-4 w-9 h-9 rounded-full bg-[#9E1B28] text-white flex items-center justify-center font-black hover:rotate-90 transition-transform shadow-sm cursor-pointer"
-          title="Tutup (Esc)"
+          title={lang === 'en' ? 'Close (Esc)' : 'Tutup (Esc)'}
         >
           <X className="w-5 h-5" />
         </button>

@@ -1,25 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Sparkles, ArrowUpRight, Cpu, Layers, ExternalLink, Info } from 'lucide-react';
-import { aiProjects, personalInfo } from '../data/portfolioData';
+import { getAiProjects, personalInfo } from '../data/portfolioData';
 import { useLanguage } from '../context/LanguageContext';
 import ProjectModal from './ProjectModal';
 
 export default function AiProjects() {
   const [filterType, setFilterType] = useState('all'); // 'all' | 'ai' | 'non-ai'
-  const [activeProject, setActiveProject] = useState(null);
-  const { t } = useLanguage();
+  const [activeProjectId, setActiveProjectId] = useState(null);
+  const { t, lang } = useLanguage();
+
+  const projects = useMemo(() => getAiProjects(lang), [lang]);
 
   const filteredProjects = filterType === 'all'
-    ? aiProjects
+    ? projects
     : filterType === 'ai'
-    ? aiProjects.filter(p => p.isAi)
-    : aiProjects.filter(p => !p.isAi);
+    ? projects.filter(p => p.isAi)
+    : projects.filter(p => !p.isAi);
 
-  const aiCount = aiProjects.filter(p => p.isAi).length;
-  const nonAiCount = aiProjects.filter(p => !p.isAi).length;
+  const aiCount = projects.filter(p => p.isAi).length;
+  const nonAiCount = projects.filter(p => !p.isAi).length;
+
+  const currentModalProject = useMemo(() => {
+    return activeProjectId ? projects.find(p => p.id === activeProjectId) : null;
+  }, [projects, activeProjectId]);
 
   const waConsultUrl = `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(
-    'Halo zura-w! Saya mau konsultasi mengenai pembuatan custom AI / web project / game asset.'
+    lang === 'en'
+      ? 'Hello zura-w! I would like to consult regarding custom AI / web project / game asset.'
+      : 'Halo zura-w! Saya mau konsultasi mengenai pembuatan custom AI / web project / game asset.'
   )}`;
 
   return (
@@ -44,7 +52,7 @@ export default function AiProjects() {
         {/* Filter Badges: AI vs Non-AI vs All */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
           {[
-            { id: 'all', label: `${t.projects.filterAll} (${aiProjects.length})` },
+            { id: 'all', label: `${t.projects.filterAll} (${projects.length})` },
             { id: 'ai', label: `${t.projects.filterAi} (${aiCount})` },
             { id: 'non-ai', label: `${t.projects.filterNonAi} (${nonAiCount})` }
           ].map((tab) => (
@@ -143,9 +151,9 @@ export default function AiProjects() {
 
                 <button
                   type="button"
-                  onClick={() => setActiveProject(project)}
+                  onClick={() => setActiveProjectId(project.id)}
                   className="flex items-center justify-center gap-1.5 bg-white border-2 border-[#9E1B28] hover:bg-[#FAF4E8] text-[#9E1B28] font-black text-xs sm:text-sm py-2.5 px-3.5 rounded-xl transition-colors cursor-pointer shrink-0"
-                  title="Lihat Detail & Fitur"
+                  title={lang === 'en' ? 'View Details & Features' : 'Lihat Detail & Fitur'}
                 >
                   <Info className="w-4 h-4 text-[#E58327]" />
                   <span>{t.projects.detailBtn}</span>
@@ -181,10 +189,10 @@ export default function AiProjects() {
       </div>
 
       {/* Render Project Modal */}
-      {activeProject && (
+      {currentModalProject && (
         <ProjectModal
-          project={activeProject}
-          onClose={() => setActiveProject(null)}
+          project={currentModalProject}
+          onClose={() => setActiveProjectId(null)}
         />
       )}
     </section>

@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Star, MessageSquareQuote, CheckCircle, Eye, 
   ChevronLeft, ChevronRight, X, ShieldCheck, Award
 } from 'lucide-react';
-import { imageTestimonials } from '../data/portfolioData';
+import { getImageTestimonials } from '../data/portfolioData';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Testimonials() {
   const [galleryFilter, setGalleryFilter] = useState('all');
   const [activeImageIndex, setActiveImageIndex] = useState(null);
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+
+  const imageTestimonials = useMemo(() => getImageTestimonials(lang), [lang]);
 
   const filteredImages = galleryFilter === 'all'
     ? imageTestimonials
@@ -196,7 +198,7 @@ export default function Testimonials() {
                 type="button"
                 onClick={() => setActiveImageIndex(null)}
                 className="w-9 h-9 rounded-full bg-white/20 hover:bg-[#9E1B28] text-white flex items-center justify-center transition-colors cursor-pointer"
-                title="Tutup (Esc)"
+                title={lang === 'en' ? 'Close (Esc)' : 'Tutup (Esc)'}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -216,7 +218,7 @@ export default function Testimonials() {
                   type="button"
                   onClick={handlePrevImage}
                   className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-[#9E1B28] text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
-                  title="Sebelumnya (Panah Kiri)"
+                  title={lang === 'en' ? 'Previous (Left Arrow)' : 'Sebelumnya (Panah Kiri)'}
                 >
                   <ChevronLeft className="w-6 h-6" />
                 </button>
@@ -228,7 +230,7 @@ export default function Testimonials() {
                   type="button"
                   onClick={handleNextImage}
                   className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-[#9E1B28] text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
-                  title="Berikutnya (Panah Kanan)"
+                  title={lang === 'en' ? 'Next (Right Arrow)' : 'Berikutnya (Panah Kanan)'}
                 >
                   <ChevronRight className="w-6 h-6" />
                 </button>

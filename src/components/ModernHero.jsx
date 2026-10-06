@@ -7,7 +7,7 @@ export default function ModernHero({ onNavigate }) {
   const { t } = useLanguage();
 
   const waUrl = `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(
-    'Halo zura-w! Saya mau tanya seputar Joki Game / Project.'
+    t.wa.chatPrompt
   )}`;
 
   return (

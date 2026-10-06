@@ -148,6 +148,8 @@ export const translations = {
       btnCopyReceipt: "Salin Gambar Struk (Ctrl+V)",
       btnOrderWaNow: "Order via WhatsApp Sekarang",
       receiptWaTip: "Tips: WhatsApp tidak menerima file gambar otomatis lewat web link. Klik 'Simpan Gambar' lalu lampirkan gambar struk ini di chat WhatsApp!",
+      downloadSuccess: "✓ Gambar struk berhasil disimpan ke perangkatmu!",
+      toastDownloaded: "✓ Gambar struk berhasil disimpan ke perangkatmu!",
       toastCopiedImg: "✓ Gambar struk tersalin ke clipboard! Tekan Ctrl+V di WhatsApp untuk tempel.",
       toastCopiedText: "✓ Rincian order berhasil disalin!",
     },
@@ -207,8 +209,8 @@ export const translations = {
           a: "100% Sangat Aman! Semua proses joki dikerjakan murni dengan skill tangan (Handplay), tanpa bantuan cheat, script, bot, atau modifikasi ilegal apa pun. Login bisa menggunakan sistem QR Code atau login kode verifikasi tanpa harus bagi-bagi password rahasia jika diinginkan."
         },
         {
-          q: "Bagaimana cara memesan AI Project atau kustomisasi game AI?",
-          a: "Kamu bisa langsung hubungi zura-w melalui WhatsApp di 082172795156 atau email reihanfahreza012@gmail.com dengan menyertakan deskripsi kebutuhan project. Kita bisa diskusikan scope kerja, timeline, hingga integrasi langsung ke Unity engine."
+          q: "Bagaimana cara memesan AI Project atau Game Assets?",
+          a: "Kamu bisa langsung hubungi zura-w melalui WhatsApp di 082172795156 dengan menyertakan deskripsi kebutuhan project. Kita bisa diskusikan scope kerja, timeline, hingga format aset dan integrasi web/game yang dibutuhkan."
         },
         {
           q: "Bisa request Hero, Role, atau jam pengerjaan joki?",
@@ -410,6 +412,8 @@ export const translations = {
       btnCopyReceipt: "Copy Receipt Image (Ctrl+V)",
       btnOrderWaNow: "Order via WhatsApp Now",
       receiptWaTip: "Tips: WhatsApp web links cannot attach files automatically. Click 'Save Receipt Image' and attach it in your chat!",
+      downloadSuccess: "✓ Receipt image saved to your device!",
+      toastDownloaded: "✓ Receipt image saved to your device!",
       toastCopiedImg: "✓ Receipt image copied to clipboard! Press Ctrl+V in WhatsApp to paste.",
       toastCopiedText: "✓ Order details copied to clipboard!",
     },
@@ -470,7 +474,7 @@ export const translations = {
         },
         {
           q: "How can I order custom AI Projects or Game Assets?",
-          a: "You can directly contact zura-w on WhatsApp at +6282172795156 or via email at reihanfahreza012@gmail.com with your project brief. We can discuss the scope of work, timeline, and direct engine integration."
+          a: "You can directly contact zura-w on WhatsApp at +6282172795156 with your project brief. We can discuss the scope of work, timeline, and asset format or web integration needed."
         },
         {
           q: "Can I request specific Heroes, Roles, or Playing Hours?",

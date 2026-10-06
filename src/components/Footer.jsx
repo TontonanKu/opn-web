@@ -7,7 +7,7 @@ export default function Footer({ onSelectTab }) {
   const { t } = useLanguage();
 
   const waUrl = `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(
-    'Halo zura-w! Mau tanya info joki game / project.'
+    t.wa.chatPrompt
   )}`;
 
   const handleNav = (tabId) => {

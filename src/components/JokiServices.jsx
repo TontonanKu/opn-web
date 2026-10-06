@@ -5,12 +5,17 @@ import {
   ShoppingBag, Sparkles, Clock, AlertCircle, Smartphone, Crown, ShieldAlert,
   PlayCircle, FileText, Palette, Languages, Award
 } from 'lucide-react';
-import { jokiGames, premiumApps, premiumAppsNotes, personalInfo } from '../data/portfolioData';
+import { getJokiGames, getPremiumApps, getPremiumAppsNotes, personalInfo } from '../data/portfolioData';
 import { generateInvoiceImage } from '../utils/generateInvoiceImage';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function JokiServices() {
   const { t, lang } = useLanguage();
+  
+  const jokiGames = useMemo(() => getJokiGames(lang), [lang]);
+  const premiumApps = useMemo(() => getPremiumApps(lang), [lang]);
+  const premiumAppsNotes = useMemo(() => getPremiumAppsNotes(lang), [lang]);
+
   // Can be 'mlbb', 'wuwa', 'hsr', 'roblox', or 'apps'
   const [activeTabId, setActiveTabId] = useState('mlbb');
   
@@ -449,11 +454,11 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                   {activeGame.id === 'wuwa' && (
                     <div className="flex flex-wrap items-center gap-1.5 mb-4">
                       {[
-                        { id: 'all', label: 'All' },
+                        { id: 'all', label: lang === 'en' ? 'All' : 'Semua' },
                         { id: 'astrites', label: '✦ Astrites' },
-                        { id: 'exploration', label: '🗺 Exploration' },
+                        { id: 'exploration', label: lang === 'en' ? '🗺 Exploration' : '🗺 Eksplorasi' },
                         { id: 'quest', label: '📜 Quest' },
-                        { id: 'rawat-akun', label: '🛡 Rawat Akun' }
+                        { id: 'rawat-akun', label: lang === 'en' ? '🛡 Account Care' : '🛡 Rawat Akun' }
                       ].map((cat) => (
                         <button
                           key={cat.id}
