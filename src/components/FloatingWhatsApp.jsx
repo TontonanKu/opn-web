@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { MessageCircle, X } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function FloatingWhatsApp() {
   const [showTooltip, setShowTooltip] = useState(true);
+  const { t } = useLanguage();
 
   const waUrl = `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(
-    'Halo zura-w! Saya ingin tanya seputar Joki Game / Project.'
+    t.wa.chatPrompt
   )}`;
 
   return (
@@ -15,7 +17,7 @@ export default function FloatingWhatsApp() {
       {showTooltip && (
         <div className="relative mb-2 bg-[#FAF4E8] text-[#2B1618] border-2 border-[#9E1B28] px-3.5 py-2 rounded-2xl shadow-xl text-xs font-bold flex items-center gap-2 max-w-[220px] animate-bounce">
           <span className="w-2 h-2 rounded-full bg-green-500 shrink-0"></span>
-          <span>Ada pertanyaan? Chat zura-w di sini!</span>
+          <span>{t.wa.tooltip}</span>
           <button
             onClick={() => setShowTooltip(false)}
             className="text-[#6B5B5E] hover:text-[#9E1B28] p-0.5 ml-1"

@@ -4,20 +4,17 @@ import {
   ChevronLeft, ChevronRight, X, ShieldCheck, Award
 } from 'lucide-react';
 import { imageTestimonials } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Testimonials() {
-  // Image gallery filter ('all' | 'wuwa' | 'roblox')
   const [galleryFilter, setGalleryFilter] = useState('all');
-  
-  // Lightbox modal state (active index in filtered list)
   const [activeImageIndex, setActiveImageIndex] = useState(null);
+  const { t } = useLanguage();
 
-  // Filtered image list
   const filteredImages = galleryFilter === 'all'
     ? imageTestimonials
     : imageTestimonials.filter(img => img.gameCategory === galleryFilter);
 
-  // Keyboard navigation for Lightbox
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (activeImageIndex === null) return;
@@ -47,14 +44,14 @@ export default function Testimonials() {
         <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF4E8] border border-[#9E1B28] text-[#9E1B28] font-black text-xs uppercase tracking-wider mb-3 shadow-2xs">
             <MessageSquareQuote className="w-3.5 h-3.5" />
-            <span>Reputasi & Bukti Nyata Pelanggan</span>
+            <span>{t.testi.badge}</span>
           </div>
 
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-[#C02C3C] tracking-tight font-['Outfit']">
-            BUKTI TESTIMONI
+            <span>{t.testi.titlePrefix}</span> <span className="text-[#E58327]">{t.testi.titleSuffix}</span>
           </h2>
           <p className="mt-2 text-sm sm:text-base text-[#FAF4E8]/90 font-medium">
-            Arsip tangkapan layar asli hasil pengerjaan joki 100% handplay dan bukti transaksi pembayaran dari pelanggan setia Kazura (zura-w).
+            {t.testi.subtitle}
           </p>
 
           {/* Rating & Trust Banner */}
@@ -65,11 +62,11 @@ export default function Testimonials() {
               ))}
             </div>
             <span className="font-black text-base text-[#9E1B28]">
-              5.0 / 5.0
+              {t.testi.ratingNumber}
             </span>
             <span className="text-xs text-[#6B5B5E] font-bold border-l-2 border-[#9E1B28]/20 pl-3 flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-green-600" />
-              100% Transaksi Asli & Terverifikasi
+              {t.testi.ratingText}
             </span>
           </div>
         </div>
@@ -82,19 +79,19 @@ export default function Testimonials() {
             <div>
               <h3 className="font-black text-base sm:text-lg text-[#9E1B28] font-['Outfit'] flex items-center gap-2">
                 <Award className="w-5 h-5 text-[#E58327]" />
-                <span>Galeri Bukti Selesai & Transaksi</span>
+                <span>{t.testi.galleryTitle}</span>
               </h3>
               <p className="text-xs text-[#6B5B5E] font-medium mt-0.5">
-                Klik gambar mana pun untuk melihat ukuran penuh dan detail chat transaksi
+                {t.testi.gallerySubtitle}
               </p>
             </div>
 
             {/* Game Filter Tabs */}
             <div className="flex flex-wrap items-center gap-2">
               {[
-                { id: 'all', label: `Semua Bukti (${imageTestimonials.length})` },
-                { id: 'wuwa', label: `✦ Wuthering Waves (5)` },
-                { id: 'roblox', label: `⚔️ Roblox (11)` }
+                { id: 'all', label: `${t.testi.tabAll} (${imageTestimonials.length})` },
+                { id: 'wuwa', label: `${t.testi.tabWuWa} (5)` },
+                { id: 'roblox', label: `${t.testi.tabRoblox} (11)` }
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -112,7 +109,7 @@ export default function Testimonials() {
             </div>
           </div>
 
-          {/* Image Grid (Full Width, 3 or 4 Columns) */}
+          {/* Image Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
             {filteredImages.map((img, idx) => (
               <div
@@ -151,7 +148,7 @@ export default function Testimonials() {
                       {img.title}
                     </p>
                     <span className="text-[10px] text-[#FDE047] font-bold shrink-0">
-                      Lihat Bukti ↗
+                      {t.testi.viewProof}
                     </span>
                   </div>
                 </div>
@@ -163,7 +160,7 @@ export default function Testimonials() {
           <div className="pt-3 border-t border-[#9E1B28]/20 flex flex-wrap items-center justify-between gap-2 text-xs text-[#6B5B5E]">
             <span className="flex items-center gap-1.5 font-bold">
               <CheckCircle className="w-4 h-4 text-green-600" />
-              Seluruh bukti testimoni di atas merupakan arsip asli tangkapan layar pengerjaan & transaksi.
+              {t.testi.footerNote}
             </span>
             <span className="font-extrabold text-[#9E1B28]">
               Kazura Official Portfolio
@@ -174,7 +171,7 @@ export default function Testimonials() {
 
       </div>
 
-      {/* Lightbox / Modal Zoom for Full-Resolution Image Testimonials */}
+      {/* Lightbox / Modal Zoom */}
       {activeImageIndex !== null && filteredImages[activeImageIndex] && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-md animate-in fade-in duration-200"
@@ -240,7 +237,7 @@ export default function Testimonials() {
 
             {/* Bottom Caption */}
             <p className="mt-3 text-xs text-white/70 text-center">
-              Gunakan tombol panah ◄ ► atau tombol panah keyboard untuk menelusuri bukti transaksi lainnya.
+              {t.testi.zoomInstruction}
             </p>
           </div>
         </div>

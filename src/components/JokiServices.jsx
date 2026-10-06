@@ -7,8 +7,10 @@ import {
 } from 'lucide-react';
 import { jokiGames, premiumApps, premiumAppsNotes, personalInfo } from '../data/portfolioData';
 import { generateInvoiceImage } from '../utils/generateInvoiceImage';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function JokiServices() {
+  const { t, lang } = useLanguage();
   // Can be 'mlbb', 'wuwa', 'hsr', 'roblox', or 'apps'
   const [activeTabId, setActiveTabId] = useState('mlbb');
   
@@ -94,13 +96,13 @@ export default function JokiServices() {
     if (isAppsTab || selectedItemType === 'app') {
       const currentApp = premiumApps[selectedAppIndex] || premiumApps[0];
       title = currentApp.fullName;
-      categoryName = 'Aplikasi Premium';
+      categoryName = lang === 'en' ? 'Premium Apps' : 'Aplikasi Premium';
       unitPrice = currentApp.price;
       baseTotal = unitPrice * quantity;
-      timeEst = currentApp.duration || 'Proses Instan';
+      timeEst = currentApp.duration || (lang === 'en' ? 'Instant Process' : 'Proses Instan');
 
-      activeAddons.push({ name: 'Private Account Resmi (Bukan Sharing)', price: 0 });
-      activeAddons.push({ name: 'Panduan Aktivasi & Garansi Resmi', price: 0 });
+      activeAddons.push({ name: lang === 'en' ? 'Official Private Account (Not Shared)' : 'Private Account Resmi (Bukan Sharing)', price: 0 });
+      activeAddons.push({ name: lang === 'en' ? 'Activation Guide & Official Warranty' : 'Panduan Aktivasi & Garansi Resmi', price: 0 });
     } else {
       categoryName = activeGame.name;
 
@@ -109,31 +111,31 @@ export default function JokiServices() {
         title = currentRank.name;
         unitPrice = currentRank.pricePerStar;
         baseTotal = unitPrice * quantity;
-        timeEst = currentRank.estimatedTime || '1 - 2 Hari';
+        timeEst = currentRank.estimatedTime || (lang === 'en' ? '1 - 2 Days' : '1 - 2 Hari');
       } else {
         const currentPkg = activeGame.packages[selectedPackageIndex || 0] || activeGame.packages[0];
         title = currentPkg.name;
         const numPrice = parseInt(currentPkg.price.replace(/[^0-9]/g, ''), 10) || 0;
         unitPrice = numPrice;
         baseTotal = unitPrice * quantity;
-        timeEst = currentPkg.speed || '1 - 2 Hari';
+        timeEst = currentPkg.speed || (lang === 'en' ? '1 - 2 Days' : '1 - 2 Hari');
       }
 
       // Addons for gaming
       if (isExpress) {
         const expressCost = Math.round(baseTotal * 0.20);
-        activeAddons.push({ name: 'Express Kilat (+20%)', price: expressCost });
+        activeAddons.push({ name: lang === 'en' ? 'Express Rush (+20%)' : 'Express Kilat (+20%)', price: expressCost });
         addonSum += expressCost;
       }
 
       if (isLiveStream) {
         const liveCost = 15000;
-        activeAddons.push({ name: 'Private Live Stream Discord', price: liveCost });
+        activeAddons.push({ name: lang === 'en' ? 'Private Live Stream Discord' : 'Private Live Stream Discord', price: liveCost });
         addonSum += liveCost;
       }
 
       if (isHeroRequest) {
-        activeAddons.push({ name: 'Request Hero / Jam Main (Gratis)', price: 0 });
+        activeAddons.push({ name: lang === 'en' ? 'Request Hero / Playing Hours (Free)' : 'Request Hero / Jam Main (Gratis)', price: 0 });
       }
     }
 
@@ -148,7 +150,7 @@ export default function JokiServices() {
       finalTotal,
       timeEst
     };
-  }, [isAppsTab, selectedItemType, selectedAppIndex, activeGame, selectedRankIndex, selectedPackageIndex, quantity, isExpress, isLiveStream, isHeroRequest]);
+  }, [isAppsTab, selectedItemType, selectedAppIndex, activeGame, selectedRankIndex, selectedPackageIndex, quantity, isExpress, isLiveStream, isHeroRequest, lang]);
 
   // Generate unique order ID
   const orderId = useMemo(() => {
@@ -179,11 +181,11 @@ export default function JokiServices() {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      setToastMessage('✓ Gambar struk berhasil disimpan ke perangkatmu!');
+      setToastMessage(t.joki.downloadSuccess);
       setTimeout(() => setToastMessage(''), 4000);
     } catch (err) {
       console.error(err);
-      alert('Gagal membuat gambar struk. Silakan coba lagi.');
+      alert(lang === 'en' ? 'Failed to generate receipt image.' : 'Gagal membuat gambar struk. Silakan coba lagi.');
     } finally {
       setIsGeneratingImage(false);
     }
@@ -208,7 +210,7 @@ export default function JokiServices() {
           new ClipboardItem({ 'image/png': blob })
         ]);
         setCopySuccess(true);
-        setToastMessage('✓ Gambar struk tersalin ke clipboard! Tekan Ctrl+V di WhatsApp untuk tempel.');
+        setToastMessage(t.joki.toastCopiedImg);
         setTimeout(() => {
           setCopySuccess(false);
           setToastMessage('');
@@ -222,7 +224,7 @@ export default function JokiServices() {
     const textToCopy = `Order ${orderDetails.categoryName}\n${orderDetails.title} (${quantity}x) = Rp ${orderDetails.finalTotal.toLocaleString('id-ID')}\nInvoice: ${orderId}`;
     navigator.clipboard.writeText(textToCopy);
     setCopySuccess(true);
-    setToastMessage('✓ Rincian order berhasil disalin!');
+    setToastMessage(t.joki.toastCopiedText);
     setTimeout(() => {
       setCopySuccess(false);
       setToastMessage('');
@@ -233,16 +235,32 @@ export default function JokiServices() {
   const waOrderUrl = useMemo(() => {
     const addonListStr = orderDetails.activeAddons.length > 0 
       ? orderDetails.activeAddons.map(a => a.name).join(', ') 
-      : 'Standar';
+      : (lang === 'en' ? 'Standard Handplay' : 'Standar');
 
     const itemLabel = isAppsTab 
-      ? 'Aplikasi Premium' 
-      : 'Joki Game';
+      ? (lang === 'en' ? 'Premium App' : 'Aplikasi Premium') 
+      : (lang === 'en' ? 'Game Boost' : 'Joki Game');
 
-    const msg = `Halo zura-w!
+    const qtyUnit = isAppsTab 
+      ? (lang === 'en' ? 'Account/License' : 'Akun/Lisensi') 
+      : (activeGame?.id === 'mlbb' ? (lang === 'en' ? 'Stars' : 'Bintang') : (lang === 'en' ? 'Package' : 'Paket'));
+
+    const msg = lang === 'en' 
+      ? `Hello zura-w!
+I would like to order ${itemLabel}:
+📦 Product/Service: ${orderDetails.title}
+⭐ Quantity: ${quantity} ${qtyUnit}
+⏱ Duration/Estimate: ${orderDetails.timeEst}
+⚡ Options/Notes: ${addonListStr}
+💰 Total Cost: Rp ${orderDetails.finalTotal.toLocaleString('id-ID')}
+📄 Invoice No: ${orderId}
+
+(I have saved the order receipt image and will attach it in this chat)
+Are there slots / stock currently available?`
+      : `Halo zura-w!
 Saya mau order ${itemLabel}:
 📦 Produk/Layanan: ${orderDetails.title}
-⭐ Jumlah: ${quantity} ${isAppsTab ? 'Akun/Lisensi' : (activeGame?.id === 'mlbb' ? 'Bintang' : 'Paket')}
+⭐ Jumlah: ${quantity} ${qtyUnit}
 ⏱ Durasi/Estimasi: ${orderDetails.timeEst}
 ⚡ Catatan/Opsi: ${addonListStr}
 💰 Total Biaya: Rp ${orderDetails.finalTotal.toLocaleString('id-ID')}
@@ -252,7 +270,7 @@ Saya mau order ${itemLabel}:
 Apakah stok / slot pengerjaan masih tersedia?`;
 
     return `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(msg)}`;
-  }, [isAppsTab, activeGame, orderDetails, quantity, orderId]);
+  }, [isAppsTab, activeGame, orderDetails, quantity, orderId, lang]);
 
   return (
     <section id="joki-game" className="py-12 md:py-20 px-3 sm:px-6">
@@ -262,15 +280,14 @@ Apakah stok / slot pengerjaan masih tersedia?`;
         <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF4E8] border border-[#9E1B28] text-[#9E1B28] font-black text-xs uppercase tracking-wider mb-3 shadow-2xs">
             <Trophy className="w-3.5 h-3.5 text-[#E58327]" />
-            <span>Fast & Professional Service • Handplay & Official</span>
+            <span>{t.joki.badgeFast}</span>
           </div>
 
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight font-['Outfit']">
-            <span className="text-[#C02C3C]">JOKI GAME</span> <span className="text-[#FAF4E8]">&</span> <span className="text-[#E58327]">APK PREMIUM</span>
+            <span className="text-[#C02C3C]">{t.joki.titlePrefix}</span> <span className="text-[#FAF4E8]">&</span> <span className="text-[#E58327]">{t.joki.titleSuffix}</span>
           </h2>
           <p className="mt-2 text-sm sm:text-base text-[#FAF4E8]/90 font-medium">
-            Layanan jasa joki game terpercaya (Mobile Legends, Wuthering Waves, Honkai: Star Rail, Roblox) 
-            serta lisensi aplikasi premium private resmi dengan harga mahasiswa termurah.
+            {t.joki.subtitle}
           </p>
         </div>
 
@@ -281,8 +298,8 @@ Apakah stok / slot pengerjaan masih tersedia?`;
               <ShieldCheck className="w-5 h-5 text-[#FDE047]" />
             </div>
             <div>
-              <h4 className="text-xs sm:text-sm font-black text-[#2B1618]">100% Handplay</h4>
-              <p className="text-[11px] text-[#6B5B5E]">Tanpa cheat / bot / script</p>
+              <h4 className="text-xs sm:text-sm font-black text-[#2B1618]">{t.joki.g1Title}</h4>
+              <p className="text-[11px] text-[#6B5B5E]">{t.joki.g1Desc}</p>
             </div>
           </div>
 
@@ -291,8 +308,8 @@ Apakah stok / slot pengerjaan masih tersedia?`;
               <Zap className="w-5 h-5 text-[#FDE047]" />
             </div>
             <div>
-              <h4 className="text-xs sm:text-sm font-black text-[#2B1618]">Proses Cepat</h4>
-              <p className="text-[11px] text-[#6B5B5E]">Langsung diproses hari ini</p>
+              <h4 className="text-xs sm:text-sm font-black text-[#2B1618]">{t.joki.g2Title}</h4>
+              <p className="text-[11px] text-[#6B5B5E]">{t.joki.g2Desc}</p>
             </div>
           </div>
 
@@ -301,8 +318,8 @@ Apakah stok / slot pengerjaan masih tersedia?`;
               <Eye className="w-5 h-5 text-[#FDE047]" />
             </div>
             <div>
-              <h4 className="text-xs sm:text-sm font-black text-[#2B1618]">Live Stream Ready</h4>
-              <p className="text-[11px] text-[#6B5B5E]">Bisa nonton via Discord</p>
+              <h4 className="text-xs sm:text-sm font-black text-[#2B1618]">{t.joki.g3Title}</h4>
+              <p className="text-[11px] text-[#6B5B5E]">{t.joki.g3Desc}</p>
             </div>
           </div>
 
@@ -311,8 +328,8 @@ Apakah stok / slot pengerjaan masih tersedia?`;
               <Award className="w-5 h-5 text-[#FDE047]" />
             </div>
             <div>
-              <h4 className="text-xs sm:text-sm font-black text-[#2B1618]">100% Private</h4>
-              <p className="text-[11px] text-[#6B5B5E]">Bukan akun sharing / mod</p>
+              <h4 className="text-xs sm:text-sm font-black text-[#2B1618]">{t.joki.g4Title}</h4>
+              <p className="text-[11px] text-[#6B5B5E]">{t.joki.g4Desc}</p>
             </div>
           </div>
         </div>
@@ -344,7 +361,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
             }`}
           >
             <Sparkles className="w-4 h-4 text-[#FDE047]" />
-            <span>Aplikasi Premium</span>
+            <span>{lang === 'en' ? 'Premium Apps' : 'Aplikasi Premium'}</span>
             <span className="text-[10px] bg-[#9E1B28] text-white px-1.5 py-0.2 rounded font-black tracking-wide">
               HOT
             </span>
@@ -370,7 +387,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                     {activeGame.name}
                   </h3>
                   <p className="text-xs sm:text-sm text-[#6B5B5E] font-bold mt-1">
-                    Spesialisasi: {activeGame.roles.join(' • ')}
+                    {t.joki.specialization} {activeGame.roles.join(' • ')}
                   </p>
                 </div>
 
@@ -396,11 +413,11 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                     <h4 className="text-lg sm:text-xl font-black text-[#9E1B28] uppercase tracking-wider font-['Outfit'] flex items-center gap-2">
                       <span>
                         {activeGame.id === 'wuwa' 
-                          ? 'Daftar Layanan, Quest & Eksplorasi' 
-                          : (activeGame.id === 'roblox' ? 'Daftar Unit & Joki Roblox' : 'Daftar Harga Per Tier / Bintang')}
+                          ? t.joki.wuwaListTitle 
+                          : (activeGame.id === 'roblox' ? t.joki.robloxListTitle : t.joki.mobaListTitle)}
                       </span>
                       <span className="text-[10px] bg-[#9E1B28] text-white px-2 py-0.5 rounded-full font-sans font-bold">
-                        Pilih untuk Order
+                        {t.joki.btnSelectOrder}
                       </span>
                     </h4>
                   </div>
@@ -409,8 +426,8 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                   {activeGame.id === 'mlbb' && (
                     <div className="flex flex-wrap items-center gap-2 mb-4">
                       {[
-                        { id: 'joki-akun', label: '🎮 Joki Akun' },
-                        { id: 'joki-gendong', label: '👥 Joki Gendong' }
+                        { id: 'joki-akun', label: t.joki.mlbbAccJoki },
+                        { id: 'joki-gendong', label: t.joki.mlbbCarryJoki }
                       ].map((cat) => (
                         <button
                           key={cat.id}
@@ -459,7 +476,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                     <div className="flex flex-wrap items-center gap-2 mb-4">
                       {[
                         { id: 'anime-vanguard', label: '⚔️ Anime Vanguards' },
-                        { id: 'coming-soon', label: '⏳ Coming Soon' }
+                        { id: 'coming-soon', label: lang === 'en' ? '⏳ Coming Soon' : '⏳ Segera Hadir' }
                       ].map((cat) => (
                         <button
                           key={cat.id}
@@ -485,10 +502,10 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                         <div className="text-center py-12 px-6 bg-white rounded-2xl border-2 border-dashed border-[#9E1B28]/40">
                           <Clock className="w-12 h-12 text-[#E58327] mx-auto mb-3 animate-pulse" />
                           <h5 className="font-black text-base text-[#9E1B28] font-['Outfit']">
-                            Layanan Joki Gendong MLBB Segera Hadir!
+                            {t.joki.mlbbCarrySoonTitle}
                           </h5>
                           <p className="text-xs text-[#6B5B5E] mt-1.5 max-w-md mx-auto leading-relaxed">
-                            Layanan Mabar Duo / Joki Gendong Mobile Legends sedang dipersiapkan (Coming Soon). Pantau terus atau hubungi zura-w via WhatsApp untuk info jadwal pembukaan slot!
+                            {t.joki.mlbbCarrySoonDesc}
                           </p>
                         </div>
                       );
@@ -500,10 +517,10 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                         <div className="text-center py-12 px-6 bg-white rounded-2xl border-2 border-dashed border-[#9E1B28]/40">
                           <Clock className="w-12 h-12 text-[#E58327] mx-auto mb-3 animate-pulse" />
                           <h5 className="font-black text-base text-[#9E1B28] font-['Outfit']">
-                            Game Roblox Lainnya Segera Hadir!
+                            {t.joki.robloxSoonTitle}
                           </h5>
                           <p className="text-xs text-[#6B5B5E] mt-1.5 max-w-md mx-auto leading-relaxed">
-                            Game Roblox lainnya sedang dipersiapkan dan akan segera dirilis. Punya request game Roblox favorit? Hubungi zura-w langsung via WhatsApp!
+                            {t.joki.robloxSoonDesc}
                           </p>
                         </div>
                       );
@@ -537,7 +554,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                                   </h5>
                                 </div>
                                 <span className={`text-[10px] font-semibold ${isSelected ? 'text-white/80' : 'text-[#6B5B5E]'}`}>
-                                  Estimasi: {r.estimatedTime}
+                                  {t.calc.estCompleted} {r.estimatedTime}
                                 </span>
                               </div>
 
@@ -556,7 +573,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                   <div className="mt-4 p-3 bg-[#E58327]/10 border border-[#E58327]/40 rounded-xl text-xs text-[#2B1618] font-medium flex items-start gap-2">
                     <Star className="w-4 h-4 text-[#E58327] shrink-0 mt-0.5" />
                     <span>
-                      Klik rank di atas atau paket di samping untuk mengatur jumlah bintang dan opsi tambahan di panel bawah.
+                      {t.joki.hintCart}
                     </span>
                   </div>
                 </div>
@@ -565,9 +582,9 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                 <div className="lg:col-span-5 flex flex-col justify-between">
                   <div>
                     <h4 className="text-lg sm:text-xl font-black text-[#9E1B28] uppercase tracking-wider mb-4 font-['Outfit'] flex items-center gap-2">
-                      <span>Paket Favorit Terlaris</span>
+                      <span>{t.joki.popularFav}</span>
                       <span className="text-[10px] bg-[#E58327] text-white px-2 py-0.5 rounded-full font-sans font-bold">
-                        HEMAT
+                        {t.joki.hematBadge}
                       </span>
                     </h4>
 
@@ -610,7 +627,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                                   : 'bg-[#9E1B28] hover:bg-[#80141F] text-white shadow-2xs'
                               }`}
                             >
-                              <span>{isSelected ? '✓ Paket Terpilih' : 'Pilih Paket Ini'}</span>
+                              <span>{isSelected ? t.joki.chosenPkg : t.joki.choosePkg}</span>
                               <ArrowRight className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -624,7 +641,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                       href="#kalkulator"
                       className="inline-flex items-center gap-1.5 text-xs font-black text-[#9E1B28] hover:underline"
                     >
-                      <span>Simulasikan rank awal ke target rank? Buka Kalkulator Joki</span>
+                      <span>{t.joki.calcLink}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </a>
                   </div>
@@ -643,20 +660,20 @@ Apakah stok / slot pengerjaan masih tersedia?`;
               <div className="pb-6 border-b-2 border-[#9E1B28]/20">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-[#E58327] text-white mb-2">
                   <Sparkles className="w-3.5 h-3.5 fill-current" />
-                  <span>Produk Digital Bergaransi</span>
+                  <span>{t.joki.appsBadge}</span>
                 </div>
                 <h3 className="text-3xl sm:text-4xl font-black text-[#9E1B28] tracking-tight font-['Outfit']">
-                  Aplikasi Premium (Private Account)
+                  {t.joki.appsTitle}
                 </h3>
                 <p className="text-xs sm:text-sm text-[#6B5B5E] font-bold mt-1">
-                  Semua akun 100% original & private, tanpa sharing, dan tanpa mod/crack apk berbahaya.
+                  {t.joki.appsSubtitle}
                 </p>
 
                 {/* 3 Golden Rules Alert Box */}
                 <div className="mt-4 p-4 rounded-2xl bg-linear-to-r from-[#9E1B28] to-[#7A111C] text-white border-2 border-[#7A111C] shadow-md">
                   <div className="flex items-center gap-2 mb-2 font-black text-sm text-[#FDE047] font-['Outfit']">
                     <ShieldAlert className="w-4 h-4" />
-                    <span>SYARAT & KETENTUAN PENTING SEBELUM ORDER:</span>
+                    <span>{t.joki.appsNoticeTitle}</span>
                   </div>
                   <ul className="space-y-1.5 text-xs font-semibold text-[#FAF4E8]">
                     {premiumAppsNotes.map((note, nIdx) => (
@@ -718,7 +735,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                             ? 'bg-black/30 border-white/20 text-[#FDE047]' 
                             : 'bg-[#FAF4E8] border-[#9E1B28]/20 text-[#9E1B28]'
                         }`}>
-                          <span className="font-bold block mb-0.5">📌 Note Seller:</span>
+                          <span className="font-bold block mb-0.5">{t.joki.appsSellerNote}</span>
                           {app.note}
                         </div>
 
@@ -743,7 +760,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                             : 'bg-[#9E1B28] hover:bg-[#80141F] text-white'
                         }`}
                       >
-                        <span>{isSelected ? '✓ Produk Terpilih' : 'Pilih Produk Ini'}</span>
+                        <span>{isSelected ? t.joki.chosenApp : t.joki.chooseApp}</span>
                         <ArrowRight className="w-4 h-4" />
                       </button>
                     </div>
@@ -766,16 +783,16 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                   </div>
                   <div>
                     <h4 className="text-xl sm:text-2xl font-black text-[#9E1B28] tracking-tight font-['Outfit']">
-                      Keranjang & Rincian Order
+                      {t.joki.cartTitle}
                     </h4>
                     <p className="text-xs text-[#6B5B5E] font-medium">
-                      {isAppsTab ? 'Pilih jumlah lisensi dan langsung order via WhatsApp' : 'Atur kuantitas bintang dan opsi tambahan sesuai kebutuhanmu'}
+                      {isAppsTab ? t.joki.cartSubtitleApps : t.joki.cartSubtitleGaming}
                     </p>
                   </div>
                 </div>
 
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF4E8] border border-[#9E1B28]/40 text-xs font-bold text-[#9E1B28]">
-                  <span>Item Terpilih:</span>
+                  <span>{t.joki.selectedItem}</span>
                   <span className="font-extrabold text-[#E58327]">{orderDetails.title}</span>
                 </div>
               </div>
@@ -789,7 +806,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <label className="text-xs font-black uppercase tracking-wider text-[#9E1B28] font-['Outfit']">
-                        {isAppsTab ? 'Jumlah Lisensi / Akun:' : 'Jumlah Bintang / Order Quantity:'}
+                        {isAppsTab ? t.joki.qtyApps : t.joki.qtyGaming}
                       </label>
                       <span className="text-xs font-black text-[#E58327]">
                         @ Rp {orderDetails.unitPrice.toLocaleString('id-ID')}
@@ -809,7 +826,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                       <div className="flex-1 bg-[#FAF4E8] border-2 border-[#9E1B28] rounded-xl h-12 flex items-center justify-center font-black text-lg text-[#2B1618]">
                         <span>{quantity}</span>
                         <span className="text-xs font-bold text-[#6B5B5E] ml-1.5">
-                          {isAppsTab ? 'Akun / User' : (activeGame?.id === 'mlbb' ? 'Bintang' : 'Paket')}
+                          {isAppsTab ? t.joki.unitAkun : (activeGame?.id === 'mlbb' ? t.joki.unitBintang : t.joki.unitPaket)}
                         </span>
                       </div>
 
@@ -826,7 +843,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                     {/* Quick quantity shortcuts for MLBB */}
                     {!isAppsTab && activeGame?.id === 'mlbb' && (
                       <div className="flex items-center gap-2 mt-2.5">
-                        <span className="text-[11px] text-[#6B5B5E] font-bold">Preset Cepat:</span>
+                        <span className="text-[11px] text-[#6B5B5E] font-bold">{t.joki.quickPreset}</span>
                         {[1, 3, 5, 10, 25].map((star) => (
                           <button
                             key={star}
@@ -849,7 +866,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                   {!isAppsTab && (
                     <div>
                       <label className="block text-xs font-black uppercase tracking-wider text-[#9E1B28] mb-2.5 font-['Outfit']">
-                        Opsi & Layanan Tambahan (Opsional):
+                        {t.joki.addonsSection}
                       </label>
 
                       <div className="space-y-2.5">
@@ -864,10 +881,10 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                             />
                             <div>
                               <span className="text-xs sm:text-sm font-extrabold text-[#2B1618] block">
-                                Private Live Stream via Discord
+                                {t.joki.streamTitle}
                               </span>
                               <span className="text-[11px] text-[#6B5B5E] block">
-                                Pantau proses joki secara live real-time
+                                {t.joki.streamDesc}
                               </span>
                             </div>
                           </div>
@@ -885,10 +902,10 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                             />
                             <div>
                               <span className="text-xs sm:text-sm font-extrabold text-[#2B1618] block">
-                                Express Kilat (Prioritas Antrian Utama)
+                                {t.joki.expressTitle}
                               </span>
                               <span className="text-[11px] text-[#6B5B5E] block">
-                                Langsung dikerjakan slot pertama hari ini
+                                {t.joki.expressDesc}
                               </span>
                             </div>
                           </div>
@@ -906,14 +923,14 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                             />
                             <div>
                               <span className="text-xs sm:text-sm font-extrabold text-[#2B1618] block">
-                                Request Hero / Jam Main Khusus
+                                {t.joki.heroTitle}
                               </span>
                               <span className="text-[11px] text-[#6B5B5E] block">
-                                Bebas tentukan hero dan waktu akun dimainkan
+                                {t.joki.heroDesc}
                               </span>
                             </div>
                           </div>
-                          <span className="text-xs font-black text-green-600 shrink-0">GRATIS</span>
+                          <span className="text-xs font-black text-green-600 shrink-0">{t.joki.free}</span>
                         </label>
                       </div>
                     </div>
@@ -923,12 +940,12 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                   {isAppsTab && (
                     <div className="bg-[#FAF4E8] p-4 rounded-xl border border-[#9E1B28]/30 space-y-2">
                       <span className="text-xs font-black text-[#9E1B28] uppercase tracking-wider block">
-                        Keuntungan Order Aplikasi Premium di Kazura Store:
+                        {t.joki.appsBenefitsTitle}
                       </span>
                       <ul className="text-xs text-[#5A464A] space-y-1 font-medium">
-                        <li>✓ <strong>Bukan Sharing Account</strong>: Akses privat resmi untuk Anda sendiri.</li>
-                        <li>✓ <strong>Bukan Crack / Mod APK</strong>: Memakai aplikasi original Play Store / App Store resmi.</li>
-                        <li>✓ <strong>Aktivasi Super Mudah</strong>: Cukup via invite email atau code redeem resmi.</li>
+                        <li>✓ {t.joki.appsB1}</li>
+                        <li>✓ {t.joki.appsB2}</li>
+                        <li>✓ {t.joki.appsB3}</li>
                       </ul>
                     </div>
                   )}
@@ -940,7 +957,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                   <div>
                     <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
                       <span className="text-xs font-black uppercase tracking-wider text-[#FDE047] font-['Outfit']">
-                        Struk / Ringkasan Order
+                        {t.joki.receiptTitle}
                       </span>
                       <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded font-mono font-bold">
                         {orderId}
@@ -949,26 +966,26 @@ Apakah stok / slot pengerjaan masih tersedia?`;
 
                     <div className="space-y-3 text-xs sm:text-sm">
                       <div className="flex justify-between">
-                        <span className="text-white/70">Kategori:</span>
+                        <span className="text-white/70">{t.joki.receiptCategory}</span>
                         <span className="font-extrabold">{orderDetails.categoryName}</span>
                       </div>
 
                       <div className="flex justify-between">
-                        <span className="text-white/70">Item Terpilih:</span>
+                        <span className="text-white/70">{t.joki.receiptItem}</span>
                         <span className="font-extrabold text-[#FDE047] text-right max-w-[200px]">
                           {orderDetails.title}
                         </span>
                       </div>
 
                       <div className="flex justify-between">
-                        <span className="text-white/70">Jumlah:</span>
+                        <span className="text-white/70">{t.joki.receiptQty}</span>
                         <span className="font-extrabold">
                           {quantity}x (@ Rp {orderDetails.unitPrice.toLocaleString('id-ID')})
                         </span>
                       </div>
 
                       <div className="flex justify-between border-t border-white/10 pt-2">
-                        <span className="text-white/70">Subtotal Item:</span>
+                        <span className="text-white/70">{t.joki.receiptSubtotal}</span>
                         <span className="font-bold">
                           Rp {orderDetails.baseTotal.toLocaleString('id-ID')}
                         </span>
@@ -978,13 +995,13 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                       {orderDetails.activeAddons.length > 0 && (
                         <div className="bg-black/20 p-2.5 rounded-xl space-y-1.5 border border-white/10">
                           <span className="text-[11px] font-bold text-[#FDE047] block">
-                            Rincian Tambahan / Jaminan:
+                            {t.joki.receiptAddons}
                           </span>
                           {orderDetails.activeAddons.map((addon, idx) => (
                             <div key={idx} className="flex justify-between text-[11px]">
                               <span className="text-white/80">• {addon.name}</span>
                               <span className="font-mono font-bold text-[#FDE047]">
-                                {addon.price > 0 ? `+Rp ${addon.price.toLocaleString('id-ID')}` : 'Gratis'}
+                                {addon.price > 0 ? `+Rp ${addon.price.toLocaleString('id-ID')}` : t.joki.free}
                               </span>
                             </div>
                           ))}
@@ -992,7 +1009,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                       )}
 
                       <div className="flex justify-between">
-                        <span className="text-white/70">Durasi / Estimasi:</span>
+                        <span className="text-white/70">{t.joki.receiptDuration}</span>
                         <span className="font-extrabold flex items-center gap-1">
                           <Clock className="w-3.5 h-3.5 text-[#FDE047]" />
                           {orderDetails.timeEst}
@@ -1000,23 +1017,23 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                       </div>
 
                       <div className="flex justify-between">
-                        <span className="text-white/70">Keamanan:</span>
+                        <span className="text-white/70">{t.joki.receiptSecurity}</span>
                         <span className="font-extrabold text-green-300 flex items-center gap-1">
                           <ShieldCheck className="w-3.5 h-3.5" />
-                          {isAppsTab ? '100% Private & Legal' : '100% Handplay Garansi'}
+                          {isAppsTab ? t.joki.receiptSecApps : t.joki.receiptSecGaming}
                         </span>
                       </div>
                     </div>
 
                     <div className="mt-6 pt-5 border-t border-white/20">
                       <span className="text-xs text-white/80 font-bold uppercase tracking-wider">
-                        Total Estimasi Biaya
+                        {t.joki.receiptTotal}
                       </span>
                       <div className="text-3xl sm:text-4xl font-black text-[#FDE047] mt-1 font-['Outfit']">
                         Rp {orderDetails.finalTotal.toLocaleString('id-ID')}
                       </div>
                       <p className="text-[11px] text-white/60 mt-0.5">
-                        *Mendukung QRIS Kazura Store & Semua Bank / E-Wallet
+                        {t.joki.receiptPaymentSupport}
                       </p>
                     </div>
                   </div>
@@ -1038,7 +1055,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                       className="w-full flex items-center justify-center gap-2 bg-[#FAF4E8] hover:bg-[#F3ECE0] text-[#9E1B28] font-black text-xs sm:text-sm py-3 px-4 rounded-xl shadow-md transition-all active:translate-y-0.5 cursor-pointer border border-[#7A111C]"
                     >
                       <Download className="w-4 h-4 text-[#9E1B28]" />
-                      <span>{isGeneratingImage ? 'Membuat Gambar...' : 'Simpan Gambar Struk (PNG)'}</span>
+                      <span>{isGeneratingImage ? t.joki.btnGenerating : t.joki.btnDownloadReceipt}</span>
                     </button>
 
                     {/* Button 2: Salin Gambar ke Clipboard */}
@@ -1048,7 +1065,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                       className="w-full flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold text-xs py-2 px-3 rounded-xl transition-all cursor-pointer border border-white/20"
                     >
                       {copySuccess ? <Check className="w-3.5 h-3.5 text-green-300" /> : <Copy className="w-3.5 h-3.5" />}
-                      <span>{copySuccess ? 'Tersalin ke Clipboard!' : 'Salin Gambar Struk (Ctrl+V)'}</span>
+                      <span>{copySuccess ? t.joki.btnCopiedReceipt : t.joki.btnCopyReceipt}</span>
                     </button>
 
                     {/* Button 3: Order via WhatsApp */}
@@ -1059,13 +1076,13 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                       className="w-full flex items-center justify-center gap-2 bg-[#E58327] hover:bg-[#D4741B] text-white font-black text-sm py-3.5 px-4 rounded-xl shadow-lg transition-transform active:scale-95 border-2 border-white cursor-pointer"
                     >
                       <MessageCircle className="w-5 h-5 text-white" />
-                      <span>Order via WhatsApp Sekarang</span>
+                      <span>{t.joki.btnOrderWaNow}</span>
                     </a>
 
                     <div className="p-2.5 bg-black/25 rounded-xl border border-white/10 flex items-start gap-2">
                       <AlertCircle className="w-4 h-4 text-[#FDE047] shrink-0 mt-0.5" />
                       <p className="text-[11px] text-white/80 leading-relaxed">
-                        <strong>Tips:</strong> WhatsApp tidak menerima file gambar otomatis lewat web link. Klik <strong>"Simpan Gambar"</strong> lalu lampirkan gambar struk ini di chat WhatsApp!
+                        {t.joki.receiptWaTip}
                       </p>
                     </div>
 

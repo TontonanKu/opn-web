@@ -1,9 +1,11 @@
 import React from 'react';
-import { X, Sparkles, Code2, ExternalLink, MessageCircle, CheckCircle2, ShieldCheck, Tag } from 'lucide-react';
+import { X, ExternalLink, MessageCircle, CheckCircle2 } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function ProjectModal({ project, onClose }) {
   if (!project) return null;
+  const { t } = useLanguage();
 
   const waProjectUrl = `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(
     `Halo zura-w! Saya tertarik dengan project kamu: "${project.title}" (${project.demoUrl}). Mau tanya info lebih lanjut.`
@@ -56,7 +58,7 @@ export default function ProjectModal({ project, onClose }) {
             alt={project.title}
             className="w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
             <p className="text-white text-xs sm:text-sm font-medium drop-shadow-md">
               {project.shortDesc}
             </p>
@@ -66,7 +68,7 @@ export default function ProjectModal({ project, onClose }) {
         {/* Tech Stack / Specs */}
         <div className="mb-5">
           <h3 className="text-xs font-black text-[#9E1B28] uppercase tracking-wider mb-2 font-['Outfit']">
-            Teknologi & Spesifikasi:
+            {t.projects.modalSpecs}
           </h3>
           <div className="flex flex-wrap gap-1.5">
             {project.tech.map((t) => (
@@ -83,7 +85,7 @@ export default function ProjectModal({ project, onClose }) {
         {/* Key Features */}
         <div className="mb-6">
           <h3 className="text-xs font-black text-[#9E1B28] uppercase tracking-wider mb-2 font-['Outfit']">
-            Fitur & Keunggulan:
+            {t.projects.modalFeatures}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {project.features.map((feat, idx) => (
@@ -107,7 +109,7 @@ export default function ProjectModal({ project, onClose }) {
             className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#9E1B28] hover:bg-[#80141F] text-white font-black text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-md transition-all active:scale-95"
           >
             <ExternalLink className="w-4 h-4 text-[#FDE047]" />
-            <span>{project.actionText || 'Kunjungi Link ↗'}</span>
+            <span>{project.actionText || t.projects.modalVisit}</span>
           </a>
 
           <a
@@ -117,7 +119,7 @@ export default function ProjectModal({ project, onClose }) {
             className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white border-2 border-[#25D366] text-[#128C7E] hover:bg-green-50 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition-all shadow-xs"
           >
             <MessageCircle className="w-4 h-4 text-[#25D366]" />
-            <span>Tanya via WhatsApp</span>
+            <span>{t.projects.modalAskWa}</span>
           </a>
         </div>
       </div>

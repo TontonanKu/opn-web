@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { X, Download, Heart, ShieldCheck, Smartphone } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function QrisModal({ isOpen, onClose }) {
+  const { t } = useLanguage();
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
@@ -38,14 +41,14 @@ export default function QrisModal({ isOpen, onClose }) {
             <div>
               <div className="flex items-center gap-1.5">
                 <h3 className="font-extrabold text-base sm:text-lg text-white tracking-tight">
-                  Support & Tip (QRIS)
+                  {t.qris.title}
                 </h3>
                 <span className="text-[10px] bg-[#E58327] text-white px-1.5 py-0.5 rounded font-black uppercase tracking-wider">
-                  Official
+                  {t.qris.badgeOfficial}
                 </span>
               </div>
               <p className="text-[11px] text-[#FAF4E8]/80 font-medium">
-                KAZURA STORE • All E-Wallet & M-Banking
+                {t.qris.storeSub}
               </p>
             </div>
           </div>
@@ -63,7 +66,7 @@ export default function QrisModal({ isOpen, onClose }) {
           {/* Support Greeting */}
           <div className="text-center">
             <p className="text-xs sm:text-sm text-[#5A464A] font-medium leading-relaxed">
-              Dukungan atau tip donasi Anda sangat berarti untuk membiayai server, pengembangan project AI, dan kopi harian ☕
+              {t.qris.greeting}
             </p>
           </div>
 
@@ -82,10 +85,10 @@ export default function QrisModal({ isOpen, onClose }) {
           <div className="bg-[#F3ECE0] rounded-xl p-2.5 border border-[#E4D9C8] text-center">
             <p className="text-[11px] font-bold text-[#6B5B5E] mb-1 flex items-center justify-center gap-1.5">
               <Smartphone className="w-3.5 h-3.5 text-[#E58327]" />
-              Mendukung Semua Metode Pembayaran QRIS:
+              {t.qris.methodsTitle}
             </p>
             <p className="text-[11px] text-[#2B1618] font-bold">
-              BCA • Mandiri • BRI • BNI • Seabank • GoPay • OVO • DANA • ShopeePay • LinkAja
+              {t.qris.methodsList}
             </p>
           </div>
 
@@ -97,20 +100,20 @@ export default function QrisModal({ isOpen, onClose }) {
               className="flex-1 flex items-center justify-center gap-2 bg-[#FAF4E8] hover:bg-[#F3ECE0] text-[#9E1B28] border-2 border-[#9E1B28] font-bold text-xs sm:text-sm py-2.5 px-3 rounded-xl transition-all shadow-xs active:translate-y-0.5 cursor-pointer text-center"
             >
               <Download className="w-4 h-4" />
-              <span>Simpan Gambar</span>
+              <span>{t.qris.btnSave}</span>
             </a>
             <button
               onClick={onClose}
               className="flex-1 bg-[#9E1B28] hover:bg-[#80141F] text-white font-black text-xs sm:text-sm py-2.5 px-3 rounded-xl transition-all shadow-xs active:translate-y-0.5 cursor-pointer text-center border border-[#7A111C]"
             >
-              Selesai / Tutup
+              {t.qris.btnClose}
             </button>
           </div>
 
           <div className="text-center">
             <p className="text-[10px] text-gray-500 flex items-center justify-center gap-1">
               <ShieldCheck className="w-3 h-3 text-green-600" />
-              Verifikasi Resmi Bank Indonesia & ASPI
+              {t.qris.verified}
             </p>
           </div>
         </div>

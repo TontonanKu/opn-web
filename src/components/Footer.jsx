@@ -1,8 +1,11 @@
 import React from 'react';
 import { Phone, Mail, Gamepad2, Sparkles, Heart } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Footer({ onSelectTab }) {
+  const { t } = useLanguage();
+
   const waUrl = `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(
     'Halo zura-w! Mau tanya info joki game / project.'
   )}`;
@@ -33,19 +36,18 @@ export default function Footer({ onSelectTab }) {
             </button>
 
             <p className="text-xs sm:text-sm text-[#5A4548] leading-relaxed max-w-md font-medium">
-              Portfolio resmi dan pusat layanan joki game terpercaya & digital assets creator oleh{' '}
-              <strong className="text-[#9E1B28]">zura-w</strong>. Spesialisasi generative game assets, integrasi AI, serta jasa push rank 100% murni handplay.
+              {t.footer.bio}
             </p>
 
             <div className="flex flex-wrap items-center gap-2 pt-2">
               <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#9E1B28] text-white">
-                Game Assets & Web
+                {t.footer.pill1}
               </span>
               <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#E58327] text-white">
-                Practical AI
+                {t.footer.pill2}
               </span>
               <span className="text-xs font-bold px-3 py-1 rounded-full bg-white border border-[#9E1B28] text-[#9E1B28]">
-                Pro Joki Handplay
+                {t.footer.pill3}
               </span>
             </div>
           </div>
@@ -53,60 +55,60 @@ export default function Footer({ onSelectTab }) {
           {/* Quick Links */}
           <div className="md:col-span-3 space-y-2">
             <h4 className="text-xs font-black uppercase tracking-wider text-[#9E1B28] font-['Outfit'] mb-3">
-              Halaman
+              {t.footer.pagesTitle}
             </h4>
             <ul className="space-y-1.5 text-xs sm:text-sm font-bold text-[#3D2527]">
               <li>
                 <button onClick={() => handleNav('home')} className="hover:text-[#9E1B28] transition-colors cursor-pointer">
-                  Home
+                  {t.nav.home}
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNav('ai-projects')} className="hover:text-[#9E1B28] transition-colors cursor-pointer">
-                  Showcase Project AI
+                  {t.nav.projects}
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNav('joki-game')} className="hover:text-[#9E1B28] transition-colors cursor-pointer">
-                  Layanan Joki & Kalkulator
+                  {t.nav.joki}
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNav('testimoni')} className="hover:text-[#9E1B28] transition-colors cursor-pointer">
-                  Testimoni Klien
+                  {t.nav.testimoni}
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNav('faq')} className="hover:text-[#9E1B28] transition-colors cursor-pointer">
-                  Tanya Jawab (FAQ) & Kontak
+                  {t.nav.faq}
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* Direct Contact */}
+          {/* Contact */}
           <div className="md:col-span-3 space-y-3">
             <h4 className="text-xs font-black uppercase tracking-wider text-[#9E1B28] font-['Outfit'] mb-3">
-              Kontak Langsung
+              {t.footer.contactTitle}
             </h4>
-            <div className="space-y-2 text-xs sm:text-sm font-semibold">
+            <div className="space-y-2 text-xs sm:text-sm font-semibold text-[#5A4548]">
               <a
                 href={waUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2.5 p-2 rounded-xl bg-white border border-[#9E1B28]/20 hover:border-[#9E1B28] transition-colors text-[#2B1618]"
+                className="flex items-center gap-2 hover:text-[#9E1B28] transition-colors"
               >
-                <div className="w-7 h-7 rounded-full bg-[#9E1B28] text-white flex items-center justify-center shrink-0">
+                <div className="w-7 h-7 rounded-lg bg-green-600 text-white flex items-center justify-center shrink-0">
                   <Phone className="w-3.5 h-3.5" />
                 </div>
-                <span>{personalInfo.phone} (WhatsApp)</span>
+                <span>+{personalInfo.whatsappNumber}</span>
               </a>
 
               <a
                 href={`mailto:${personalInfo.email}`}
-                className="flex items-center gap-2.5 p-2 rounded-xl bg-white border border-[#9E1B28]/20 hover:border-[#9E1B28] transition-colors text-[#2B1618]"
+                className="flex items-center gap-2 hover:text-[#9E1B28] transition-colors"
               >
-                <div className="w-7 h-7 rounded-full bg-[#9E1B28] text-white flex items-center justify-center shrink-0">
+                <div className="w-7 h-7 rounded-lg bg-[#9E1B28] text-white flex items-center justify-center shrink-0">
                   <Mail className="w-3.5 h-3.5" />
                 </div>
                 <span className="truncate">{personalInfo.email}</span>
@@ -118,9 +120,9 @@ export default function Footer({ onSelectTab }) {
 
         {/* Bottom bar */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-bold text-[#6B5B5E]">
-          <p>© {new Date().getFullYear()} zura-w. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {t.footer.copyright}</p>
           <p className="flex items-center gap-1">
-            Game & Digital Assets Creator
+            {t.footer.tagline}
           </p>
         </div>
       </div>

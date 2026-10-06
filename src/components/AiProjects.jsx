@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Sparkles, ArrowUpRight, Cpu, Layers, ExternalLink, Info, Palette } from 'lucide-react';
+import { Sparkles, ArrowUpRight, Cpu, Layers, ExternalLink, Info } from 'lucide-react';
 import { aiProjects, personalInfo } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
 import ProjectModal from './ProjectModal';
 
 export default function AiProjects() {
   const [filterType, setFilterType] = useState('all'); // 'all' | 'ai' | 'non-ai'
   const [activeProject, setActiveProject] = useState(null);
+  const { t } = useLanguage();
 
   const filteredProjects = filterType === 'all'
     ? aiProjects
@@ -28,23 +30,23 @@ export default function AiProjects() {
         <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF4E8] border border-[#9E1B28] text-[#9E1B28] font-black text-xs uppercase tracking-wider mb-3 shadow-2xs">
             <Cpu className="w-3.5 h-3.5" />
-            <span>Karya Digital & Game Asset Lab</span>
+            <span>{t.projects.badge}</span>
           </div>
 
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight font-['Outfit']">
-            <span className="text-[#C02C3C]">PROJECT &</span> <span className="text-[#E58327]">GAME ASSETS</span>
+            <span className="text-[#C02C3C]">{t.projects.titlePrefix}</span> <span className="text-[#E58327]">{t.projects.titleSuffix}</span>
           </h2>
           <p className="mt-2 text-sm sm:text-base text-[#FAF4E8]/90 font-medium">
-            Koleksi asset pack original, web tools, dan aplikasi game AI yang dikembangkan oleh zura-w.
+            {t.projects.subtitle}
           </p>
         </div>
 
         {/* Filter Badges: AI vs Non-AI vs All */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
           {[
-            { id: 'all', label: `Semua Karya (${aiProjects.length})` },
-            { id: 'ai', label: `✨ AI Powered (${aiCount})` },
-            { id: 'non-ai', label: `🎨 Non-AI / Handcrafted (${nonAiCount})` }
+            { id: 'all', label: `${t.projects.filterAll} (${aiProjects.length})` },
+            { id: 'ai', label: `${t.projects.filterAi} (${aiCount})` },
+            { id: 'non-ai', label: `${t.projects.filterNonAi} (${nonAiCount})` }
           ].map((tab) => (
             <button
               key={tab.id}
@@ -127,7 +129,7 @@ export default function AiProjects() {
                 </div>
               </div>
 
-              {/* Action Buttons: Direct Link + Detail Modal (Simulation removed) */}
+              {/* Action Buttons: Direct Link + Detail Modal */}
               <div className="pt-3 border-t border-[#9E1B28]/20 flex items-center gap-2">
                 <a
                   href={project.demoUrl}
@@ -136,7 +138,7 @@ export default function AiProjects() {
                   className="flex-1 flex items-center justify-center gap-1.5 bg-[#9E1B28] hover:bg-[#80141F] text-white font-extrabold text-xs sm:text-sm py-2.5 px-3 rounded-xl shadow-xs transition-colors"
                 >
                   <ExternalLink className="w-4 h-4 text-[#FDE047]" />
-                  <span>{project.actionText || 'Buka Link ↗'}</span>
+                  <span>{project.actionText || t.projects.openApp}</span>
                 </a>
 
                 <button
@@ -146,7 +148,7 @@ export default function AiProjects() {
                   title="Lihat Detail & Fitur"
                 >
                   <Info className="w-4 h-4 text-[#E58327]" />
-                  <span>Detail</span>
+                  <span>{t.projects.detailBtn}</span>
                 </button>
               </div>
 
@@ -155,13 +157,13 @@ export default function AiProjects() {
         </div>
 
         {/* Bottom Banner: Custom Request / Collaboration */}
-        <div className="mt-12 bg-gradient-to-r from-[#9E1B28] to-[#7A111C] border-2 border-white rounded-[24px] p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+        <div className="mt-12 bg-linear-to-r from-[#9E1B28] to-[#7A111C] border-2 border-white rounded-[24px] p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
           <div className="text-center md:text-left">
             <h3 className="text-2xl sm:text-3xl font-black font-['Outfit'] mb-1">
-              Tertarik Kolaborasi Game Asset atau Web App?
+              {t.projects.bannerTitle}
             </h3>
             <p className="text-white/80 text-xs sm:text-sm max-w-xl">
-              Hubungi zura-w via WhatsApp untuk custom game assets, integrasi AI, atau web tools yang disesuaikan dengan kebutuhan project kamu.
+              {t.projects.bannerDesc}
             </p>
           </div>
 
@@ -172,7 +174,7 @@ export default function AiProjects() {
             className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#E58327] hover:bg-[#C26B18] text-white font-black text-sm shadow-md transition-all active:scale-95 shrink-0"
           >
             <Sparkles className="w-4 h-4 text-[#FDE047]" />
-            <span>Diskusi Project</span>
+            <span>{t.projects.bannerBtn}</span>
           </a>
         </div>
 

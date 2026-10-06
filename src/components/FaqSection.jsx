@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
-import { faqs } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState(0);
+  const { t } = useLanguage();
 
   const toggle = (idx) => {
     setOpenIndex(openIndex === idx ? -1 : idx);
   };
+
+  const faqList = t.faq.items || [];
 
   return (
     <section id="faq" className="py-12 md:py-20 px-3 sm:px-6">
@@ -17,20 +20,20 @@ export default function FaqSection() {
         <div className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF4E8] border border-[#9E1B28] text-[#9E1B28] font-black text-xs uppercase tracking-wider mb-3 shadow-2xs">
             <HelpCircle className="w-3.5 h-3.5" />
-            <span>Pertanyaan yang Sering Diajukan</span>
+            <span>{t.faq.badge}</span>
           </div>
 
           <h2 className="text-4xl sm:text-5xl font-black tracking-tight font-['Outfit']">
-            <span className="text-[#C02C3C]">FAQ</span> <span className="text-[#FAF4E8]">&</span> <span className="text-[#E58327]">TANYA JAWAB</span>
+            <span className="text-[#C02C3C]">{t.faq.titlePrefix}</span> <span className="text-[#E58327]">{t.faq.titleSuffix}</span>
           </h2>
           <p className="mt-2 text-sm sm:text-base text-[#FAF4E8]/90 font-medium">
-            Informasi lengkap seputar keamanan akun, metode pengerjaan joki, serta konsultasi project AI.
+            {t.faq.subtitle}
           </p>
         </div>
 
         {/* Accordions */}
         <div className="space-y-3">
-          {faqs.map((faq, idx) => {
+          {faqList.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (
               <div
@@ -40,7 +43,7 @@ export default function FaqSection() {
                 <button
                   type="button"
                   onClick={() => toggle(idx)}
-                  className="w-full flex items-center justify-between p-4 sm:p-5 text-left font-extrabold text-sm sm:text-base text-[#2B1618] hover:text-[#9E1B28] transition-colors gap-3"
+                  className="w-full flex items-center justify-between p-4 sm:p-5 text-left font-extrabold text-sm sm:text-base text-[#2B1618] hover:text-[#9E1B28] transition-colors gap-3 cursor-pointer"
                 >
                   <span className="flex items-center gap-2.5">
                     <span className="w-6 h-6 rounded-full bg-[#9E1B28] text-white flex items-center justify-center text-xs font-black shrink-0">

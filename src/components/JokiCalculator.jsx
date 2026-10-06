@@ -5,8 +5,10 @@ import {
 } from 'lucide-react';
 import { jokiGames, personalInfo } from '../data/portfolioData';
 import { generateInvoiceImage } from '../utils/generateInvoiceImage';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function JokiCalculator() {
+  const { t } = useLanguage();
   const [selectedGameId, setSelectedGameId] = useState('mlbb');
   const [currentRankIndex, setCurrentRankIndex] = useState(2); // e.g. Epic
   const [targetRankIndex, setTargetRankIndex] = useState(4);  // e.g. Mythic
@@ -203,14 +205,14 @@ Apakah slot pengerjaan masih tersedia?`;
         <div className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E58327] text-white font-black text-xs uppercase tracking-wider mb-3 shadow-2xs">
             <Calculator className="w-3.5 h-3.5" />
-            <span>Simulasi Harga 100% Akurat</span>
+            <span>{t.calc.badge}</span>
           </div>
 
           <h2 className="text-4xl sm:text-5xl font-black tracking-tight font-['Outfit']">
-            <span className="text-[#C02C3C]">KALKULATOR</span> <span className="text-[#E58327]">JOKI</span>
+            <span className="text-[#C02C3C]">{t.calc.titlePrefix}</span> <span className="text-[#E58327]">{t.calc.titleSuffix}</span>
           </h2>
           <p className="mt-2 text-sm sm:text-base text-[#FAF4E8]/90 font-medium">
-            Simulasikan estimasi harga joki rank atau perawatan akun secara real-time dan transparan.
+            {t.calc.subtitle}
           </p>
         </div>
 
@@ -224,7 +226,7 @@ Apakah slot pengerjaan masih tersedia?`;
               {/* 1. Pilih Game */}
               <div>
                 <label className="block text-xs font-black uppercase tracking-wider text-[#9E1B28] mb-2 font-['Outfit']">
-                  1. Pilih Game
+                  {t.calc.step1}
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   {jokiGames.map((g) => (
@@ -253,7 +255,7 @@ Apakah slot pengerjaan masih tersedia?`;
               {isDirectServiceGame ? (
                 <div>
                   <label className="block text-xs font-black uppercase tracking-wider text-[#9E1B28] mb-1.5 font-['Outfit']">
-                    2. Pilih Paket Layanan / Durasi ({activeGame.name})
+                    {t.calc.step2Service} ({activeGame.name})
                   </label>
                   <select
                     value={safeServiceIndex}
@@ -273,7 +275,7 @@ Apakah slot pengerjaan masih tersedia?`;
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-black uppercase tracking-wider text-[#9E1B28] mb-1.5 font-['Outfit']">
-                        2. Rank Saat Ini
+                        {t.calc.step2RankFrom}
                       </label>
                       <select
                         value={safeCurrentRank}
@@ -294,7 +296,7 @@ Apakah slot pengerjaan masih tersedia?`;
 
                     <div>
                       <label className="block text-xs font-black uppercase tracking-wider text-[#9E1B28] mb-1.5 font-['Outfit']">
-                        3. Target Rank
+                        {t.calc.step3RankTo}
                       </label>
                       <select
                         value={safeTargetRank}
@@ -303,7 +305,7 @@ Apakah slot pengerjaan masih tersedia?`;
                       >
                         {activeGame.ranks.map((r, i) => (
                           <option key={i} value={i} disabled={i < safeCurrentRank}>
-                            {r.name} {i < safeCurrentRank ? '(Di bawah rank awal)' : ''}
+                            {r.name} {i < safeCurrentRank ? t.calc.belowInitialRank : ''}
                           </option>
                         ))}
                       </select>
@@ -314,10 +316,10 @@ Apakah slot pengerjaan masih tersedia?`;
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <label className="text-xs font-black uppercase tracking-wider text-[#9E1B28] font-['Outfit']">
-                        4. Total Bintang / Win Ditargetkan:
+                        {t.calc.step4Stars}
                       </label>
                       <span className="px-3 py-1 bg-[#E58327] text-white font-black text-xs rounded-full">
-                        {starCount} Bintang
+                        {starCount} {t.calc.starsUnit}
                       </span>
                     </div>
                     <input
@@ -329,9 +331,9 @@ Apakah slot pengerjaan masih tersedia?`;
                       className="w-full h-2.5 bg-white border border-[#9E1B28]/30 rounded-lg appearance-none cursor-pointer accent-[#9E1B28]"
                     />
                     <div className="flex justify-between text-[10px] text-[#6B5B5E] font-bold mt-1">
-                      <span>1 Bintang</span>
-                      <span>10 Bintang</span>
-                      <span>25 Bintang</span>
+                      <span>1 {t.calc.starsUnit}</span>
+                      <span>10 {t.calc.starsUnit}</span>
+                      <span>25 {t.calc.starsUnit}</span>
                     </div>
                   </div>
                 </>
@@ -340,7 +342,7 @@ Apakah slot pengerjaan masih tersedia?`;
               {/* Opsi Tambahan (No Joki Gendong) */}
               <div>
                 <label className="block text-xs font-black uppercase tracking-wider text-[#9E1B28] mb-2 font-['Outfit']">
-                  {isDirectServiceGame ? '3. Opsi Tambahan' : '5. Opsi Tambahan'}
+                  {isDirectServiceGame ? `3. ${t.calc.stepAddons}` : `5. ${t.calc.stepAddons}`}
                 </label>
                 <div className="space-y-2.5">
                   <label className="flex items-center justify-between p-3 rounded-xl bg-white border border-[#9E1B28]/30 cursor-pointer hover:border-[#9E1B28] transition-colors">
@@ -353,10 +355,10 @@ Apakah slot pengerjaan masih tersedia?`;
                       />
                       <div>
                         <span className="text-xs sm:text-sm font-bold text-[#2B1618] block">
-                          Private Live Stream via Discord
+                          {t.joki.streamTitle}
                         </span>
                         <span className="text-[11px] text-[#6B5B5E] block">
-                          Nonton langsung permainan joki di Discord
+                          {t.joki.streamDesc}
                         </span>
                       </div>
                     </div>
@@ -373,10 +375,10 @@ Apakah slot pengerjaan masih tersedia?`;
                       />
                       <div>
                         <span className="text-xs sm:text-sm font-bold text-[#2B1618] block">
-                          Express Kilat (Prioritas Antrian Utama)
+                          {t.joki.expressTitle}
                         </span>
                         <span className="text-[11px] text-[#6B5B5E] block">
-                          Dikerjakan pertama hari ini
+                          {t.joki.expressDesc}
                         </span>
                       </div>
                     </div>
@@ -393,14 +395,14 @@ Apakah slot pengerjaan masih tersedia?`;
                       />
                       <div>
                         <span className="text-xs sm:text-sm font-bold text-[#2B1618] block">
-                          Request Hero / Jam Main
+                          {t.joki.heroTitle}
                         </span>
                         <span className="text-[11px] text-[#6B5B5E] block">
-                          Hero favorit disesuaikan
+                          {t.joki.heroDesc}
                         </span>
                       </div>
                     </div>
-                    <span className="text-xs font-black text-green-600 shrink-0">GRATIS</span>
+                    <span className="text-xs font-black text-green-600 shrink-0">{t.joki.free}</span>
                   </label>
                 </div>
               </div>
@@ -412,7 +414,7 @@ Apakah slot pengerjaan masih tersedia?`;
               <div>
                 <div className="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
                   <span className="text-xs font-black uppercase tracking-wider text-[#FDE047] font-['Outfit']">
-                    Ringkasan Order
+                    {t.joki.receiptTitle}
                   </span>
                   <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded font-mono font-bold">
                     {orderId}
@@ -421,19 +423,19 @@ Apakah slot pengerjaan masih tersedia?`;
 
                 <div className="space-y-3 text-xs sm:text-sm">
                   <div className="flex justify-between">
-                    <span className="text-white/70">Game:</span>
+                    <span className="text-white/70">{t.joki.receiptCategory}</span>
                     <span className="font-extrabold">{activeGame.name}</span>
                   </div>
 
                   <div className="flex justify-between">
-                    <span className="text-white/70">Detail Layanan:</span>
+                    <span className="text-white/70">{t.joki.receiptItem}</span>
                     <span className="font-extrabold text-[#FDE047] text-right">
                       {calculation.description}
                     </span>
                   </div>
 
                   <div className="flex justify-between border-t border-white/10 pt-2">
-                    <span className="text-white/70">Subtotal Dasar:</span>
+                    <span className="text-white/70">{t.calc.subtotalBase}</span>
                     <span className="font-bold">
                       Rp {calculation.basePrice.toLocaleString('id-ID')}
                     </span>
@@ -443,13 +445,13 @@ Apakah slot pengerjaan masih tersedia?`;
                   {calculation.activeAddons.length > 0 && (
                     <div className="bg-black/20 p-2.5 rounded-xl space-y-1.5 border border-white/10">
                       <span className="text-[11px] font-bold text-[#FDE047] block">
-                        Rincian Tambahan:
+                        {t.calc.addonsBreakdown}
                       </span>
                       {calculation.activeAddons.map((addon, idx) => (
                         <div key={idx} className="flex justify-between text-[11px]">
                           <span className="text-white/80">• {addon.name}</span>
                           <span className="font-mono font-bold text-[#FDE047]">
-                            {addon.price > 0 ? `+Rp ${addon.price.toLocaleString('id-ID')}` : 'Gratis'}
+                            {addon.price > 0 ? `+Rp ${addon.price.toLocaleString('id-ID')}` : t.joki.free}
                           </span>
                         </div>
                       ))}
@@ -457,7 +459,7 @@ Apakah slot pengerjaan masih tersedia?`;
                   )}
 
                   <div className="flex justify-between">
-                    <span className="text-white/70">Estimasi Selesai:</span>
+                    <span className="text-white/70">{t.calc.estCompleted}</span>
                     <span className="font-extrabold flex items-center gap-1">
                       <Clock className="w-3.5 h-3.5 text-[#FDE047]" />
                       {calculation.estimatedTime}
@@ -465,23 +467,23 @@ Apakah slot pengerjaan masih tersedia?`;
                   </div>
 
                   <div className="flex justify-between">
-                    <span className="text-white/70">Keamanan:</span>
+                    <span className="text-white/70">{t.joki.receiptSecurity}</span>
                     <span className="font-extrabold text-green-300 flex items-center gap-1">
                       <ShieldCheck className="w-3.5 h-3.5" />
-                      100% Handplay Garansi
+                      {t.calc.securityGuarantee}
                     </span>
                   </div>
                 </div>
 
                 <div className="mt-6 pt-5 border-t border-white/20">
                   <span className="text-xs text-white/80 font-bold uppercase tracking-wider">
-                    Total Estimasi Biaya
+                    {t.calc.totalEstimate}
                   </span>
                   <div className="text-3xl sm:text-4xl font-black text-[#FDE047] mt-1 font-['Outfit']">
                     Rp {calculation.finalTotal.toLocaleString('id-ID')}
                   </div>
                   <p className="text-[11px] text-white/60 mt-0.5">
-                    *Mendukung QRIS Kazura Store & Semua Bank
+                    {t.calc.paymentSupport}
                   </p>
                 </div>
               </div>
@@ -502,7 +504,7 @@ Apakah slot pengerjaan masih tersedia?`;
                   className="w-full flex items-center justify-center gap-2 bg-[#FAF4E8] hover:bg-[#F3ECE0] text-[#9E1B28] font-black text-xs sm:text-sm py-3 px-4 rounded-xl shadow-md transition-all active:translate-y-0.5 cursor-pointer border border-[#7A111C]"
                 >
                   <Download className="w-4 h-4 text-[#9E1B28]" />
-                  <span>{isGeneratingImage ? 'Membuat Gambar...' : 'Simpan Gambar Struk (PNG)'}</span>
+                  <span>{isGeneratingImage ? t.joki.btnGenerating : t.joki.btnDownloadReceipt}</span>
                 </button>
 
                 {/* Salin Struk */}
@@ -512,7 +514,7 @@ Apakah slot pengerjaan masih tersedia?`;
                   className="w-full flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold text-xs py-2 px-3 rounded-xl transition-all cursor-pointer border border-white/20"
                 >
                   {copySuccess ? <Check className="w-3.5 h-3.5 text-green-300" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copySuccess ? 'Tersalin ke Clipboard!' : 'Salin Gambar Struk (Ctrl+V)'}</span>
+                  <span>{copySuccess ? t.joki.btnCopiedReceipt : t.joki.btnCopyReceipt}</span>
                 </button>
 
                 {/* Order via WhatsApp */}
@@ -523,14 +525,14 @@ Apakah slot pengerjaan masih tersedia?`;
                   className="w-full flex items-center justify-center gap-2 bg-[#E58327] hover:bg-[#D4741B] text-white font-black text-sm py-3.5 px-4 rounded-xl shadow-lg transition-transform active:scale-95 border-2 border-white cursor-pointer"
                 >
                   <MessageCircle className="w-5 h-5 text-white" />
-                  <span>Order via WhatsApp Sekarang</span>
+                  <span>{t.joki.btnOrderWaNow}</span>
                 </a>
 
                 {/* Tips */}
                 <div className="p-2 bg-black/20 rounded-xl border border-white/10 flex items-start gap-1.5">
                   <AlertCircle className="w-3.5 h-3.5 text-[#FDE047] shrink-0 mt-0.5" />
                   <p className="text-[10px] text-white/80 leading-tight">
-                    WhatsApp hanya menerima teks dari link web. Simpan gambar struk di atas lalu lampirkan langsung di ruang chat WhatsApp.
+                    {t.joki.receiptWaTip}
                   </p>
                 </div>
               </div>

@@ -10,9 +10,12 @@ import Footer from './components/Footer';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
 import QrisModal from './components/QrisModal';
 import { ArrowLeft } from 'lucide-react';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import './App.css';
 
-function App() {
+function AppContent() {
+  const { t } = useLanguage();
+
   // Sync tab with URL hash if available
   const getInitialTab = () => {
     const hash = window.location.hash.replace('#', '');
@@ -57,14 +60,14 @@ function App() {
       />
 
       <div className="relative z-10 flex flex-col min-h-screen">
-        {/* Navigation Bar with Active Tabs */}
+        {/* Navigation Bar with Active Tabs & Language Switcher */}
         <Navbar 
           activeTab={activeTab} 
           onSelectTab={handleSelectTab} 
           onOpenDonate={() => setIsQrisOpen(true)} 
         />
 
-        {/* Main Content Area: Renders only the active page tab */}
+        {/* Main Content Area */}
         <main className="flex-1">
           
           {/* Back to Home Button on sub-pages */}
@@ -75,7 +78,7 @@ function App() {
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#FAF4E8] text-[#9E1B28] border-2 border-[#9E1B28] text-xs font-black hover:bg-[#9E1B28] hover:text-white transition-all shadow-xs cursor-pointer"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
-                <span>Kembali ke Home</span>
+                <span>{t.common.backToHome}</span>
               </button>
             </div>
           )}
@@ -85,7 +88,7 @@ function App() {
             <ModernHero onNavigate={handleSelectTab} />
           )}
 
-          {/* 2. Halaman Project AI */}
+          {/* 2. Halaman Project & Assets */}
           {activeTab === 'ai-projects' && (
             <div className="animate-in fade-in duration-300">
               <AiProjects />
@@ -132,4 +135,10 @@ function App() {
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
+  );
+}
