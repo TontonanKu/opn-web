@@ -70,19 +70,8 @@ export default function Navbar({ activeTab = 'home', onSelectTab, onOpenDonate }
             })}
           </nav>
 
-          {/* Action & Language Toggle (Desktop) */}
+          {/* Action (Desktop) */}
           <div className="hidden sm:flex items-center gap-2.5">
-            {/* Language Switcher */}
-            <button
-              type="button"
-              onClick={toggleLang}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border-2 border-[#9E1B28] text-xs font-black text-[#9E1B28] hover:bg-[#FAF4E8] shadow-xs transition-all active:scale-95 cursor-pointer"
-              title={lang === 'id' ? 'Switch to English' : 'Ganti ke Bahasa Indonesia'}
-            >
-              <Globe className="w-3.5 h-3.5 text-[#E58327]" />
-              <span>{lang === 'id' ? '🇮🇩 ID' : '🇬🇧 EN'}</span>
-            </button>
-
             {/* Donate Button */}
             <button
               onClick={onOpenDonate}
@@ -93,16 +82,8 @@ export default function Navbar({ activeTab = 'home', onSelectTab, onOpenDonate }
             </button>
           </div>
 
-          {/* Mobile Right Controls: Lang + Hamburger */}
+          {/* Mobile Right Controls: Hamburger */}
           <div className="flex sm:hidden items-center gap-2">
-            <button
-              type="button"
-              onClick={toggleLang}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-white border-2 border-[#9E1B28] text-[11px] font-black text-[#9E1B28] shadow-xs"
-            >
-              <span>{lang === 'id' ? '🇮🇩 ID' : '🇬🇧 EN'}</span>
-            </button>
-
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-lg text-[#9E1B28] hover:bg-[#F3ECE0] transition-colors"

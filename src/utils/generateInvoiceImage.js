@@ -21,7 +21,12 @@ export function generateInvoiceImage({
   addons = [],
   totalPrice = 0,
   estimatedTime = '1 - 2 Hari',
-  orderNumber = null
+  orderNumber = null,
+  currency = 'IDR',
+  formattedUnitPrice = null,
+  formattedSubtotal = null,
+  formattedTotal = null,
+  secondaryTotalText = null
 }) {
   return new Promise((resolve, reject) => {
     try {
@@ -115,13 +120,15 @@ export function generateInvoiceImage({
       ctx.font = 'bold 18px monospace';
       ctx.textAlign = 'right';
       const baseSubtotal = (unitPrice || 0) * (quantity || 1);
-      ctx.fillText(`Rp ${baseSubtotal.toLocaleString('id-ID')}`, width - 75, currentY);
+      const displaySubtotal = formattedSubtotal || (currency === 'MYR' ? `RM ${baseSubtotal.toFixed(2)}` : `Rp ${baseSubtotal.toLocaleString('id-ID')}`);
+      ctx.fillText(displaySubtotal, width - 75, currentY);
       ctx.textAlign = 'left';
 
       currentY += 28;
       ctx.fillStyle = '#6B5B5E';
       ctx.font = '14px sans-serif';
-      ctx.fillText(`Jumlah: ${quantity} unit/bintang @ Rp ${(unitPrice || 0).toLocaleString('id-ID')}`, 75, currentY);
+      const displayUnitPrice = formattedUnitPrice || (currency === 'MYR' ? `RM ${unitPrice.toFixed(2)}` : `Rp ${(unitPrice || 0).toLocaleString('id-ID')}`);
+      ctx.fillText(`Jumlah: ${quantity} unit/bintang @ ${displayUnitPrice}`, 75, currentY);
 
       // Addons Lines
       if (addons && addons.length > 0) {
@@ -139,7 +146,10 @@ export function generateInvoiceImage({
           ctx.textAlign = 'right';
           ctx.font = 'bold 15px monospace';
           ctx.fillStyle = '#E58327';
-          ctx.fillText(`+Rp ${(add.price || 0).toLocaleString('id-ID')}`, width - 75, currentY);
+          const addPriceText = add.formattedPrice || (add.price > 0 
+            ? (currency === 'MYR' ? `+RM ${(add.priceMyr || (add.price / 4374)).toFixed(2)}` : `+Rp ${(add.price || 0).toLocaleString('id-ID')}`)
+            : 'GRATIS');
+          ctx.fillText(addPriceText, width - 75, currentY);
           ctx.textAlign = 'left';
         });
       }
@@ -167,11 +177,18 @@ export function generateInvoiceImage({
 
       ctx.fillStyle = '#FAF4E8';
       ctx.font = 'bold 18px sans-serif';
-      ctx.fillText('TOTAL ESTIMASI BIAYA:', 80, 748);
+      ctx.fillText('TOTAL ESTIMASI BIAYA:', 80, 745);
 
       ctx.fillStyle = '#FDE047';
       ctx.font = 'bold 44px sans-serif';
-      ctx.fillText(`Rp ${totalPrice.toLocaleString('id-ID')}`, 80, 802);
+      const displayTotal = formattedTotal || (currency === 'MYR' ? `RM ${(totalPrice).toFixed(2)}` : `Rp ${totalPrice.toLocaleString('id-ID')}`);
+      ctx.fillText(displayTotal, 80, 800);
+
+      if (secondaryTotalText) {
+        ctx.fillStyle = '#FAF4E8';
+        ctx.font = 'bold 16px monospace';
+        ctx.fillText(`(${secondaryTotalText})`, 80 + ctx.measureText(displayTotal).width + 15, 796);
+      }
 
       ctx.fillStyle = '#FAF4E8';
       ctx.font = '13px sans-serif';

@@ -3,14 +3,19 @@ import {
   Gamepad2, ShieldCheck, Zap, Trophy, Flame, CheckCircle, ArrowRight, 
   Eye, Star, Plus, Minus, Download, Copy, Check, MessageCircle, 
   ShoppingBag, Sparkles, Clock, AlertCircle, Smartphone, Crown, ShieldAlert,
-  PlayCircle, FileText, Palette, Languages, Award
+  PlayCircle, FileText, Palette, Languages, Award, Globe
 } from 'lucide-react';
 import { getJokiGames, getPremiumApps, getPremiumAppsNotes, personalInfo } from '../data/portfolioData';
 import { generateInvoiceImage } from '../utils/generateInvoiceImage';
 import { useLanguage } from '../context/LanguageContext';
+import { useExchangeRate } from '../utils/currencyRate';
 
 export default function JokiServices() {
   const { t, lang } = useLanguage();
+  const { rate, isLive, formatMyr, formatIdr, convertIdrToMyr } = useExchangeRate();
+
+  // Currency: 'IDR' | 'MYR' (Only for Joki Games, not for apps)
+  const [currency, setCurrency] = useState('IDR');
   
   const jokiGames = useMemo(() => getJokiGames(lang), [lang]);
   const premiumApps = useMemo(() => getPremiumApps(lang), [lang]);
@@ -45,6 +50,9 @@ export default function JokiServices() {
   const activeGame = isAppsTab 
     ? null 
     : (jokiGames.find((g) => g.id === activeTabId) || jokiGames[0]);
+
+  // Active currency: locked to IDR if appsTab is selected
+  const isMyr = !isAppsTab && currency === 'MYR';
 
   // Tab switch
   const handleTabChange = (tabId) => {
@@ -167,15 +175,32 @@ export default function JokiServices() {
   const handleDownloadInvoice = async () => {
     try {
       setIsGeneratingImage(true);
+      const isMyrMode = !isAppsTab && currency === 'MYR';
+      const myrUnitPrice = convertIdrToMyr(orderDetails.unitPrice);
+      const myrBaseTotal = convertIdrToMyr(orderDetails.baseTotal);
+      const myrFinalTotal = convertIdrToMyr(orderDetails.finalTotal);
+
+      const formattedAddons = orderDetails.activeAddons.map(a => ({
+        ...a,
+        formattedPrice: a.price > 0 
+          ? (isMyrMode ? `+RM ${convertIdrToMyr(a.price).toFixed(2)}` : `+Rp ${a.price.toLocaleString('id-ID')}`)
+          : t.joki.free
+      }));
+
       const { blob, url } = await generateInvoiceImage({
         gameName: orderDetails.categoryName,
         tierName: orderDetails.title,
         quantity,
-        unitPrice: orderDetails.unitPrice,
-        addons: orderDetails.activeAddons,
-        totalPrice: orderDetails.finalTotal,
+        unitPrice: isMyrMode ? myrUnitPrice : orderDetails.unitPrice,
+        addons: formattedAddons,
+        totalPrice: isMyrMode ? myrFinalTotal : orderDetails.finalTotal,
         estimatedTime: orderDetails.timeEst,
-        orderNumber: orderId
+        orderNumber: orderId,
+        currency: isMyrMode ? 'MYR' : 'IDR',
+        formattedUnitPrice: isMyrMode ? `RM ${myrUnitPrice.toFixed(2)}` : null,
+        formattedSubtotal: isMyrMode ? `RM ${myrBaseTotal.toFixed(2)}` : null,
+        formattedTotal: isMyrMode ? `RM ${myrFinalTotal.toFixed(2)}` : null,
+        secondaryTotalText: isMyrMode ? `≈ Rp ${orderDetails.finalTotal.toLocaleString('id-ID')}` : null
       });
 
       const a = document.createElement('a');
@@ -198,16 +223,33 @@ export default function JokiServices() {
 
   // Handle Copy to Clipboard (Image or Text)
   const handleCopyInvoice = async () => {
+    const isMyrMode = !isAppsTab && currency === 'MYR';
+    const myrUnitPrice = convertIdrToMyr(orderDetails.unitPrice);
+    const myrBaseTotal = convertIdrToMyr(orderDetails.baseTotal);
+    const myrFinalTotal = convertIdrToMyr(orderDetails.finalTotal);
+
+    const formattedAddons = orderDetails.activeAddons.map(a => ({
+      ...a,
+      formattedPrice: a.price > 0 
+        ? (isMyrMode ? `+RM ${convertIdrToMyr(a.price).toFixed(2)}` : `+Rp ${a.price.toLocaleString('id-ID')}`)
+        : t.joki.free
+    }));
+
     try {
       const { blob } = await generateInvoiceImage({
         gameName: orderDetails.categoryName,
         tierName: orderDetails.title,
         quantity,
-        unitPrice: orderDetails.unitPrice,
-        addons: orderDetails.activeAddons,
-        totalPrice: orderDetails.finalTotal,
+        unitPrice: isMyrMode ? myrUnitPrice : orderDetails.unitPrice,
+        addons: formattedAddons,
+        totalPrice: isMyrMode ? myrFinalTotal : orderDetails.finalTotal,
         estimatedTime: orderDetails.timeEst,
-        orderNumber: orderId
+        orderNumber: orderId,
+        currency: isMyrMode ? 'MYR' : 'IDR',
+        formattedUnitPrice: isMyrMode ? `RM ${myrUnitPrice.toFixed(2)}` : null,
+        formattedSubtotal: isMyrMode ? `RM ${myrBaseTotal.toFixed(2)}` : null,
+        formattedTotal: isMyrMode ? `RM ${myrFinalTotal.toFixed(2)}` : null,
+        secondaryTotalText: isMyrMode ? `≈ Rp ${orderDetails.finalTotal.toLocaleString('id-ID')}` : null
       });
 
       if (navigator.clipboard && window.ClipboardItem) {
@@ -226,7 +268,11 @@ export default function JokiServices() {
       console.log('Clipboard image fallback');
     }
 
-    const textToCopy = `Order ${orderDetails.categoryName}\n${orderDetails.title} (${quantity}x) = Rp ${orderDetails.finalTotal.toLocaleString('id-ID')}\nInvoice: ${orderId}`;
+    const priceText = isMyrMode 
+      ? `RM ${myrFinalTotal.toFixed(2)} (≈ Rp ${orderDetails.finalTotal.toLocaleString('id-ID')})`
+      : `Rp ${orderDetails.finalTotal.toLocaleString('id-ID')}`;
+
+    const textToCopy = `Order ${orderDetails.categoryName}\n${orderDetails.title} (${quantity}x) = ${priceText}\nInvoice: ${orderId}`;
     navigator.clipboard.writeText(textToCopy);
     setCopySuccess(true);
     setToastMessage(t.joki.toastCopiedText);
@@ -238,8 +284,16 @@ export default function JokiServices() {
 
   // Generate WhatsApp order message URL
   const waOrderUrl = useMemo(() => {
+    const isMyrMode = !isAppsTab && currency === 'MYR';
+    const myrFinalTotal = convertIdrToMyr(orderDetails.finalTotal);
+
     const addonListStr = orderDetails.activeAddons.length > 0 
-      ? orderDetails.activeAddons.map(a => a.name).join(', ') 
+      ? orderDetails.activeAddons.map(a => {
+          if (a.price > 0 && isMyrMode) {
+            return `${a.name} (+RM ${convertIdrToMyr(a.price).toFixed(2)})`;
+          }
+          return a.name;
+        }).join(', ') 
       : (lang === 'en' ? 'Standard Handplay' : 'Standar');
 
     const itemLabel = isAppsTab 
@@ -250,6 +304,10 @@ export default function JokiServices() {
       ? (lang === 'en' ? 'Account/License' : 'Akun/Lisensi') 
       : (activeGame?.id === 'mlbb' ? (lang === 'en' ? 'Stars' : 'Bintang') : (lang === 'en' ? 'Package' : 'Paket'));
 
+    const costStr = isMyrMode
+      ? `RM ${myrFinalTotal.toFixed(2)} (≈ Rp ${orderDetails.finalTotal.toLocaleString('id-ID')})\n💱 Kurs Real-Time: 1 MYR ≈ Rp ${Math.round(rate).toLocaleString('id-ID')}\n🇲🇾 Pembayaran: DuitNow / QRIS / Wise / Bank Transfer`
+      : `Rp ${orderDetails.finalTotal.toLocaleString('id-ID')}`;
+
     const msg = lang === 'en' 
       ? `Hello zura-w!
 I would like to order ${itemLabel}:
@@ -257,7 +315,7 @@ I would like to order ${itemLabel}:
 ⭐ Quantity: ${quantity} ${qtyUnit}
 ⏱ Duration/Estimate: ${orderDetails.timeEst}
 ⚡ Options/Notes: ${addonListStr}
-💰 Total Cost: Rp ${orderDetails.finalTotal.toLocaleString('id-ID')}
+💰 Total Cost: ${costStr}
 📄 Invoice No: ${orderId}
 
 (I have saved the order receipt image and will attach it in this chat)
@@ -268,14 +326,14 @@ Saya mau order ${itemLabel}:
 ⭐ Jumlah: ${quantity} ${qtyUnit}
 ⏱ Durasi/Estimasi: ${orderDetails.timeEst}
 ⚡ Catatan/Opsi: ${addonListStr}
-💰 Total Biaya: Rp ${orderDetails.finalTotal.toLocaleString('id-ID')}
+💰 Total Biaya: ${costStr}
 📄 No. Invoice: ${orderId}
 
 (Gambar struk order sudah saya simpan dan akan saya lampirkan di chat ini)
 Apakah stok / slot pengerjaan masih tersedia?`;
 
     return `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(msg)}`;
-  }, [isAppsTab, activeGame, orderDetails, quantity, orderId, lang]);
+  }, [isAppsTab, activeGame, orderDetails, quantity, orderId, lang, currency, rate]);
 
   return (
     <section id="joki-game" className="py-12 md:py-20 px-3 sm:px-6">
@@ -564,9 +622,20 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                               </div>
 
                               <div className="text-right">
-                                <span className={`text-xs sm:text-sm font-black ${isSelected ? 'text-[#FDE047]' : 'text-[#9E1B28]'}`}>
-                                  Rp {r.pricePerStar.toLocaleString('id-ID')}
-                                </span>
+                                {isMyr ? (
+                                  <div>
+                                    <span className={`text-xs sm:text-sm font-black ${isSelected ? 'text-[#FDE047]' : 'text-[#9E1B28]'}`}>
+                                      RM {convertIdrToMyr(r.pricePerStar).toFixed(2)}
+                                    </span>
+                                    <span className={`block text-[10px] font-bold ${isSelected ? 'text-white/80' : 'text-[#6B5B5E]'}`}>
+                                      ≈ Rp {r.pricePerStar.toLocaleString('id-ID')}
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <span className={`text-xs sm:text-sm font-black ${isSelected ? 'text-[#FDE047]' : 'text-[#9E1B28]'}`}>
+                                    Rp {r.pricePerStar.toLocaleString('id-ID')}
+                                  </span>
+                                )}
                               </div>
                             </button>
                           );
@@ -596,6 +665,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                     <div className="space-y-3">
                       {activeGame.packages.map((pkg, idx) => {
                         const isSelected = selectedItemType === 'package' && selectedPackageIndex === idx;
+                        const pkgNumPrice = parseInt(pkg.price.replace(/[^0-9]/g, ''), 10) || 0;
                         return (
                           <div
                             key={idx}
@@ -609,9 +679,22 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                               <h5 className={`font-black text-sm ${isSelected ? 'text-white' : 'text-[#2B1618]'}`}>
                                 {pkg.name}
                               </h5>
-                              <span className={`text-sm font-black shrink-0 ${isSelected ? 'text-[#FDE047]' : 'text-[#9E1B28]'}`}>
-                                {pkg.price}
-                              </span>
+                              <div className="text-right shrink-0">
+                                {isMyr ? (
+                                  <div>
+                                    <span className={`text-sm font-black ${isSelected ? 'text-[#FDE047]' : 'text-[#9E1B28]'}`}>
+                                      RM {convertIdrToMyr(pkgNumPrice).toFixed(2)}
+                                    </span>
+                                    <span className={`block text-[10px] font-bold ${isSelected ? 'text-white/80' : 'text-[#6B5B5E]'}`}>
+                                      ≈ {pkg.price}
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <span className={`text-sm font-black ${isSelected ? 'text-[#FDE047]' : 'text-[#9E1B28]'}`}>
+                                    {pkg.price}
+                                  </span>
+                                )}
+                              </div>
                             </div>
 
                             <div className="flex items-center justify-between text-xs font-medium mb-3">
@@ -802,6 +885,55 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                 </div>
               </div>
 
+              {/* Currency Selector (Only for Joki Games, not for Apk Premium) */}
+              {!isAppsTab && (
+                <div className="mt-4 flex flex-wrap items-center justify-between gap-3 p-3.5 bg-[#FAF4E8] rounded-2xl border-2 border-[#9E1B28]/30">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-[#9E1B28] text-white flex items-center justify-center shrink-0">
+                      <Globe className="w-4 h-4 text-[#FDE047]" />
+                    </div>
+                    <div>
+                      <span className="text-xs font-black text-[#9E1B28] uppercase tracking-wide">
+                        {lang === 'en' ? 'Select Currency:' : 'Pilih Mata Uang:'}
+                      </span>
+                      <span className="text-[11px] text-[#6B5B5E] font-bold flex items-center gap-1.5 mt-0.5">
+                        <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        <span>
+                          {lang === 'en' ? 'Live Bank Rate:' : 'Kurs Real-Time:'} 1 MYR ≈ Rp {Math.round(rate).toLocaleString('id-ID')}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 p-1 bg-white border-2 border-[#9E1B28] rounded-xl shadow-xs">
+                    <button
+                      type="button"
+                      onClick={() => setCurrency('IDR')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                        !isMyr
+                          ? 'bg-[#9E1B28] text-white shadow-2xs'
+                          : 'text-[#2B1618] hover:bg-[#FAF4E8]'
+                      }`}
+                    >
+                      <span>🇮🇩</span>
+                      <span>IDR (Rp)</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCurrency('MYR')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                        isMyr
+                          ? 'bg-[#9E1B28] text-white shadow-2xs'
+                          : 'text-[#2B1618] hover:bg-[#FAF4E8]'
+                      }`}
+                    >
+                      <span>🇲🇾</span>
+                      <span>MYR (RM)</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6">
                 
                 {/* Left Controls */}
@@ -814,7 +946,9 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                         {isAppsTab ? t.joki.qtyApps : t.joki.qtyGaming}
                       </label>
                       <span className="text-xs font-black text-[#E58327]">
-                        @ Rp {orderDetails.unitPrice.toLocaleString('id-ID')}
+                        {isMyr 
+                          ? `@ RM ${convertIdrToMyr(orderDetails.unitPrice).toFixed(2)} (≈ Rp ${orderDetails.unitPrice.toLocaleString('id-ID')})`
+                          : `@ Rp ${orderDetails.unitPrice.toLocaleString('id-ID')}`}
                       </span>
                     </div>
 
@@ -893,7 +1027,9 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                               </span>
                             </div>
                           </div>
-                          <span className="text-xs font-black text-[#E58327] shrink-0">+Rp 15.000</span>
+                          <span className="text-xs font-black text-[#E58327] shrink-0">
+                            {isMyr ? `+RM ${convertIdrToMyr(15000).toFixed(2)}` : '+Rp 15.000'}
+                          </span>
                         </label>
 
                         {/* Express Kilat */}
@@ -985,14 +1121,14 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                       <div className="flex justify-between">
                         <span className="text-white/70">{t.joki.receiptQty}</span>
                         <span className="font-extrabold">
-                          {quantity}x (@ Rp {orderDetails.unitPrice.toLocaleString('id-ID')})
+                          {quantity}x (@ {isMyr ? `RM ${convertIdrToMyr(orderDetails.unitPrice).toFixed(2)}` : `Rp ${orderDetails.unitPrice.toLocaleString('id-ID')}`})
                         </span>
                       </div>
 
                       <div className="flex justify-between border-t border-white/10 pt-2">
                         <span className="text-white/70">{t.joki.receiptSubtotal}</span>
                         <span className="font-bold">
-                          Rp {orderDetails.baseTotal.toLocaleString('id-ID')}
+                          {isMyr ? `RM ${convertIdrToMyr(orderDetails.baseTotal).toFixed(2)}` : `Rp ${orderDetails.baseTotal.toLocaleString('id-ID')}`}
                         </span>
                       </div>
 
@@ -1006,7 +1142,9 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                             <div key={idx} className="flex justify-between text-[11px]">
                               <span className="text-white/80">• {addon.name}</span>
                               <span className="font-mono font-bold text-[#FDE047]">
-                                {addon.price > 0 ? `+Rp ${addon.price.toLocaleString('id-ID')}` : t.joki.free}
+                                {addon.price > 0 
+                                  ? (isMyr ? `+RM ${convertIdrToMyr(addon.price).toFixed(2)}` : `+Rp ${addon.price.toLocaleString('id-ID')}`) 
+                                  : t.joki.free}
                               </span>
                             </div>
                           ))}
@@ -1035,10 +1173,15 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                         {t.joki.receiptTotal}
                       </span>
                       <div className="text-3xl sm:text-4xl font-black text-[#FDE047] mt-1 font-['Outfit']">
-                        Rp {orderDetails.finalTotal.toLocaleString('id-ID')}
+                        {isMyr ? `RM ${convertIdrToMyr(orderDetails.finalTotal).toFixed(2)}` : `Rp ${orderDetails.finalTotal.toLocaleString('id-ID')}`}
                       </div>
+                      {isMyr && (
+                        <div className="text-xs text-white/90 font-mono font-bold mt-1">
+                          ≈ Rp {orderDetails.finalTotal.toLocaleString('id-ID')} (Kurs Live: 1 MYR ≈ Rp {Math.round(rate).toLocaleString('id-ID')})
+                        </div>
+                      )}
                       <p className="text-[11px] text-white/60 mt-0.5">
-                        {t.joki.receiptPaymentSupport}
+                        {isMyr ? '*Mendukung DuitNow QR / Wise / QRIS / Bank Transfer' : t.joki.receiptPaymentSupport}
                       </p>
                     </div>
                   </div>

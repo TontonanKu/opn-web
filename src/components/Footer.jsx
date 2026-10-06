@@ -1,10 +1,10 @@
 import React from 'react';
-import { Phone, Mail, Gamepad2, Sparkles, Heart } from 'lucide-react';
+import { Phone, Mail, Gamepad2, Sparkles, Heart, Globe } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Footer({ onSelectTab }) {
-  const { t } = useLanguage();
+  const { t, lang, setLang } = useLanguage();
 
   const waUrl = `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(
     t.wa.chatPrompt
@@ -86,7 +86,7 @@ export default function Footer({ onSelectTab }) {
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Contact & Orders */}
           <div className="md:col-span-3 space-y-3">
             <h4 className="text-xs font-black uppercase tracking-wider text-[#9E1B28] font-['Outfit'] mb-3">
               {t.footer.contactTitle}
@@ -114,6 +114,41 @@ export default function Footer({ onSelectTab }) {
                 <span className="truncate">{personalInfo.email}</span>
               </a>
             </div>
+
+            {/* Language Switcher Button (Moved from Navbar to Footer) */}
+            <div className="pt-2">
+              <span className="text-[11px] font-bold text-[#6B5B5E] block mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
+                <Globe className="w-3.5 h-3.5 text-[#E58327]" />
+                <span>{lang === 'id' ? 'Bahasa / Language' : 'Language'}</span>
+              </span>
+              <div className="inline-flex p-1 bg-white border-2 border-[#9E1B28] rounded-xl shadow-xs gap-1">
+                <button
+                  type="button"
+                  onClick={() => setLang('id')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                    lang === 'id'
+                      ? 'bg-[#9E1B28] text-white shadow-2xs'
+                      : 'text-[#2B1618] hover:bg-[#FAF4E8]'
+                  }`}
+                >
+                  <span>🇮🇩</span>
+                  <span>Indonesia</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLang('en')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                    lang === 'en'
+                      ? 'bg-[#9E1B28] text-white shadow-2xs'
+                      : 'text-[#2B1618] hover:bg-[#FAF4E8]'
+                  }`}
+                >
+                  <span>🇬🇧</span>
+                  <span>English</span>
+                </button>
+              </div>
+            </div>
+
           </div>
 
         </div>

@@ -1,15 +1,20 @@
 import React, { useState, useMemo } from 'react';
 import { 
   Calculator, MessageCircle, Sparkles, Check, Flame, Clock, 
-  ShieldCheck, Download, Copy, AlertCircle, ArrowRight 
+  ShieldCheck, Download, Copy, AlertCircle, ArrowRight, Globe
 } from 'lucide-react';
 import { getJokiGames, personalInfo } from '../data/portfolioData';
 import { generateInvoiceImage } from '../utils/generateInvoiceImage';
 import { useLanguage } from '../context/LanguageContext';
+import { useExchangeRate } from '../utils/currencyRate';
 
 export default function JokiCalculator() {
   const { t, lang } = useLanguage();
   const jokiGames = useMemo(() => getJokiGames(lang), [lang]);
+  const { rate, convertIdrToMyr } = useExchangeRate();
+
+  const [currency, setCurrency] = useState('IDR'); // 'IDR' or 'MYR'
+  const isMyr = currency === 'MYR';
 
   const [selectedGameId, setSelectedGameId] = useState('mlbb');
   const [currentRankIndex, setCurrentRankIndex] = useState(2); // e.g. Epic
@@ -111,15 +116,31 @@ export default function JokiCalculator() {
   const handleDownloadInvoice = async () => {
     try {
       setIsGeneratingImage(true);
+      const myrUnitPrice = convertIdrToMyr(Math.round(calculation.basePrice / (isDirectServiceGame ? 1 : starCount)));
+      const myrBasePrice = convertIdrToMyr(calculation.basePrice);
+      const myrFinalTotal = convertIdrToMyr(calculation.finalTotal);
+
+      const formattedAddons = calculation.activeAddons.map(a => ({
+        ...a,
+        formattedPrice: a.price > 0 
+          ? (isMyr ? `+RM ${convertIdrToMyr(a.price).toFixed(2)}` : `+Rp ${a.price.toLocaleString('id-ID')}`)
+          : t.joki.free
+      }));
+
       const { blob, url } = await generateInvoiceImage({
         gameName: activeGame.name,
         tierName: calculation.description,
         quantity: isDirectServiceGame ? 1 : starCount,
-        unitPrice: Math.round(calculation.basePrice / (isDirectServiceGame ? 1 : starCount)),
-        addons: calculation.activeAddons,
-        totalPrice: calculation.finalTotal,
+        unitPrice: isMyr ? myrUnitPrice : Math.round(calculation.basePrice / (isDirectServiceGame ? 1 : starCount)),
+        addons: formattedAddons,
+        totalPrice: isMyr ? myrFinalTotal : calculation.finalTotal,
         estimatedTime: calculation.estimatedTime,
-        orderNumber: orderId
+        orderNumber: orderId,
+        currency: isMyr ? 'MYR' : 'IDR',
+        formattedUnitPrice: isMyr ? `RM ${myrUnitPrice.toFixed(2)}` : null,
+        formattedSubtotal: isMyr ? `RM ${myrBasePrice.toFixed(2)}` : null,
+        formattedTotal: isMyr ? `RM ${myrFinalTotal.toFixed(2)}` : null,
+        secondaryTotalText: isMyr ? `≈ Rp ${calculation.finalTotal.toLocaleString('id-ID')}` : null
       });
 
       const a = document.createElement('a');
@@ -142,16 +163,32 @@ export default function JokiCalculator() {
 
   // Copy to clipboard
   const handleCopyInvoice = async () => {
+    const myrUnitPrice = convertIdrToMyr(Math.round(calculation.basePrice / (isDirectServiceGame ? 1 : starCount)));
+    const myrBasePrice = convertIdrToMyr(calculation.basePrice);
+    const myrFinalTotal = convertIdrToMyr(calculation.finalTotal);
+
+    const formattedAddons = calculation.activeAddons.map(a => ({
+      ...a,
+      formattedPrice: a.price > 0 
+        ? (isMyr ? `+RM ${convertIdrToMyr(a.price).toFixed(2)}` : `+Rp ${a.price.toLocaleString('id-ID')}`)
+        : t.joki.free
+    }));
+
     try {
       const { blob } = await generateInvoiceImage({
         gameName: activeGame.name,
         tierName: calculation.description,
         quantity: isDirectServiceGame ? 1 : starCount,
-        unitPrice: Math.round(calculation.basePrice / (isDirectServiceGame ? 1 : starCount)),
-        addons: calculation.activeAddons,
-        totalPrice: calculation.finalTotal,
+        unitPrice: isMyr ? myrUnitPrice : Math.round(calculation.basePrice / (isDirectServiceGame ? 1 : starCount)),
+        addons: formattedAddons,
+        totalPrice: isMyr ? myrFinalTotal : calculation.finalTotal,
         estimatedTime: calculation.estimatedTime,
-        orderNumber: orderId
+        orderNumber: orderId,
+        currency: isMyr ? 'MYR' : 'IDR',
+        formattedUnitPrice: isMyr ? `RM ${myrUnitPrice.toFixed(2)}` : null,
+        formattedSubtotal: isMyr ? `RM ${myrBasePrice.toFixed(2)}` : null,
+        formattedTotal: isMyr ? `RM ${myrFinalTotal.toFixed(2)}` : null,
+        secondaryTotalText: isMyr ? `≈ Rp ${calculation.finalTotal.toLocaleString('id-ID')}` : null
       });
 
       if (navigator.clipboard && window.ClipboardItem) {
@@ -170,7 +207,11 @@ export default function JokiCalculator() {
       console.log('Clipboard fallback');
     }
 
-    const text = `Simulasi Kalkulator Joki ${activeGame.name}\n${calculation.description} = Rp ${calculation.finalTotal.toLocaleString('id-ID')}\nInvoice: ${orderId}`;
+    const priceText = isMyr 
+      ? `RM ${myrFinalTotal.toFixed(2)} (≈ Rp ${calculation.finalTotal.toLocaleString('id-ID')})`
+      : `Rp ${calculation.finalTotal.toLocaleString('id-ID')}`;
+
+    const text = `Simulasi Kalkulator Joki ${activeGame.name}\n${calculation.description} = ${priceText}\nInvoice: ${orderId}`;
     navigator.clipboard.writeText(text);
     setCopySuccess(true);
     setToastMessage(t.joki.toastCopiedText);
@@ -182,9 +223,20 @@ export default function JokiCalculator() {
 
   // WhatsApp order link
   const waOrderUrl = useMemo(() => {
+    const myrFinalTotal = convertIdrToMyr(calculation.finalTotal);
+
     const addonListStr = calculation.activeAddons.length > 0 
-      ? calculation.activeAddons.map(a => a.name).join(', ') 
+      ? calculation.activeAddons.map(a => {
+          if (a.price > 0 && isMyr) {
+            return `${a.name} (+RM ${convertIdrToMyr(a.price).toFixed(2)})`;
+          }
+          return a.name;
+        }).join(', ') 
       : (lang === 'en' ? 'Standard Handplay' : 'Standar Handplay');
+
+    const costStr = isMyr
+      ? `RM ${myrFinalTotal.toFixed(2)} (≈ Rp ${calculation.finalTotal.toLocaleString('id-ID')})\n💱 Kurs Real-Time: 1 MYR ≈ Rp ${Math.round(rate).toLocaleString('id-ID')}\n🇲🇾 Pembayaran: DuitNow / QRIS / Wise / Bank Transfer`
+      : `Rp ${calculation.finalTotal.toLocaleString('id-ID')}`;
 
     const msg = lang === 'en'
       ? `Hello zura-w!
@@ -192,7 +244,7 @@ I would like to order Game Boost via Calculator:
 🎮 Game: ${activeGame.name}
 📍 Details: ${calculation.description}
 ⚡ Add-ons: ${addonListStr}
-💰 Total Estimated Cost: Rp ${calculation.finalTotal.toLocaleString('id-ID')}
+💰 Total Estimated Cost: ${costStr}
 ⏱ Estimate: ${calculation.estimatedTime}
 📄 Invoice No: ${orderId}
 
@@ -203,7 +255,7 @@ Saya mau order Joki Game hasil kalkulator:
 🎮 Game: ${activeGame.name}
 📍 Detail: ${calculation.description}
 ⚡ Opsi Tambahan: ${addonListStr}
-💰 Total Estimasi Biaya: Rp ${calculation.finalTotal.toLocaleString('id-ID')}
+💰 Total Estimasi Biaya: ${costStr}
 ⏱ Estimasi: ${calculation.estimatedTime}
 📄 No. Invoice: ${orderId}
 
@@ -211,7 +263,7 @@ Saya mau order Joki Game hasil kalkulator:
 Apakah slot pengerjaan masih tersedia?`;
 
     return `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(msg)}`;
-  }, [activeGame, calculation, orderId, lang]);
+  }, [activeGame, calculation, orderId, lang, isMyr, rate]);
 
   return (
     <section id="kalkulator" className="py-12 md:py-20 px-3 sm:px-6">
@@ -238,6 +290,51 @@ Apakah slot pengerjaan masih tersedia?`;
             
             {/* Form Inputs (Left) */}
             <div className="lg:col-span-7 space-y-6">
+
+              {/* Currency Selector */}
+              <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-white rounded-2xl border-2 border-[#9E1B28]/30 mb-5 shadow-xs">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-[#9E1B28] text-white flex items-center justify-center shrink-0">
+                    <Globe className="w-3.5 h-3.5 text-[#FDE047]" />
+                  </div>
+                  <div>
+                    <span className="text-xs font-black text-[#9E1B28] uppercase tracking-wide">
+                      {lang === 'en' ? 'Currency:' : 'Mata Uang:'}
+                    </span>
+                    <span className="text-[10px] text-[#6B5B5E] font-bold flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                      <span>1 MYR ≈ Rp {Math.round(rate).toLocaleString('id-ID')}</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1 p-0.5 bg-[#FAF4E8] border border-[#9E1B28]/30 rounded-xl">
+                  <button
+                    type="button"
+                    onClick={() => setCurrency('IDR')}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1 ${
+                      !isMyr
+                        ? 'bg-[#9E1B28] text-white shadow-2xs'
+                        : 'text-[#2B1618] hover:bg-white'
+                    }`}
+                  >
+                    <span>🇮🇩</span>
+                    <span>IDR</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCurrency('MYR')}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1 ${
+                      isMyr
+                        ? 'bg-[#9E1B28] text-white shadow-2xs'
+                        : 'text-[#2B1618] hover:bg-white'
+                    }`}
+                  >
+                    <span>🇲🇾</span>
+                    <span>MYR</span>
+                  </button>
+                </div>
+              </div>
               
               {/* 1. Pilih Game */}
               <div>
@@ -280,7 +377,7 @@ Apakah slot pengerjaan masih tersedia?`;
                   >
                     {activeGame.ranks.map((r, i) => (
                       <option key={i} value={i}>
-                        {r.name} — Rp {r.pricePerStar.toLocaleString('id-ID')}
+                        {r.name} — {isMyr ? `RM ${convertIdrToMyr(r.pricePerStar).toFixed(2)}` : `Rp ${r.pricePerStar.toLocaleString('id-ID')}`}
                       </option>
                     ))}
                   </select>
@@ -378,7 +475,9 @@ Apakah slot pengerjaan masih tersedia?`;
                         </span>
                       </div>
                     </div>
-                    <span className="text-xs font-black text-[#E58327] shrink-0">+Rp 15.000</span>
+                    <span className="text-xs font-black text-[#E58327] shrink-0">
+                      {isMyr ? `+RM ${convertIdrToMyr(15000).toFixed(2)}` : '+Rp 15.000'}
+                    </span>
                   </label>
 
                   <label className="flex items-center justify-between p-3 rounded-xl bg-white border border-[#9E1B28]/30 cursor-pointer hover:border-[#9E1B28] transition-colors">
@@ -453,7 +552,7 @@ Apakah slot pengerjaan masih tersedia?`;
                   <div className="flex justify-between border-t border-white/10 pt-2">
                     <span className="text-white/70">{t.calc.subtotalBase}</span>
                     <span className="font-bold">
-                      Rp {calculation.basePrice.toLocaleString('id-ID')}
+                      {isMyr ? `RM ${convertIdrToMyr(calculation.basePrice).toFixed(2)}` : `Rp ${calculation.basePrice.toLocaleString('id-ID')}`}
                     </span>
                   </div>
 
@@ -467,7 +566,9 @@ Apakah slot pengerjaan masih tersedia?`;
                         <div key={idx} className="flex justify-between text-[11px]">
                           <span className="text-white/80">• {addon.name}</span>
                           <span className="font-mono font-bold text-[#FDE047]">
-                            {addon.price > 0 ? `+Rp ${addon.price.toLocaleString('id-ID')}` : t.joki.free}
+                            {addon.price > 0 
+                              ? (isMyr ? `+RM ${convertIdrToMyr(addon.price).toFixed(2)}` : `+Rp ${addon.price.toLocaleString('id-ID')}`) 
+                              : t.joki.free}
                           </span>
                         </div>
                       ))}
@@ -496,10 +597,15 @@ Apakah slot pengerjaan masih tersedia?`;
                     {t.calc.totalEstimate}
                   </span>
                   <div className="text-3xl sm:text-4xl font-black text-[#FDE047] mt-1 font-['Outfit']">
-                    Rp {calculation.finalTotal.toLocaleString('id-ID')}
+                    {isMyr ? `RM ${convertIdrToMyr(calculation.finalTotal).toFixed(2)}` : `Rp ${calculation.finalTotal.toLocaleString('id-ID')}`}
                   </div>
+                  {isMyr && (
+                    <div className="text-xs text-white/90 font-mono font-bold mt-1">
+                      ≈ Rp {calculation.finalTotal.toLocaleString('id-ID')} (Kurs Live: 1 MYR ≈ Rp {Math.round(rate).toLocaleString('id-ID')})
+                    </div>
+                  )}
                   <p className="text-[11px] text-white/60 mt-0.5">
-                    {t.calc.paymentSupport}
+                    {isMyr ? '*Mendukung DuitNow QR / Wise / QRIS / Bank' : t.calc.paymentSupport}
                   </p>
                 </div>
               </div>
