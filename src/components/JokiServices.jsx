@@ -239,7 +239,7 @@ export default function JokiServices() {
       ? 'Aplikasi Premium' 
       : 'Joki Game';
 
-    const msg = `Halo Reihan (zura-w)!
+    const msg = `Halo zura-w!
 Saya mau order ${itemLabel}:
 📦 Produk/Layanan: ${orderDetails.title}
 ⭐ Jumlah: ${quantity} ${isAppsTab ? 'Akun/Lisensi' : (activeGame?.id === 'mlbb' ? 'Bintang' : 'Paket')}
@@ -488,7 +488,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                             Layanan Joki Gendong MLBB Segera Hadir!
                           </h5>
                           <p className="text-xs text-[#6B5B5E] mt-1.5 max-w-md mx-auto leading-relaxed">
-                            Layanan Mabar Duo / Joki Gendong Mobile Legends sedang dipersiapkan (Coming Soon). Pantau terus atau hubungi Reihan via WhatsApp untuk info jadwal pembukaan slot!
+                            Layanan Mabar Duo / Joki Gendong Mobile Legends sedang dipersiapkan (Coming Soon). Pantau terus atau hubungi zura-w via WhatsApp untuk info jadwal pembukaan slot!
                           </p>
                         </div>
                       );
@@ -503,7 +503,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                             Game Roblox Lainnya Segera Hadir!
                           </h5>
                           <p className="text-xs text-[#6B5B5E] mt-1.5 max-w-md mx-auto leading-relaxed">
-                            Game Roblox lainnya sedang dipersiapkan dan akan segera dirilis. Punya request game Roblox favorit? Hubungi Reihan langsung via WhatsApp!
+                            Game Roblox lainnya sedang dipersiapkan dan akan segera dirilis. Punya request game Roblox favorit? Hubungi zura-w langsung via WhatsApp!
                           </p>
                         </div>
                       );

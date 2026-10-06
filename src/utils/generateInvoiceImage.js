@@ -183,12 +183,12 @@ export function generateInvoiceImage({
       ctx.fillStyle = '#6B5B5E';
       ctx.font = 'bold 14px sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('WhatsApp Resmi: 0821-7279-5156 (Reihan Fahreza - zura-w)', width / 2, 875);
+      ctx.fillText('WhatsApp Resmi: 0821-7279-5156 (zura-w Official)', width / 2, 875);
       ctx.fillText('Kirimkan gambar invoice ini ke WhatsApp untuk langsung mulai proses pengerjaan!', width / 2, 905);
 
       ctx.fillStyle = '#E58327';
       ctx.font = 'bold 13px sans-serif';
-      ctx.fillText('D4 Game Technology • Politeknik Negeri Batam • Kazura Store QRIS Ready', width / 2, 935);
+      ctx.fillText('Kazura Store • 100% Handplay & Amanah • QRIS Ready', width / 2, 935);
 
       canvas.toBlob((blob) => {
         if (blob) {

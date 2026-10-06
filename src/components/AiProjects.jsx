@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
-import { Sparkles, Terminal, ArrowUpRight, Cpu, Layers, MessageSquare, ExternalLink } from 'lucide-react';
+import { Sparkles, ArrowUpRight, Cpu, Layers, ExternalLink, Info, Palette } from 'lucide-react';
 import { aiProjects, personalInfo } from '../data/portfolioData';
 import ProjectModal from './ProjectModal';
 
 export default function AiProjects() {
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [filterType, setFilterType] = useState('all'); // 'all' | 'ai' | 'non-ai'
   const [activeProject, setActiveProject] = useState(null);
 
-  const categories = ['All', 'Game Tech & AI', 'Web 3D & Utility', 'Web Tools & API'];
+  const filteredProjects = filterType === 'all'
+    ? aiProjects
+    : filterType === 'ai'
+    ? aiProjects.filter(p => p.isAi)
+    : aiProjects.filter(p => !p.isAi);
 
-  const filteredProjects = selectedCategory === 'All' 
-    ? aiProjects 
-    : aiProjects.filter(p => p.category === selectedCategory);
+  const aiCount = aiProjects.filter(p => p.isAi).length;
+  const nonAiCount = aiProjects.filter(p => !p.isAi).length;
 
   const waConsultUrl = `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(
-    'Halo Reihan! Saya mau konsultasi mengenai pembuatan custom AI / web project.'
+    'Halo zura-w! Saya mau konsultasi mengenai pembuatan custom AI / web project / game asset.'
   )}`;
 
   return (
@@ -25,50 +28,68 @@ export default function AiProjects() {
         <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF4E8] border border-[#9E1B28] text-[#9E1B28] font-black text-xs uppercase tracking-wider mb-3 shadow-2xs">
             <Cpu className="w-3.5 h-3.5" />
-            <span>Game Technology & Web AI Lab</span>
+            <span>Karya Digital & Game Asset Lab</span>
           </div>
 
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight font-['Outfit']">
-            <span className="text-[#C02C3C]">PROJECT</span> <span className="text-[#E58327]">AI & TOOLS</span>
+            <span className="text-[#C02C3C]">PROJECT &</span> <span className="text-[#E58327]">GAME ASSETS</span>
           </h2>
           <p className="mt-2 text-sm sm:text-base text-[#FAF4E8]/90 font-medium">
-            Koleksi karya asli dan live web application yang dibangun oleh Reihan (zura-w) — mencakup game AI, 3D WebGL, dan online utility tools.
+            Koleksi asset pack original, web tools, dan aplikasi game AI yang dikembangkan oleh zura-w.
           </p>
         </div>
 
-        {/* Filter Categories */}
+        {/* Filter Badges: AI vs Non-AI vs All */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
-          {categories.map((cat) => (
+          {[
+            { id: 'all', label: `Semua Karya (${aiProjects.length})` },
+            { id: 'ai', label: `✨ AI Powered (${aiCount})` },
+            { id: 'non-ai', label: `🎨 Non-AI / Handcrafted (${nonAiCount})` }
+          ].map((tab) => (
             <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
+              key={tab.id}
+              onClick={() => setFilterType(tab.id)}
               className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer ${
-                selectedCategory === cat
+                filterType === tab.id
                   ? 'bg-[#9E1B28] text-white border-2 border-white shadow-md -translate-y-0.5'
                   : 'bg-[#FAF4E8] text-[#2B1618] border-2 border-[#9E1B28] hover:bg-[#F3ECE0]'
               }`}
             >
-              {cat === 'All' ? 'Semua Project' : cat}
+              {tab.label}
             </button>
           ))}
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8">
           {filteredProjects.map((project) => (
             <div
               key={project.id}
               className="bg-[#FAF4E8] border-2 sm:border-3 border-[#9E1B28] rounded-[24px] p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:-translate-y-1 transition-transform group"
             >
               <div>
-                {/* Top Badges */}
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="px-3 py-1 rounded-full text-xs font-black bg-[#9E1B28] text-white">
-                    {project.category}
-                  </span>
-                  <span className="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-[#E58327] text-white">
-                    {project.tag}
-                  </span>
+                {/* Top Badges (AI / Non-AI Label + Category) */}
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                  <div className="flex items-center gap-1.5">
+                    {/* Explicit AI vs Non-AI Badge */}
+                    <span className={`px-3 py-1 rounded-full text-xs font-black text-white shadow-xs ${
+                      project.isAi 
+                        ? 'bg-purple-600 border border-purple-400' 
+                        : 'bg-emerald-600 border border-emerald-400'
+                    }`}>
+                      {project.aiLabel}
+                    </span>
+
+                    <span className="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-[#E58327] text-white">
+                      {project.category}
+                    </span>
+                  </div>
+
+                  {project.price && (
+                    <span className="px-2.5 py-0.5 rounded-md text-xs font-black bg-[#2B1618] text-[#FDE047] border border-[#7A111C]">
+                      {project.price}
+                    </span>
+                  )}
                 </div>
 
                 {/* Project Image Banner */}
@@ -106,7 +127,7 @@ export default function AiProjects() {
                 </div>
               </div>
 
-              {/* Actions */}
+              {/* Action Buttons: Direct Link + Detail Modal (Simulation removed) */}
               <div className="pt-3 border-t border-[#9E1B28]/20 flex items-center gap-2">
                 <a
                   href={project.demoUrl}
@@ -115,16 +136,17 @@ export default function AiProjects() {
                   className="flex-1 flex items-center justify-center gap-1.5 bg-[#9E1B28] hover:bg-[#80141F] text-white font-extrabold text-xs sm:text-sm py-2.5 px-3 rounded-xl shadow-xs transition-colors"
                 >
                   <ExternalLink className="w-4 h-4 text-[#FDE047]" />
-                  <span>Buka Web App ↗</span>
+                  <span>{project.actionText || 'Buka Link ↗'}</span>
                 </a>
 
                 <button
+                  type="button"
                   onClick={() => setActiveProject(project)}
-                  className="flex items-center justify-center gap-1.5 bg-white border-2 border-[#9E1B28] hover:bg-[#FAF4E8] text-[#9E1B28] font-black text-xs sm:text-sm py-2.5 px-3 rounded-xl transition-colors cursor-pointer shrink-0"
-                  title="Detail & Simulasi"
+                  className="flex items-center justify-center gap-1.5 bg-white border-2 border-[#9E1B28] hover:bg-[#FAF4E8] text-[#9E1B28] font-black text-xs sm:text-sm py-2.5 px-3.5 rounded-xl transition-colors cursor-pointer shrink-0"
+                  title="Lihat Detail & Fitur"
                 >
-                  <Terminal className="w-4 h-4 text-[#E58327]" />
-                  <span>Simulasi</span>
+                  <Info className="w-4 h-4 text-[#E58327]" />
+                  <span>Detail</span>
                 </button>
               </div>
 
@@ -132,14 +154,14 @@ export default function AiProjects() {
           ))}
         </div>
 
-        {/* Bottom Banner: Custom AI Request */}
-        <div className="mt-12 bg-linear-to-r from-[#9E1B28] to-[#7A111C] border-2 border-white rounded-[24px] p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+        {/* Bottom Banner: Custom Request / Collaboration */}
+        <div className="mt-12 bg-gradient-to-r from-[#9E1B28] to-[#7A111C] border-2 border-white rounded-[24px] p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
           <div className="text-center md:text-left">
             <h3 className="text-2xl sm:text-3xl font-black font-['Outfit'] mb-1">
-              Tertarik Membuat Project AI atau Web Tools Serupa?
+              Tertarik Kolaborasi Game Asset atau Web App?
             </h3>
             <p className="text-white/80 text-xs sm:text-sm max-w-xl">
-              Hubungi Reihan untuk kolaborasi pembuatan web app, game AI, dan integrasi API yang disesuaikan dengan kebutuhanmu.
+              Hubungi zura-w via WhatsApp untuk custom game assets, integrasi AI, atau web tools yang disesuaikan dengan kebutuhan project kamu.
             </p>
           </div>
 

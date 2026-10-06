@@ -180,7 +180,7 @@ export default function JokiCalculator() {
       ? calculation.activeAddons.map(a => a.name).join(', ') 
       : 'Standar Handplay';
 
-    const msg = `Halo Reihan (zura-w)!
+    const msg = `Halo zura-w!
 Saya mau order Joki Game hasil kalkulator:
 🎮 Game: ${activeGame.name}
 📍 Detail: ${calculation.description}

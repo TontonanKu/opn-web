@@ -4,7 +4,7 @@ import { personalInfo } from '../data/portfolioData';
 
 export default function ModernHero({ onNavigate }) {
   const waUrl = `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(
-    'Halo Reihan (zura-w)! Saya mau tanya seputar Joki Game / Project AI.'
+    'Halo zura-w! Saya mau tanya seputar Joki Game / Project.'
   )}`;
 
   return (
@@ -29,8 +29,7 @@ export default function ModernHero({ onNavigate }) {
           </h1>
           
           <p className="mt-4 text-sm sm:text-base md:text-lg text-[#FAF4E8]/85 font-medium max-w-2xl mx-auto leading-relaxed">
-            Portfolio resmi <strong className="text-white underline decoration-[#E58327] decoration-2 underline-offset-4">Reihan Fahreza (zura-w)</strong> — Mahasiswa D4 Game Technology Politeknik Negeri Batam.
-            Spesialisasi generative game assets, integrasi AI, serta jasa push rank 100% murni handplay.
+            Portfolio resmi <strong className="text-white underline decoration-[#E58327] decoration-2 underline-offset-4">zura-w</strong>. Spesialisasi generative game assets, integrasi AI, serta jasa push rank 100% murni handplay.
           </p>
 
           {/* Action CTAs */}
@@ -140,7 +139,7 @@ export default function ModernHero({ onNavigate }) {
         {/* 4 Trust Pillars */}
         <div className="mt-12 bg-[#FAF4E8] border-2 sm:border-3 border-[#9E1B28] rounded-2xl p-6 sm:p-8 shadow-xl">
           <h4 className="text-center text-sm font-black uppercase tracking-wider text-[#9E1B28] font-['Outfit'] mb-6">
-            Kenapa Memilih Layanan Reihan (zura-w)?
+            Kenapa Memilih Layanan zura-w?
           </h4>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

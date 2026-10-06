@@ -14,7 +14,7 @@ export default function Navbar({ activeTab = 'home', onSelectTab, onOpenDonate }
   ];
 
   const waOrderUrl = `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(
-    'Halo Reihan (zura-w), saya tertarik untuk order Joki Game / diskusi Project AI.'
+    'Halo zura-w, saya tertarik untuk order Joki Game / diskusi Project.'
   )}`;
 
   const handleTabClick = (id) => {

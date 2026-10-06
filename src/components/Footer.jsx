@@ -4,7 +4,7 @@ import { personalInfo } from '../data/portfolioData';
 
 export default function Footer({ onSelectTab }) {
   const waUrl = `https://wa.me/${personalInfo.whatsappNumber}?text=${encodeURIComponent(
-    'Halo Reihan (zura-w)! Mau tanya info joki game / project AI.'
+    'Halo zura-w! Mau tanya info joki game / project.'
   )}`;
 
   const handleNav = (tabId) => {
@@ -33,13 +33,13 @@ export default function Footer({ onSelectTab }) {
             </button>
 
             <p className="text-xs sm:text-sm text-[#5A4548] leading-relaxed max-w-md font-medium">
-              Portfolio resmi dan pusat layanan joki game terpercaya & AI development oleh{' '}
-              <strong className="text-[#9E1B28]">Reihan Fahreza</strong> — Mahasiswa D4 Teknik Informatika (Game Technology) Politeknik Negeri Batam.
+              Portfolio resmi dan pusat layanan joki game terpercaya & digital assets creator oleh{' '}
+              <strong className="text-[#9E1B28]">zura-w</strong>. Spesialisasi generative game assets, integrasi AI, serta jasa push rank 100% murni handplay.
             </p>
 
             <div className="flex flex-wrap items-center gap-2 pt-2">
               <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#9E1B28] text-white">
-                Game Tech Polibatam
+                Game Assets & Web
               </span>
               <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#E58327] text-white">
                 Practical AI
@@ -118,9 +118,9 @@ export default function Footer({ onSelectTab }) {
 
         {/* Bottom bar */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-bold text-[#6B5B5E]">
-          <p>© {new Date().getFullYear()} Reihan Fahreza (zura-w). All rights reserved.</p>
+          <p>© {new Date().getFullYear()} zura-w. All rights reserved.</p>
           <p className="flex items-center gap-1">
-            Politeknik Negeri Batam • Game Technology
+            Game & Digital Assets Creator
           </p>
         </div>
       </div>

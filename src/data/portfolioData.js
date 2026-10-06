@@ -1,51 +1,14 @@
 export const personalInfo = {
-  name: "Reihan Fahreza",
-  nickname: "Reihan (zura-w)",
+  name: "zura-w",
+  nickname: "zura-w",
   birthDate: "05-06-2006",
   phone: "082172795156",
   whatsappNumber: "6282172795156",
   email: "reihanfahreza012@gmail.com",
   domain: "zura-w.my.id",
-  bio: "Mahasiswa D4 Informatika peminatan Game Technology. Memiliki latar belakang Teknik Komputer & Jaringan, serta pengalaman di bidang manufaktur elektronik. Disiplin, teliti, & cepat beradaptasi.",
-  headline: "Game Tech Student • Practical AI Developer • Pro Gamer & Joki Specialist",
-  campus: "Politeknik Negeri Batam",
-  status: "Available for AI Projects & Joki Game",
-  education: [
-    {
-      period: "2022 - 2025",
-      institution: "SMK Negeri 7 Batam",
-      major: "Teknik Komputer & Jaringan",
-      desc: "Fondasi kuat dalam networking, hardware troubleshooting, dan arsitektur sistem komputer."
-    },
-    {
-      period: "2025 - Sekarang",
-      institution: "Politeknik Negeri Batam",
-      major: "Teknik Informatika (Game Tech)",
-      desc: "Fokus pada game engine (Unity), pemrograman gameplay, visual asset pipeline, dan integrasi Artificial Intelligence."
-    }
-  ],
-  experience: [
-    {
-      year: "2024",
-      place: "PT AMBER KARYA",
-      role: "Electronic & Assembly Technician",
-      points: [
-        "Termination Crimping",
-        "Assembly Kabel & Connector",
-        "Quality Control Dasar",
-        "Kerja Tim & Target Harian"
-      ]
-    },
-    {
-      year: "2026",
-      place: "FOCUS LEARNING",
-      role: "Game UI/UX & AI Workflow Specialist",
-      points: [
-        "Learn UI/visual design and apply it to game assets",
-        "Learn practical AI for design workflows & generative game pipelines"
-      ]
-    }
-  ],
+  bio: "Spesialisasi generative game assets, integrasi AI, serta jasa push rank 100% murni handplay.",
+  headline: "Game Assets Creator • Practical AI Developer • Pro Gamer & Joki Specialist",
+  status: "Available for Projects & Joki Game",
   software: [
     { name: "FIGMA", category: "UI/UX & Design", color: "#F24E1E" },
     { name: "UNITY", category: "Game Engine", color: "#000000" },
@@ -58,11 +21,38 @@ export const personalInfo = {
 
 export const aiProjects = [
   {
+    id: "kura-cards",
+    title: "Kura Cards: 2D Card Game Asset Pack",
+    shortDesc: "Complete 2D card game deck asset pack yang dirilis di platform itch.io: 4 varian warna, kartu angka 0-9, kartu spesial (Swap, Shell, Shield), kartu Wild & Wild +4, dan Card Back transparan 800x1000px.",
+    category: "2D Game Assets",
+    tag: "Asset Pack (Itch.io)",
+    isAi: false,
+    aiLabel: "🎨 Non-AI / Handcrafted",
+    date: "Available on Itch.io",
+    price: "$2.00 USD",
+    platform: "itch.io",
+    image: "https://img.itch.zone/aW1nLzMwNTk3NTk4LmpwZw==/original/kDPze3.jpg",
+    tech: ["2D Sprites", "PNG Transparent", "800x1000 px", "Unity / Godot / GDevelop", "itch.io"],
+    features: [
+      "4 set warna lengkap: Green, Brown, Purple, Magenta dengan angka 0-9",
+      "Kartu aksi spesial: Swap (tukar kartu), Shell (beri kartu permanen), Shield (pantulkan +4)",
+      "Kartu Wild & Wild +4 beserta desain Card Back serasi",
+      "Format PNG resolusi 800x1000 px background transparan siap pakai",
+      "Tersedia dokumen rules gameplay (English & Indonesian)",
+      "100% Non-AI: Dibuat murni secara manual tanpa bantuan generative AI"
+    ],
+    githubUrl: "",
+    demoUrl: "https://kura-w.itch.io/kura-cards-2d-card-game-asset-pack",
+    actionText: "Beli di Itch.io ($2) ↗"
+  },
+  {
     id: "chessy",
     title: "Chessy - 1v1 & vs Bot",
     shortDesc: "Aplikasi web game catur mobile-first dengan bot AI cerdas, mode 1v1 offline pass-and-play, tracking XP & level, audio sound effects, dan skin papan catur.",
     category: "Game Tech & AI",
     tag: "Chess Engine & Bot",
+    isAi: true,
+    aiLabel: "✨ AI Powered",
     date: "Live Web App",
     image: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&w=1200&q=80",
     tech: ["HTML5 Canvas", "JavaScript", "Chess AI Bot", "Web Audio API", "Mobile App UI"],
@@ -72,36 +62,30 @@ export const aiProjects = [
       "True mobile app wrapper tanpa fake frame dengan navigasi mulus",
       "Pilihan skin tema papan catur, efek suara foley catur, dan BGM"
     ],
-    liveSimulation: {
-      type: "chess",
-      samplePrompt: "Evaluasi langkah pembukaan terbaik pion putih...",
-      resultStats: "Evaluation Depth 8 • Best Move: e2-e4 (King's Pawn) • Score +0.3"
-    },
     githubUrl: "https://github.com/tontonanku/chessy",
-    demoUrl: "https://tontonanku.github.io/chessy/"
+    demoUrl: "https://tontonanku.github.io/chessy/",
+    actionText: "Buka Web App ↗"
   },
   {
     id: "ngampus",
-    title: "Ngampus - Jadwal Kuliah & 3D WebGL Polibatam",
-    shortDesc: "Platform web interaktif jadwal kuliah harian dan manajemen tugas mahasiswa Game Technology Polibatam dengan integrasi 3D WebGL viewer dan GSAP animation.",
+    title: "Ngampus - Jadwal & 3D WebGL Viewer",
+    shortDesc: "Platform web interaktif jadwal harian dan manajemen tugas dengan integrasi 3D WebGL viewer dan GSAP animation.",
     category: "Web 3D & Utility",
     tag: "WebGL & 3D Model",
+    isAi: false,
+    aiLabel: "🎨 Non-AI / Web 3D",
     date: "Live Web App",
     image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80",
     tech: ["WebGL", "Google Model-Viewer 3D", "GSAP Animation", "JavaScript", "Glassmorphism"],
     features: [
-      "Jadwal kuliah otomatis sesuai hari aktif mahasiswa Game Tech Polibatam",
+      "Jadwal kuliah otomatis sesuai hari aktif interaktif",
       "Visualisasi model 3D interaktif menggunakan @google/model-viewer",
       "Animasi dinamis tech elements & transisi mulus dengan GSAP",
-      "Manajemen tugas perkuliahan dan direktori kontak dosen Polibatam"
+      "Manajemen tugas dan agenda perkuliahan"
     ],
-    liveSimulation: {
-      type: "schedule",
-      samplePrompt: "Cek jadwal aktif kuliah Game Technology hari ini...",
-      resultStats: "Status: Senin Aktif • Pemrograman Game Lanjut (Lab 302) • Model 3D Loaded"
-    },
     githubUrl: "https://github.com/tontonanku/ngampus",
-    demoUrl: "https://tontonanku.github.io/ngampus/"
+    demoUrl: "https://tontonanku.github.io/ngampus/",
+    actionText: "Buka Web App ↗"
   },
   {
     id: "zuradown",
@@ -109,6 +93,8 @@ export const aiProjects = [
     shortDesc: "Tool web pengunduh video TikTok tanpa watermark dan video/audio YouTube (MP4 & MP3) cepat dengan antarmuka modern dan responsif.",
     category: "Web Tools & API",
     tag: "Video Downloader",
+    isAi: false,
+    aiLabel: "🎨 Non-AI / Web Tool",
     date: "Live Web App",
     image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=1200&q=80",
     tech: ["REST API", "Video Parser", "JavaScript", "FontAwesome", "Responsive CSS"],
@@ -118,13 +104,9 @@ export const aiProjects = [
       "Selector platform pintar dengan auto-detect format URL link",
       "Antarmuka cepat, clean, tanpa pop-up iklan yang mengganggu"
     ],
-    liveSimulation: {
-      type: "downloader",
-      samplePrompt: "Paste URL TikTok atau YouTube untuk parsing...",
-      resultStats: "Status 200 OK • Video HD 1080p No-Watermark Ready (18.4 MB)"
-    },
     githubUrl: "https://github.com/tontonanku/zuradown",
-    demoUrl: "https://tontonanku.github.io/zuradown/"
+    demoUrl: "https://tontonanku.github.io/zuradown/",
+    actionText: "Buka Web App ↗"
   }
 ];
 
@@ -459,7 +441,7 @@ export const faqs = [
   },
   {
     q: "Bagaimana cara memesan AI Project atau kustomisasi game AI?",
-    a: "Kamu bisa langsung hubungi Reihan melalui WhatsApp di 082172795156 atau email reihanfahreza012@gmail.com dengan menyertakan deskripsi kebutuhan project. Kita bisa diskusikan scope kerja, timeline, hingga integrasi langsung ke Unity engine."
+    a: "Kamu bisa langsung hubungi zura-w melalui WhatsApp di 082172795156 atau email reihanfahreza012@gmail.com dengan menyertakan deskripsi kebutuhan project. Kita bisa diskusikan scope kerja, timeline, hingga integrasi langsung ke Unity engine."
   },
   {
     q: "Bisa request Hero, Role, atau jam pengerjaan joki?",

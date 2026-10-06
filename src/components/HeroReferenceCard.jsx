@@ -122,11 +122,11 @@ export default function HeroReferenceCard() {
                     ✕
                   </div>
 
-                  {/* Reihan's Portrait Image */}
+                  {/* zura-w's Portrait Image */}
                   <div className="w-full h-full flex items-end justify-center relative">
                     <img 
                       src="/reihan-portrait.png" 
-                      alt="Reihan Fahreza"
+                      alt="zura-w"
                       className="w-full h-full object-cover object-top scale-105 group-hover:scale-110 transition-transform duration-300 drop-shadow-xl"
                       onError={(e) => {
                         e.target.src = '/reihan-profile.png';
@@ -250,7 +250,7 @@ export default function HeroReferenceCard() {
                   Hello.
                 </h1>
                 <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-[#9E1B28] tracking-tight -mt-2 font-['Outfit']">
-                  I'm Reihan !
+                  I'm zura-w !
                 </h2>
 
                 {/* Bio text directly from reference */}
