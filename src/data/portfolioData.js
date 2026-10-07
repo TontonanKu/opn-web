@@ -19,6 +19,9 @@ export const personalInfo = {
   ]
 };
 
+const BASE_URL = import.meta.env?.BASE_URL || '/';
+const cleanBase = BASE_URL.endsWith('/') ? BASE_URL : `${BASE_URL}/`;
+
 // Raw multi-language projects
 const aiProjectsData = [
   {
@@ -72,6 +75,108 @@ const aiProjectsData = [
     actionText: {
       id: "Beli di Itch.io ($2) ↗",
       en: "Buy on Itch.io ($2) ↗"
+    }
+  },
+  {
+    id: "kura-game",
+    title: "Kura Card - Permainan Kartu Kura",
+    shortDesc: {
+      id: "Game kartu web retro-indie interaktif berbasis deck Kura Cards dengan bot AI cerdas (Luna, Reyy, Kuro), kartu aksi spesial (Swap, Shell, Shield), efek suara dynamic foley, dan mode bermain seru.",
+      en: "Interactive retro-indie web card game based on the Kura Cards deck featuring smart AI bot opponents (Luna, Reyy, Kuro), special action cards (Swap, Shell, Shield), dynamic foley audio, and immersive gameplay."
+    },
+    category: {
+      id: "Game Web & AI Bot",
+      en: "Web Game & AI Bot"
+    },
+    tag: {
+      id: "Card Game & AI Bot",
+      en: "Card Game & AI Bot"
+    },
+    isAi: true,
+    aiLabel: {
+      id: "✨ AI Powered",
+      en: "✨ AI Powered"
+    },
+    date: {
+      id: "Web App Aktif",
+      en: "Live Web App"
+    },
+    image: `${cleanBase}projects/kura.png`,
+    tech: ["JavaScript ES6+", "Bot AI Engine", "Web Audio API", "Vite & CSS3", "Retro Indie UI"],
+    features: {
+      id: [
+        "Bermain kartu seru melawan 3 Bot AI cerdas dengan gaya bermain unik (Luna, Reyy, Kuro)",
+        "Mekanik kartu aksi orisinal: Swap (tukar kartu tangan), Shell (kunci kartu lawan), dan Shield (pantulkan +4)",
+        "Desain antarmuka bertema Retro Indie Ticket dengan estetika anime & pixel cards",
+        "Sistem evaluasi giliran otomatis, pendeteksi kartu valid, dan penghitung penalti kartu",
+        "Efek audio lengkap: musik latar retro, efek suara tebasan & penempatan kartu, serta haptic feedback",
+        "Optimal di semua perangkat mobile & desktop dengan kontrol kartu tap / drag responsif"
+      ],
+      en: [
+        "Exciting card match against 3 smart AI bots with distinct personalities (Luna, Reyy, Kuro)",
+        "Original special action mechanics: Swap (exchange hands), Shell (lock opponent), and Shield (reflect +4)",
+        "Retro Indie Ticket UI design with vibrant anime aesthetics and handcrafted cards",
+        "Automated turn evaluation, valid move calculation, and card penalty resolution",
+        "Rich soundscape: retro ambient soundtrack, card play foley sound effects, and haptic feedback",
+        "Seamless mobile & desktop responsive experience with fluid tap / drag card controls"
+      ]
+    },
+    githubUrl: "https://github.com/tontonanku/kura",
+    demoUrl: "https://tontonanku.github.io/kura/",
+    actionText: {
+      id: "Mainkan Game ↗",
+      en: "Play Game ↗"
+    }
+  },
+  {
+    id: "blocky",
+    title: "Block Blast - Modern Edition",
+    shortDesc: {
+      id: "Game puzzle balok gaya Block Blast neo-brutalist 8x8 yang responsif dengan efek kombo beruntun, 6 tema estetik ramah mata, sistem booster bantuan (Bom, Palu, Acak), lucky spin harian, dan papan peringkat global.",
+      en: "Neo-brutalist 8x8 block puzzle game featuring combo streaks, 6 eye-friendly aesthetic themes, booster powerups (Bomb, Hammer, Shuffle), daily lucky spin, and global leaderboard."
+    },
+    category: {
+      id: "Game Web & Puzzle",
+      en: "Web Game & Puzzle"
+    },
+    tag: {
+      id: "Puzzle Balok & Booster",
+      en: "Block Puzzle & Booster"
+    },
+    isAi: true,
+    aiLabel: {
+      id: "✨ AI Powered",
+      en: "✨ AI Powered"
+    },
+    date: {
+      id: "Web App Aktif",
+      en: "Live Web App"
+    },
+    image: `${cleanBase}projects/blocky.png`,
+    tech: ["HTML5 Canvas", "Vanilla JavaScript", "Game Logic AI", "Web Audio API", "Neo-Brutalism"],
+    features: {
+      id: [
+        "Papan 8x8 dengan drag-and-drop intuitif, collision detection presisi & efek ledakan balok",
+        "Sistem kombo bertingkat (Combo Streaks) untuk melipatgandakan perolehan skor",
+        "6 Pilihan tema estetik ramah mata: Warm Ivory, Midnight Slate, Pastel, Zen Bamboo, Nordic Frost, Obsidian Gold",
+        "Tiga booster taktis: Bom 💣 (ledakkan 3x3), Palu 🔨 (hancurkan 1 balok), dan Acak 🔄 (refresh balok)",
+        "Fitur Papan Peringkat (Leaderboard), Lucky Spin harian, dan Misi Hadiah Harian",
+        "Tampilan mobile-first & responsif tanpa scrollbar, optimal di smartphone maupun desktop"
+      ],
+      en: [
+        "Intuitive 8x8 grid drag-and-drop with precise collision detection & satisfying blast FX",
+        "Chained combo streaks system that multiplies player score points",
+        "6 eye-friendly aesthetic themes: Warm Ivory, Midnight Slate, Pastel, Zen Bamboo, Nordic Frost, Obsidian Gold",
+        "Three tactical boosters: Bomb 💣 (3x3 blast), Hammer 🔨 (break 1 block), and Shuffle 🔄 (refresh pieces)",
+        "Global Leaderboard, daily Lucky Spin, and Daily Quests reward system",
+        "Mobile-first responsive design without scrollbars, fully optimized across devices"
+      ]
+    },
+    githubUrl: "https://github.com/tontonanku/Blocky",
+    demoUrl: "https://tontonanku.github.io/Blocky/",
+    actionText: {
+      id: "Mainkan Game ↗",
+      en: "Play Game ↗"
     }
   },
   {
