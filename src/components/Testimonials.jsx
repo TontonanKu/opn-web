@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Star, MessageSquareQuote, CheckCircle, Eye, 
-  ChevronLeft, ChevronRight, X, ShieldCheck, Award
+  ChevronLeft, ChevronRight, X, ShieldCheck, Award,
+  Layers, Sparkles, Swords
 } from 'lucide-react';
 import { getImageTestimonials } from '../data/portfolioData';
 import { useLanguage } from '../context/LanguageContext';
@@ -91,23 +92,27 @@ export default function Testimonials() {
             {/* Game Filter Tabs */}
             <div className="flex flex-wrap items-center gap-2">
               {[
-                { id: 'all', label: `${t.testi.tabAll} (${imageTestimonials.length})` },
-                { id: 'wuwa', label: `${t.testi.tabWuWa} (5)` },
-                { id: 'roblox', label: `${t.testi.tabRoblox} (11)` }
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setGalleryFilter(tab.id)}
-                  className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer ${
-                    galleryFilter === tab.id
-                      ? 'bg-[#9E1B28] text-white shadow-xs -translate-y-0.5'
-                      : 'bg-white text-[#2B1618] border border-[#9E1B28]/30 hover:border-[#9E1B28]'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
+                { id: 'all', label: `${t.testi.tabAll} (${imageTestimonials.length})`, icon: Layers },
+                { id: 'wuwa', label: `${t.testi.tabWuWa} (5)`, icon: Sparkles },
+                { id: 'roblox', label: `${t.testi.tabRoblox} (11)`, icon: Swords }
+              ].map((tab) => {
+                const Icon = tab.icon;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setGalleryFilter(tab.id)}
+                    className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                      galleryFilter === tab.id
+                        ? 'bg-[#9E1B28] text-white shadow-xs -translate-y-0.5'
+                        : 'bg-white text-[#2B1618] border border-[#9E1B28]/30 hover:border-[#9E1B28]'
+                    }`}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 

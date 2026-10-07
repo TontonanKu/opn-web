@@ -2,6 +2,7 @@ import React from 'react';
 import { Phone, Mail, Gamepad2, Sparkles, Heart, Globe } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 import { useLanguage } from '../context/LanguageContext';
+import { FlagID, FlagGB } from './Flags';
 
 export default function Footer({ onSelectTab }) {
   const { t, lang, setLang } = useLanguage();
@@ -131,7 +132,7 @@ export default function Footer({ onSelectTab }) {
                       : 'text-[#2B1618] hover:bg-[#FAF4E8]'
                   }`}
                 >
-                  <span>🇮🇩</span>
+                  <FlagID className="w-4 h-2.5" />
                   <span>Indonesia</span>
                 </button>
                 <button
@@ -143,7 +144,7 @@ export default function Footer({ onSelectTab }) {
                       : 'text-[#2B1618] hover:bg-[#FAF4E8]'
                   }`}
                 >
-                  <span>🇬🇧</span>
+                  <FlagGB className="w-4 h-2.5" />
                   <span>English</span>
                 </button>
               </div>

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Sparkles, ArrowUpRight, Cpu, Layers, ExternalLink, Info } from 'lucide-react';
+import { Sparkles, ArrowUpRight, Cpu, Layers, ExternalLink, Info, Palette } from 'lucide-react';
 import { getAiProjects, personalInfo } from '../data/portfolioData';
 import { useLanguage } from '../context/LanguageContext';
 import ProjectModal from './ProjectModal';
@@ -52,22 +52,27 @@ export default function AiProjects() {
         {/* Filter Badges: AI vs Non-AI vs All */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
           {[
-            { id: 'all', label: `${t.projects.filterAll} (${projects.length})` },
-            { id: 'ai', label: `${t.projects.filterAi} (${aiCount})` },
-            { id: 'non-ai', label: `${t.projects.filterNonAi} (${nonAiCount})` }
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setFilterType(tab.id)}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer ${
-                filterType === tab.id
-                  ? 'bg-[#9E1B28] text-white border-2 border-white shadow-md -translate-y-0.5'
-                  : 'bg-[#FAF4E8] text-[#2B1618] border-2 border-[#9E1B28] hover:bg-[#F3ECE0]'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+            { id: 'all', label: t.projects.filterAll, count: projects.length, icon: Layers, iconColor: 'text-[#9E1B28]' },
+            { id: 'ai', label: t.projects.filterAi, count: aiCount, icon: Sparkles, iconColor: 'text-purple-600' },
+            { id: 'non-ai', label: t.projects.filterNonAi, count: nonAiCount, icon: Palette, iconColor: 'text-emerald-600' }
+          ].map((tab) => {
+            const IconComponent = tab.icon;
+            const isActive = filterType === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setFilterType(tab.id)}
+                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer flex items-center gap-2 ${
+                  isActive
+                    ? 'bg-[#9E1B28] text-white border-2 border-white shadow-md -translate-y-0.5'
+                    : 'bg-[#FAF4E8] text-[#2B1618] border-2 border-[#9E1B28] hover:bg-[#F3ECE0]'
+                }`}
+              >
+                <IconComponent className={`w-3.5 h-3.5 ${isActive ? 'text-white' : tab.iconColor}`} />
+                <span>{tab.label} ({tab.count})</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Projects Grid */}
@@ -81,13 +86,18 @@ export default function AiProjects() {
                 {/* Top Badges (AI / Non-AI Label + Category) */}
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                   <div className="flex items-center gap-1.5">
-                    {/* Explicit AI vs Non-AI Badge */}
-                    <span className={`px-3 py-1 rounded-full text-xs font-black text-white shadow-xs ${
+                    {/* Modern Vector AI vs Non-AI Badge */}
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black text-white shadow-xs ${
                       project.isAi 
-                        ? 'bg-purple-600 border border-purple-400' 
-                        : 'bg-emerald-600 border border-emerald-400'
+                        ? 'bg-linear-to-r from-purple-600 to-indigo-600 border border-purple-400/50' 
+                        : 'bg-linear-to-r from-emerald-600 to-teal-600 border border-emerald-400/50'
                     }`}>
-                      {project.aiLabel}
+                      {project.isAi ? (
+                        <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-pulse shrink-0" />
+                      ) : (
+                        <Palette className="w-3.5 h-3.5 text-emerald-200 shrink-0" />
+                      )}
+                      <span>{project.aiLabel}</span>
                     </span>
 
                     <span className="px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-[#E58327] text-white">

@@ -7,6 +7,7 @@ import { getJokiGames, personalInfo } from '../data/portfolioData';
 import { generateInvoiceImage } from '../utils/generateInvoiceImage';
 import { useLanguage } from '../context/LanguageContext';
 import { useExchangeRate } from '../utils/currencyRate';
+import { FlagID, FlagMY } from './Flags';
 
 export default function JokiCalculator() {
   const { t, lang } = useLanguage();
@@ -312,25 +313,25 @@ Apakah slot pengerjaan masih tersedia?`;
                   <button
                     type="button"
                     onClick={() => setCurrency('IDR')}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1 ${
+                    className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
                       !isMyr
                         ? 'bg-[#9E1B28] text-white shadow-2xs'
                         : 'text-[#2B1618] hover:bg-white'
                     }`}
                   >
-                    <span>🇮🇩</span>
+                    <FlagID className="w-3.5 h-2" />
                     <span>IDR</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setCurrency('MYR')}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1 ${
+                    className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
                       isMyr
                         ? 'bg-[#9E1B28] text-white shadow-2xs'
                         : 'text-[#2B1618] hover:bg-white'
                     }`}
                   >
-                    <span>🇲🇾</span>
+                    <FlagMY className="w-3.5 h-2" />
                     <span>MYR</span>
                   </button>
                 </div>

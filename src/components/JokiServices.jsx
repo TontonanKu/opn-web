@@ -3,8 +3,10 @@ import {
   Gamepad2, ShieldCheck, Zap, Trophy, Flame, CheckCircle, ArrowRight, 
   Eye, Star, Plus, Minus, Download, Copy, Check, MessageCircle, 
   ShoppingBag, Sparkles, Clock, AlertCircle, Smartphone, Crown, ShieldAlert,
-  PlayCircle, FileText, Palette, Languages, Award, Globe
+  PlayCircle, FileText, Palette, Languages, Award, Globe,
+  Compass, Scroll, Swords, Users, Layers
 } from 'lucide-react';
+import { FlagID, FlagMY } from './Flags';
 import { getJokiGames, getPremiumApps, getPremiumAppsNotes, personalInfo } from '../data/portfolioData';
 import { generateInvoiceImage } from '../utils/generateInvoiceImage';
 import { useLanguage } from '../context/LanguageContext';
@@ -489,22 +491,26 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                   {activeGame.id === 'mlbb' && (
                     <div className="flex flex-wrap items-center gap-2 mb-4">
                       {[
-                        { id: 'joki-akun', label: t.joki.mlbbAccJoki },
-                        { id: 'joki-gendong', label: t.joki.mlbbCarryJoki }
-                      ].map((cat) => (
-                        <button
-                          key={cat.id}
-                          type="button"
-                          onClick={() => setMlbbFilter(cat.id)}
-                          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer ${
-                            mlbbFilter === cat.id
-                              ? 'bg-[#9E1B28] text-white shadow-xs -translate-y-0.5'
-                              : 'bg-white text-[#2B1618] border border-[#9E1B28]/30 hover:border-[#9E1B28]'
-                          }`}
-                        >
-                          {cat.label}
-                        </button>
-                      ))}
+                        { id: 'joki-akun', label: t.joki.mlbbAccJoki, icon: Gamepad2 },
+                        { id: 'joki-gendong', label: t.joki.mlbbCarryJoki, icon: Users }
+                      ].map((cat) => {
+                        const Icon = cat.icon;
+                        return (
+                          <button
+                            key={cat.id}
+                            type="button"
+                            onClick={() => setMlbbFilter(cat.id)}
+                            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                              mlbbFilter === cat.id
+                                ? 'bg-[#9E1B28] text-white shadow-xs -translate-y-0.5'
+                                : 'bg-white text-[#2B1618] border border-[#9E1B28]/30 hover:border-[#9E1B28]'
+                            }`}
+                          >
+                            <Icon className="w-3.5 h-3.5" />
+                            <span>{cat.label}</span>
+                          </button>
+                        );
+                      })}
                     </div>
                   )}
 
@@ -512,25 +518,29 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                   {activeGame.id === 'wuwa' && (
                     <div className="flex flex-wrap items-center gap-1.5 mb-4">
                       {[
-                        { id: 'all', label: lang === 'en' ? 'All' : 'Semua' },
-                        { id: 'astrites', label: '✦ Astrites' },
-                        { id: 'exploration', label: lang === 'en' ? '🗺 Exploration' : '🗺 Eksplorasi' },
-                        { id: 'quest', label: '📜 Quest' },
-                        { id: 'rawat-akun', label: lang === 'en' ? '🛡 Account Care' : '🛡 Rawat Akun' }
-                      ].map((cat) => (
-                        <button
-                          key={cat.id}
-                          type="button"
-                          onClick={() => setWuwaCategoryFilter(cat.id)}
-                          className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
-                            wuwaCategoryFilter === cat.id
-                              ? 'bg-[#9E1B28] text-white shadow-xs -translate-y-0.5'
-                              : 'bg-white text-[#2B1618] border border-[#9E1B28]/30 hover:border-[#9E1B28]'
-                          }`}
-                        >
-                          {cat.label}
-                        </button>
-                      ))}
+                        { id: 'all', label: lang === 'en' ? 'All' : 'Semua', icon: Layers },
+                        { id: 'astrites', label: 'Astrites', icon: Sparkles },
+                        { id: 'exploration', label: lang === 'en' ? 'Exploration' : 'Eksplorasi', icon: Compass },
+                        { id: 'quest', label: 'Quest', icon: Scroll },
+                        { id: 'rawat-akun', label: lang === 'en' ? 'Account Care' : 'Rawat Akun', icon: ShieldCheck }
+                      ].map((cat) => {
+                        const Icon = cat.icon;
+                        return (
+                          <button
+                            key={cat.id}
+                            type="button"
+                            onClick={() => setWuwaCategoryFilter(cat.id)}
+                            className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                              wuwaCategoryFilter === cat.id
+                                ? 'bg-[#9E1B28] text-white shadow-xs -translate-y-0.5'
+                                : 'bg-white text-[#2B1618] border border-[#9E1B28]/30 hover:border-[#9E1B28]'
+                            }`}
+                          >
+                            <Icon className="w-3 h-3" />
+                            <span>{cat.label}</span>
+                          </button>
+                        );
+                      })}
                     </div>
                   )}
 
@@ -538,22 +548,26 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                   {activeGame.id === 'roblox' && (
                     <div className="flex flex-wrap items-center gap-2 mb-4">
                       {[
-                        { id: 'anime-vanguard', label: '⚔️ Anime Vanguards' },
-                        { id: 'coming-soon', label: lang === 'en' ? '⏳ Coming Soon' : '⏳ Segera Hadir' }
-                      ].map((cat) => (
-                        <button
-                          key={cat.id}
-                          type="button"
-                          onClick={() => setRobloxGameFilter(cat.id)}
-                          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer ${
-                            robloxGameFilter === cat.id
-                              ? 'bg-[#9E1B28] text-white shadow-xs -translate-y-0.5'
-                              : 'bg-white text-[#2B1618] border border-[#9E1B28]/30 hover:border-[#9E1B28]'
-                          }`}
-                        >
-                          {cat.label}
-                        </button>
-                      ))}
+                        { id: 'anime-vanguard', label: 'Anime Vanguards', icon: Swords },
+                        { id: 'coming-soon', label: lang === 'en' ? 'Coming Soon' : 'Segera Hadir', icon: Clock }
+                      ].map((cat) => {
+                        const Icon = cat.icon;
+                        return (
+                          <button
+                            key={cat.id}
+                            type="button"
+                            onClick={() => setRobloxGameFilter(cat.id)}
+                            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                              robloxGameFilter === cat.id
+                                ? 'bg-[#9E1B28] text-white shadow-xs -translate-y-0.5'
+                                : 'bg-white text-[#2B1618] border border-[#9E1B28]/30 hover:border-[#9E1B28]'
+                            }`}
+                          >
+                            <Icon className="w-3.5 h-3.5" />
+                            <span>{cat.label}</span>
+                          </button>
+                        );
+                      })}
                     </div>
                   )}
 
@@ -915,7 +929,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                           : 'text-[#2B1618] hover:bg-[#FAF4E8]'
                       }`}
                     >
-                      <span>🇮🇩</span>
+                      <FlagID className="w-4 h-2.5" />
                       <span>IDR (Rp)</span>
                     </button>
                     <button
@@ -927,7 +941,7 @@ Apakah stok / slot pengerjaan masih tersedia?`;
                           : 'text-[#2B1618] hover:bg-[#FAF4E8]'
                       }`}
                     >
-                      <span>🇲🇾</span>
+                      <FlagMY className="w-4 h-2.5" />
                       <span>MYR (RM)</span>
                     </button>
                   </div>

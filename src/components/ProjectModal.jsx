@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, ExternalLink, MessageCircle, CheckCircle2 } from 'lucide-react';
+import { X, ExternalLink, MessageCircle, CheckCircle2, Sparkles, Palette } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -30,10 +30,17 @@ export default function ProjectModal({ project, onClose }) {
 
         {/* Project Tag & AI/Non-AI Label */}
         <div className="flex flex-wrap items-center gap-2 mb-2 pr-10">
-          <span className={`px-3 py-1 rounded-full text-xs font-black text-white shadow-2xs ${
-            project.isAi ? 'bg-purple-600' : 'bg-emerald-600'
+          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black text-white shadow-xs ${
+            project.isAi 
+              ? 'bg-linear-to-r from-purple-600 to-indigo-600 border border-purple-400/50' 
+              : 'bg-linear-to-r from-emerald-600 to-teal-600 border border-emerald-400/50'
           }`}>
-            {project.aiLabel}
+            {project.isAi ? (
+              <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-pulse shrink-0" />
+            ) : (
+              <Palette className="w-3.5 h-3.5 text-emerald-200 shrink-0" />
+            )}
+            <span>{project.aiLabel}</span>
           </span>
           <span className="px-3 py-1 rounded-full text-xs font-black bg-[#9E1B28] text-white">
             {project.category}

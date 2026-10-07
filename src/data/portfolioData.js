@@ -41,8 +41,8 @@ const aiProjectsData = [
     },
     isAi: false,
     aiLabel: {
-      id: "🎨 Non-AI / Handcrafted",
-      en: "🎨 Non-AI / Handcrafted"
+      id: "Non-AI / Handcrafted",
+      en: "Non-AI / Handcrafted"
     },
     date: {
       id: "Tersedia di Itch.io",
@@ -94,8 +94,8 @@ const aiProjectsData = [
     },
     isAi: true,
     aiLabel: {
-      id: "✨ AI Powered",
-      en: "✨ AI Powered"
+      id: "AI Powered",
+      en: "AI Powered"
     },
     date: {
       id: "Web App Aktif",
@@ -145,8 +145,8 @@ const aiProjectsData = [
     },
     isAi: true,
     aiLabel: {
-      id: "✨ AI Powered",
-      en: "✨ AI Powered"
+      id: "AI Powered",
+      en: "AI Powered"
     },
     date: {
       id: "Web App Aktif",
@@ -196,14 +196,14 @@ const aiProjectsData = [
     },
     isAi: true,
     aiLabel: {
-      id: "✨ AI Powered",
-      en: "✨ AI Powered"
+      id: "AI Powered",
+      en: "AI Powered"
     },
     date: {
       id: "Web App Aktif",
       en: "Live Web App"
     },
-    image: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&w=1200&q=80",
+    image: `${cleanBase}projects/chessy.png`,
     tech: ["HTML5 Canvas", "JavaScript", "Chess AI Bot", "Web Audio API", "Mobile App UI"],
     features: {
       id: [
@@ -243,14 +243,14 @@ const aiProjectsData = [
     },
     isAi: true,
     aiLabel: {
-      id: "✨ AI Powered",
-      en: "✨ AI Powered"
+      id: "AI Powered",
+      en: "AI Powered"
     },
     date: {
       id: "Web App Aktif",
       en: "Live Web App"
     },
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80",
+    image: `${cleanBase}projects/ngampus.png`,
     tech: ["WebGL", "Google Model-Viewer 3D", "GSAP Animation", "JavaScript", "Glassmorphism"],
     features: {
       id: [
@@ -290,14 +290,14 @@ const aiProjectsData = [
     },
     isAi: true,
     aiLabel: {
-      id: "✨ AI Powered",
-      en: "✨ AI Powered"
+      id: "AI Powered",
+      en: "AI Powered"
     },
     date: {
       id: "Web App Aktif",
       en: "Live Web App"
     },
-    image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=1200&q=80",
+    image: `${cleanBase}projects/zuradown.png`,
     tech: ["REST API", "Video Parser", "JavaScript", "FontAwesome", "Responsive CSS"],
     features: {
       id: [
@@ -984,7 +984,7 @@ export const faqs = [
   },
   {
     q: "Bagaimana cara memesan AI Project atau kustomisasi game AI?",
-    a: "Kamu bisa langsung hubungi zura-w melalui WhatsApp di 082172795156 atau email reihanfahreza012@gmail.com dengan menyertakan deskripsi kebutuhan project. Kita bisa diskusikan scope kerja, timeline, hingga integrasi langsung ke Unity engine."
+    a: "Kamu bisa langsung hubungi zura-w melalui WhatsApp di 082172795156 atau email zuraw.official@gmail.com dengan menyertakan deskripsi kebutuhan project. Kita bisa diskusikan scope kerja, timeline, hingga integrasi langsung ke Unity engine."
   },
   {
     q: "Bisa request Hero, Role, atau jam pengerjaan joki?",

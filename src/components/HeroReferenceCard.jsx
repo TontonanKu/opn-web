@@ -125,12 +125,9 @@ export default function HeroReferenceCard() {
                   {/* zura-w's Portrait Image */}
                   <div className="w-full h-full flex items-end justify-center relative">
                     <img 
-                      src="/reihan-portrait.png" 
+                      src="/hero.png" 
                       alt="zura-w"
                       className="w-full h-full object-cover object-top scale-105 group-hover:scale-110 transition-transform duration-300 drop-shadow-xl"
-                      onError={(e) => {
-                        e.target.src = '/reihan-profile.png';
-                      }}
                     />
                   </div>
                 </div>
