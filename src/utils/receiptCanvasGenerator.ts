@@ -41,59 +41,54 @@ export const downloadReceiptPNG = (receipt: WebReceipt, orderCode: string) => {
   // Header Text
   ctx.fillStyle = '#121212';
   ctx.font = '900 36px "Space Grotesk", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'alphabetic';
   ctx.fillText('ZURA STORE', 36, 85);
 
-  ctx.font = '700 16px "JetBrains Mono", monospace';
-  ctx.fillStyle = '#333333';
+  ctx.font = '700 15px "JetBrains Mono", monospace';
+  ctx.fillStyle = '#222222';
   ctx.fillText('OFFICIAL DIGITAL RECEIPT • VERIFIED TRANSACTION', 36, 115);
 
   // Receipt Number Pill
   ctx.fillStyle = '#121212';
-  ctx.fillRect(width - 260, 48, 220, 48);
+  ctx.fillRect(width - 265, 48, 225, 48);
   ctx.fillStyle = '#FFC700';
-  ctx.font = '900 16px "JetBrains Mono", monospace';
-  ctx.fillText(receipt.receiptNumber || `REC-${orderCode}`, width - 245, 78);
+  ctx.font = '900 15px "JetBrains Mono", monospace';
+  ctx.fillText(receipt.receiptNumber || `REC-${orderCode}`, width - 250, 78);
 
-  // Status Stamp (SELESAI / LUNAS)
-  ctx.save();
-  ctx.translate(width - 180, 240);
-  ctx.rotate(-0.15);
-  ctx.fillStyle = '#10B981';
-  ctx.fillRect(-10, -35, 160, 50);
-  ctx.strokeStyle = '#121212';
-  ctx.lineWidth = 4;
-  ctx.strokeRect(-10, -35, 160, 50);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 22px "Space Grotesk", sans-serif';
-  ctx.fillText('✓ LUNAS', 15, -2);
-  ctx.restore();
-
-  // Information Grid
-  let y = 200;
-  ctx.fillStyle = '#121212';
-  ctx.font = '700 15px "JetBrains Mono", monospace';
+  // Information Grid - starts cleanly at y = 195 without floating stamp collision
+  let y = 195;
 
   const drawRow = (label: string, value: string, isHighlight = false) => {
+    // Label column
     ctx.fillStyle = '#666666';
-    ctx.font = '600 15px "JetBrains Mono", monospace';
-    ctx.fillText(label.toUpperCase(), 40, y);
+    ctx.font = '700 14px "JetBrains Mono", monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText(label.toUpperCase(), 45, y);
 
+    // Value column with dynamic measurement & boundary containment
     ctx.fillStyle = isHighlight ? '#FF5900' : '#121212';
-    ctx.font = isHighlight ? '800 17px "JetBrains Mono", monospace' : '700 16px "JetBrains Mono", monospace';
+    ctx.font = isHighlight ? '800 16px "JetBrains Mono", monospace' : '700 15px "JetBrains Mono", monospace';
     
-    // Truncate long value
-    const truncated = value.length > 38 ? value.slice(0, 35) + '...' : value;
-    ctx.fillText(truncated, 250, y);
+    const maxValWidth = 515; // Width from x=235 to x=750
+    let displayValue = String(value || '-');
+    if (ctx.measureText(displayValue).width > maxValWidth) {
+      while (ctx.measureText(displayValue + '...').width > maxValWidth && displayValue.length > 0) {
+        displayValue = displayValue.slice(0, -1);
+      }
+      displayValue += '...';
+    }
+    ctx.fillText(displayValue, 235, y);
 
     // Separator line
     ctx.strokeStyle = '#E5E0D8';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.moveTo(40, y + 15);
-    ctx.lineTo(width - 40, y + 15);
+    ctx.moveTo(45, y + 14);
+    ctx.lineTo(width - 45, y + 14);
     ctx.stroke();
 
-    y += 50;
+    y += 48;
   };
 
   drawRow('Kode Pesanan', orderCode, true);
@@ -105,17 +100,17 @@ export const downloadReceiptPNG = (receipt: WebReceipt, orderCode: string) => {
   drawRow('Paket / Varian', receipt.variantOrRank);
   drawRow('Metode Bayar', receipt.paymentMethod === 'web_transfer' ? 'QRIS / DANA / GOPAY (0% BIAYA)' : 'VIA WHATSAPP');
 
-  // Total Payment Box
+  // Total Payment Box with integrated Official LUNAS Stamp
   y += 20;
   ctx.fillStyle = '#121212';
-  ctx.fillRect(40, y, width - 80, 85);
+  ctx.fillRect(45, y, width - 90, 95);
   ctx.strokeStyle = '#121212';
   ctx.lineWidth = 4;
-  ctx.strokeRect(40, y, width - 80, 85);
+  ctx.strokeRect(45, y, width - 90, 95);
 
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '700 14px "JetBrains Mono", monospace';
-  ctx.fillText('TOTAL TRANSAKSI', 65, y + 35);
+  ctx.fillStyle = '#A3A3A3';
+  ctx.font = '700 13px "JetBrains Mono", monospace';
+  ctx.fillText('TOTAL TRANSAKSI', 68, y + 36);
 
   const formattedAmount = new Intl.NumberFormat('id-ID', {
     style: 'currency',
@@ -124,44 +119,71 @@ export const downloadReceiptPNG = (receipt: WebReceipt, orderCode: string) => {
   }).format(receipt.amount);
 
   ctx.fillStyle = '#FFC700';
-  ctx.font = '900 32px "Space Grotesk", sans-serif';
-  ctx.fillText(formattedAmount, 65, y + 70);
+  ctx.font = '900 34px "Space Grotesk", sans-serif';
+  ctx.fillText(formattedAmount, 68, y + 74);
+
+  // Official Status Stamp (✓ LUNAS) placed safely inside right-hand of Total Box
+  ctx.save();
+  ctx.translate(width - 165, y + 47);
+  ctx.rotate(-0.06);
+  ctx.fillStyle = '#10B981';
+  ctx.fillRect(-70, -25, 140, 50);
+  ctx.strokeStyle = '#FFFFFF';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(-70, -25, 140, 50);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = '900 20px "Space Grotesk", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('✓ LUNAS', 0, 0);
+  ctx.restore();
 
   // Review & Rating Section
   if (receipt.review || receipt.rating) {
     y += 120;
     ctx.fillStyle = '#FFFDF0';
-    ctx.fillRect(40, y, width - 80, 95);
+    ctx.fillRect(45, y, width - 90, 95);
     ctx.strokeStyle = '#121212';
     ctx.lineWidth = 3;
-    ctx.strokeRect(40, y, width - 80, 95);
+    ctx.strokeRect(45, y, width - 90, 95);
 
     ctx.fillStyle = '#121212';
     ctx.font = '800 15px "JetBrains Mono", monospace';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
     const stars = '★'.repeat(receipt.rating || 5);
-    ctx.fillText(`RATING: ${stars} (${(receipt.rating || 5).toFixed(1)} / 5.0)`, 60, y + 32);
+    ctx.fillText(`RATING: ${stars} (${(receipt.rating || 5).toFixed(1)} / 5.0)`, 65, y + 34);
 
     ctx.fillStyle = '#444444';
     ctx.font = 'italic 500 14px sans-serif';
-    const reviewTxt = receipt.review ? `"${receipt.review}"` : '"Pelayanan cepat & memuaskan!"';
-    ctx.fillText(reviewTxt.length > 60 ? reviewTxt.slice(0, 57) + '...' : reviewTxt, 60, y + 65);
+    const rawReview = receipt.review ? `"${receipt.review}"` : '"Pelayanan cepat & memuaskan!"';
+    let reviewTxt = rawReview;
+    if (ctx.measureText(reviewTxt).width > 650) {
+      while (ctx.measureText(reviewTxt + '..."').width > 650 && reviewTxt.length > 0) {
+        reviewTxt = reviewTxt.slice(0, -1);
+      }
+      reviewTxt += '..."';
+    }
+    ctx.fillText(reviewTxt, 65, y + 68);
   }
 
   // Footer & Tamper-Proof Fingerprint
   y = height - 120;
   ctx.fillStyle = '#121212';
-  ctx.fillRect(40, y, width - 80, 2);
+  ctx.fillRect(45, y, width - 90, 2);
 
   y += 35;
   ctx.fillStyle = '#666666';
   ctx.font = '600 12px "JetBrains Mono", monospace';
-  ctx.fillText('ZURA STORE • DOKUMEN BUKTI RESMI TRANSAKSI DIGITAL', 40, y);
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillText('ZURA STORE • DOKUMEN BUKTI RESMI TRANSAKSI DIGITAL', 45, y);
 
   const hash = receipt.verificationHash || `ZR-VERIFIED-${orderCode.slice(-6)}-${Date.now().toString(16).toUpperCase()}`;
   ctx.font = '700 12px "JetBrains Mono", monospace';
   ctx.fillStyle = '#121212';
-  ctx.fillText(`FINGERPRINT HASH: ${hash}`, 40, y + 25);
-  ctx.fillText('GARANSI RESMI 100% • AMANAH SEJAK 2025', 40, y + 45);
+  ctx.fillText(`FINGERPRINT HASH: ${hash}`, 45, y + 25);
+  ctx.fillText('GARANSI RESMI 100% • AMANAH SEJAK 2025', 45, y + 45);
 
   // Download Trigger
   try {

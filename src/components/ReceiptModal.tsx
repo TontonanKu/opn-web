@@ -123,28 +123,28 @@ Terima kasih atas kepercayaan Anda di Zura Store!`;
           {/* Scrollable Receipt Body (Internal scroll, keeping scrollbar inside the card) */}
           <div className="overflow-y-auto flex-1 p-4 sm:p-5 space-y-3">
             {/* Receipt Meta */}
-            <div className="pb-3 border-b-2 border-dashed border-neutral-300 space-y-1 text-[11px]">
-              <div className="flex justify-between">
-                <span className="text-neutral-500">No. Struk:</span>
-                <span className="font-bold">{receipt.receiptNumber}</span>
+            <div className="pb-3 border-b-2 border-dashed border-neutral-300 space-y-1.5 text-[11px]">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-neutral-500 shrink-0">No. Struk:</span>
+                <span className="font-bold text-right break-all">{receipt.receiptNumber}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-neutral-500">Kode Order:</span>
-                <span className="font-bold bg-[#FFC700] px-1">{activeReceiptOrder.orderCode}</span>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-neutral-500 shrink-0">Kode Order:</span>
+                <span className="font-bold bg-[#FFC700] px-1 text-right">{activeReceiptOrder.orderCode}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-neutral-500">Tgl Transaksi:</span>
-                <span>{receipt.transactionDate}</span>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-neutral-500 shrink-0">Tgl Transaksi:</span>
+                <span className="text-right font-medium">{receipt.transactionDate}</span>
               </div>
               {receipt.completedDate && (
-                <div className="flex justify-between">
-                  <span className="text-neutral-500">Tgl Selesai:</span>
-                  <span className="font-bold">{receipt.completedDate}</span>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-neutral-500 shrink-0">Tgl Selesai:</span>
+                  <span className="font-bold text-right font-medium">{receipt.completedDate}</span>
                 </div>
               )}
-              <div className="flex justify-between">
-                <span className="text-neutral-500">Pelanggan:</span>
-                <span className="font-bold">{receipt.customerName}</span>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-neutral-500 shrink-0">Pelanggan:</span>
+                <span className="font-bold text-right break-words">{receipt.customerName}</span>
               </div>
             </div>
 

@@ -66,7 +66,7 @@ export const PortfolioSection: React.FC = () => {
               }`}
             >
               <Wand2 className="w-3.5 h-3.5" />
-              AI Powered (5)
+              AI Powered ({PORTFOLIO_PROJECTS.filter(p => p.type === 'ai').length})
             </button>
             <button
               onClick={() => setActiveFilter('manual')}
@@ -75,7 +75,7 @@ export const PortfolioSection: React.FC = () => {
               }`}
             >
               <Layers className="w-3.5 h-3.5 text-black" />
-              Non-AI / Handcrafted (1)
+              Non-AI / Handcrafted ({PORTFOLIO_PROJECTS.filter(p => p.type === 'manual').length})
             </button>
           </div>
         </div>

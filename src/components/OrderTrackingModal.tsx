@@ -363,32 +363,32 @@ export const OrderTrackingModal: React.FC = () => {
         )}
 
         {/* Order Details Breakdown */}
-        <div className="bg-[#FAF8F2] border-2 border-black p-3.5 text-xs font-mono space-y-1.5 mb-5">
-          <div className="flex justify-between">
-            <span className="text-neutral-500">Produk/Jasa:</span>
-            <span className="font-bold text-black">{currentOrder.itemName}</span>
+        <div className="bg-[#FAF8F2] border-2 border-black p-3.5 text-xs font-mono space-y-2 mb-5">
+          <div className="flex items-start justify-between gap-2">
+            <span className="text-neutral-500 shrink-0">Produk/Jasa:</span>
+            <span className="font-bold text-black text-right break-words">{currentOrder.itemName}</span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-neutral-500">Detail Paket:</span>
-            <span className="font-bold text-[#FF5900]">{currentOrder.itemDetails}</span>
+          <div className="flex items-start justify-between gap-2">
+            <span className="text-neutral-500 shrink-0">Detail Paket:</span>
+            <span className="font-bold text-[#FF5900] text-right break-words">{currentOrder.itemDetails}</span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-neutral-500">Nama Pelanggan:</span>
-            <span className="font-bold text-black">{currentOrder.customerName}</span>
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-neutral-500 shrink-0">Nama Pelanggan:</span>
+            <span className="font-bold text-black text-right break-words">{currentOrder.customerName}</span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-neutral-500">WhatsApp:</span>
-            <span className="font-bold text-black">{currentOrder.customerPhone}</span>
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-neutral-500 shrink-0">WhatsApp:</span>
+            <span className="font-bold text-black text-right">{currentOrder.customerPhone}</span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-neutral-500">Metode Bayar:</span>
-            <span className="font-bold uppercase">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-neutral-500 shrink-0">Metode Bayar:</span>
+            <span className="font-bold uppercase text-right">
               {currentOrder.paymentMethod === 'web_transfer' ? 'QRIS / DANA / GoPay' : 'Langsung via WhatsApp'}
             </span>
           </div>
-          <div className="border-t border-neutral-300 pt-1.5 flex justify-between text-sm">
-            <span className="font-bold">Total Pembayaran:</span>
-            <span className="font-black text-black">
+          <div className="border-t border-neutral-300 pt-2 flex items-center justify-between text-sm gap-2">
+            <span className="font-bold shrink-0">Total Pembayaran:</span>
+            <span className="font-black text-black text-right">
               {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(currentOrder.totalAmount)}
             </span>
           </div>

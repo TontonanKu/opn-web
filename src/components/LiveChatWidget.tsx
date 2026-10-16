@@ -197,7 +197,7 @@ export const LiveChatWidget: React.FC = () => {
 
       {/* Floating Private Chat Window */}
       {isChatOpen && (
-        <div className="fixed bottom-5 right-5 z-50 max-w-sm sm:max-w-md w-[92vw] sm:w-[400px] brutal-card bg-[#FAF8F2] flex flex-col shadow-brutal-lg animate-fade-in border-[3px] border-[#121212] overflow-hidden">
+        <div className="fixed bottom-3 right-3 sm:bottom-5 sm:right-5 z-50 max-w-sm sm:max-w-md w-[calc(100vw-24px)] sm:w-[400px] max-h-[88vh] brutal-card bg-[#FAF8F2] flex flex-col shadow-brutal-lg animate-fade-in border-[3px] border-[#121212] overflow-hidden">
           
           {/* Header */}
           <div className="bg-[#FFC700] p-3.5 border-b-[3px] border-[#121212] flex items-center justify-between">

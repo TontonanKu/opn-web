@@ -52,28 +52,28 @@ export const TestimonialSection: React.FC = () => {
           </div>
 
           {/* Toggle Tab Buttons */}
-          <div className="flex border-[3px] border-[#121212] bg-[#FAF8F2] p-1 shadow-brutal-sm">
+          <div className="flex flex-col sm:flex-row border-[3px] border-[#121212] bg-[#FAF8F2] p-1 shadow-brutal-sm w-full sm:w-auto gap-1">
             <button
               onClick={() => setActiveTab('receipts')}
-              className={`flex items-center gap-2 px-4 py-2 font-mono text-xs font-black uppercase transition-all ${
+              className={`flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2 font-mono text-xs font-black uppercase transition-all ${
                 activeTab === 'receipts'
                   ? 'bg-[#121212] text-[#FFC700] shadow-[2px_2px_0px_#000]'
                   : 'text-neutral-700 hover:text-black'
               }`}
             >
-              <Star className="w-4 h-4 fill-[#FFC700] text-[#FFC700]" />
+              <Star className="w-4 h-4 fill-[#FFC700] text-[#FFC700] shrink-0" />
               <span>Ulasan & Struk Web ({completedOrders.length})</span>
             </button>
 
             <button
               onClick={() => setActiveTab('whatsapp')}
-              className={`flex items-center gap-2 px-4 py-2 font-mono text-xs font-black uppercase transition-all ${
+              className={`flex items-center justify-center sm:justify-start gap-2 px-3.5 py-2 font-mono text-xs font-black uppercase transition-all ${
                 activeTab === 'whatsapp'
                   ? 'bg-[#121212] text-[#FFC700] shadow-[2px_2px_0px_#000]'
                   : 'text-neutral-700 hover:text-black'
               }`}
             >
-              <MessageSquare className="w-4 h-4" />
+              <MessageSquare className="w-4 h-4 shrink-0" />
               <span>Bukti Chat WhatsApp ({testimonials.length})</span>
             </button>
           </div>
