@@ -17,6 +17,17 @@ import {
 import { soundService } from '../utils/audioUtils';
 import { notifyNewOrderTelegram, notifyChatMessageTelegram } from '../utils/telegramUtils';
 import { purgeSensitiveFormData, generateVerificationFingerprint } from '../utils/securityUtils';
+import { supabase } from '../utils/supabaseClient';
+import { 
+  fetchCloudOrders, 
+  upsertCloudOrder, 
+  deleteCloudOrder, 
+  fetchCloudMessages, 
+  insertCloudMessage, 
+  deleteCloudChatRoom, 
+  updateCloudAdminStatus, 
+  fetchCloudAdminStatus 
+} from '../utils/supabaseSync';
 
 // Seed demo messages separated by room ID (Order Code)
 const INITIAL_CHAT_MESSAGES: ChatMessage[] = [
@@ -181,6 +192,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const setAdminStatus = (status: AdminStatusType) => {
     setAdminStatusState(status);
     localStorage.setItem('zura_admin_status', status);
+    updateCloudAdminStatus(status);
 
     try {
       const channel = new BroadcastChannel('zura_store_sync');
@@ -453,6 +465,96 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
   }, [isChatOpen, customerRoomId]);
 
+  // Supabase Cloud Real-time Synchronizer (24/7 cross-device sync)
+  useEffect(() => {
+    // 1. Initial hydration from Supabase Cloud
+    fetchCloudOrders().then(cloudOrders => {
+      if (cloudOrders && cloudOrders.length > 0) {
+        setOrders(cloudOrders);
+      }
+    });
+
+    fetchCloudMessages().then(cloudMsgs => {
+      if (cloudMsgs && cloudMsgs.length > 0) {
+        setChatMessages(cloudMsgs);
+      }
+    });
+
+    fetchCloudAdminStatus().then(cloudStatus => {
+      if (cloudStatus) {
+        setAdminStatusState(cloudStatus);
+      }
+    });
+
+    // 2. Real-time PostgreSQL subscription
+    const realtimeChannel = supabase
+      .channel('zura-store-live')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'orders' },
+        (payload: any) => {
+          if (payload.eventType === 'INSERT') {
+            const newOrder = (payload.new?.data || payload.new) as Order;
+            if (newOrder?.id) {
+              setOrders(prev => {
+                if (prev.some(o => o.id === newOrder.id)) return prev;
+                return [newOrder, ...prev];
+              });
+              soundService.playNewOrderSound();
+            }
+          } else if (payload.eventType === 'UPDATE') {
+            const updated = (payload.new?.data || payload.new) as Order;
+            if (updated?.id) {
+              setOrders(prev => prev.map(o => o.id === updated.id ? updated : o));
+            }
+          } else if (payload.eventType === 'DELETE') {
+            const deletedId = payload.old?.id;
+            if (deletedId) {
+              setOrders(prev => prev.filter(o => o.id !== deletedId));
+            }
+          }
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'chat_messages' },
+        (payload: any) => {
+          if (payload.eventType === 'INSERT') {
+            const newMsg = (payload.new?.data || payload.new) as ChatMessage;
+            if (newMsg?.id) {
+              setChatMessages(prev => {
+                if (prev.some(m => m.id === newMsg.id)) return prev;
+                return [...prev, newMsg];
+              });
+              soundService.playNewMessageSound();
+              if (!isChatOpen && newMsg.roomId === customerRoomId) {
+                setUnreadCount(c => c + 1);
+              }
+            }
+          } else if (payload.eventType === 'DELETE') {
+            const deletedId = payload.old?.id;
+            if (deletedId) {
+              setChatMessages(prev => prev.filter(m => m.id !== deletedId));
+            }
+          }
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'store_settings' },
+        (payload: any) => {
+          if (payload.new?.key === 'admin_status') {
+            setAdminStatusState(payload.new.value === 'offline' ? 'offline' : 'online');
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(realtimeChannel);
+    };
+  }, [customerRoomId, isChatOpen]);
+
   const markChatAsRead = () => {
     setUnreadCount(0);
   };
@@ -545,6 +647,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     const updated = [...chatMessages, newMsg];
     setChatMessages(updated);
+    insertCloudMessage(newMsg);
 
     try {
       const channel = new BroadcastChannel('zura_store_sync');
@@ -628,6 +731,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     const updated = [newOrder, ...orders];
     setOrders(updated);
+    upsertCloudOrder(newOrder);
     setMyOrderCodes(prev => prev.includes(orderCode) ? prev : [orderCode, ...prev]);
     setActiveOrderToTrack(newOrder);
     setActiveModal('tracking');
@@ -646,6 +750,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
 
     setChatMessages(prev => [...prev, orderSystemMsg]);
+    insertCloudMessage(orderSystemMsg);
 
     try {
       const channel = new BroadcastChannel('zura_store_sync');
@@ -723,12 +828,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           isRead: false
         };
         setChatMessages(prev => [...prev, completedMsg]);
+        insertCloudMessage(completedMsg);
       }
 
       return updatedOrder;
     });
 
     setOrders(updated);
+    const target = updated.find(o => o.id === orderId);
+    if (target) upsertCloudOrder(target);
 
     try {
       const channel = new BroadcastChannel('zura_store_sync');
@@ -743,6 +851,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     const updated = orders.filter(o => o.id !== orderId);
     setOrders(updated);
+    deleteCloudOrder(orderId);
 
     if (activeOrderToTrack?.id === orderId) {
       setActiveOrderToTrack(null);
@@ -767,6 +876,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       };
     });
     setOrders(updated);
+    const target = updated.find(o => o.id === orderId);
+    if (target) upsertCloudOrder(target);
 
     const cancelledOrder = orders.find(o => o.id === orderId);
     if (cancelledOrder) {
@@ -903,6 +1014,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const deleteChatRoom = (roomId: string) => {
     setChatMessages(prev => prev.filter(m => m.roomId !== roomId));
+    deleteCloudChatRoom(roomId);
   };
 
   const addWhatsAppTestimonial = (testi: Omit<WhatsAppTestimonial, 'id'>) => {
