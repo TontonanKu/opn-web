@@ -1,0 +1,211 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#FAF8F2] text-[#121212] font-sans antialiased;
+    background-color: #FAF8F2;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight uppercase font-extrabold;
+  }
+}
+
+/* Custom Neo-Brutalist & Taxi Graphic Patterns */
+.bg-dots {
+  background-image: radial-gradient(#121212 1.5px, transparent 1.5px);
+  background-size: 16px 16px;
+}
+
+.bg-dots-yellow {
+  background-image: radial-gradient(#FFC700 1.5px, transparent 1.5px);
+  background-size: 16px 16px;
+}
+
+.bg-checker {
+  background-image: conic-gradient(
+    #121212 90deg, 
+    #FAF8F2 90deg 180deg, 
+    #121212 180deg 270deg, 
+    #FAF8F2 270deg
+  );
+  background-size: 16px 16px;
+}
+
+.bg-checker-yellow {
+  background-image: conic-gradient(
+    #121212 90deg, 
+    #FFC700 90deg 180deg, 
+    #121212 180deg 270deg, 
+    #FFC700 270deg
+  );
+  background-size: 14px 14px;
+}
+
+.bg-hazard-stripes {
+  background: repeating-linear-gradient(
+    -45deg,
+    #FFC700,
+    #FFC700 12px,
+    #121212 12px,
+    #121212 24px
+  );
+}
+
+.bg-hazard-white {
+  background: repeating-linear-gradient(
+    -45deg,
+    #ffffff,
+    #ffffff 10px,
+    #121212 10px,
+    #121212 20px
+  );
+}
+
+/* Neo-brutalist button hover animation */
+.brutal-btn {
+  @apply border-[3px] border-[#121212] transition-all duration-150 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none;
+}
+
+.brutal-btn-yellow {
+  @apply brutal-btn bg-[#FFC700] hover:bg-[#FFD633] text-[#121212] font-extrabold shadow-brutal;
+}
+
+.brutal-btn-orange {
+  @apply brutal-btn bg-[#FF5900] hover:bg-[#FF7024] text-white font-extrabold shadow-brutal;
+}
+
+.brutal-btn-dark {
+  @apply brutal-btn bg-[#121212] hover:bg-[#262626] text-white font-extrabold shadow-brutal;
+}
+
+.brutal-btn-white {
+  @apply brutal-btn bg-white hover:bg-neutral-50 text-[#121212] font-bold shadow-brutal;
+}
+
+.brutal-card {
+  @apply bg-white border-[3px] border-[#121212] shadow-brutal;
+}
+
+.brutal-card-yellow {
+  @apply bg-[#FFC700] border-[3px] border-[#121212] shadow-brutal;
+}
+
+/* Receipt paper tear effect / jagged bottom */
+.receipt-paper {
+  background-color: #FAF8F2;
+  border: 3px solid #121212;
+  position: relative;
+}
+
+.receipt-stamp {
+  transform: rotate(-8deg);
+  border: 3px dashed #16A34A;
+  color: #16A34A;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* ===================================================
+   Custom Modern Neo-Brutalist Scrollbar
+   =================================================== */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #FFC700 #FAF8F2;
+}
+
+/* Hide scrollbar utility (still scrollable) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF8F2;
+  border-left: 2px solid #121212;
+}
+
+::-webkit-scrollbar-track:horizontal {
+  border-top: 2px solid #121212;
+  border-left: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFC700;
+  border: 2px solid #121212;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FF5900;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #121212;
+}
+
+::-webkit-scrollbar-corner {
+  background: #121212;
+}
+
+/* ===================================================
+   Print Media Styles (Pristine Receipt Printing)
+   =================================================== */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    font-family: monospace !important;
+  }
+
+  /* Hide everything except receipt-print-area */
+  body * {
+    visibility: hidden;
+  }
+
+  #receipt-print-area, #receipt-print-area * {
+    visibility: visible;
+  }
+
+  #receipt-print-area {
+    position: fixed !important;
+    top: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 100% !important;
+    max-width: 480px !important;
+    margin: 0 !important;
+    padding: 24px !important;
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+    box-shadow: none !important;
+    z-index: 999999 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  #receipt-print-area div {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
+

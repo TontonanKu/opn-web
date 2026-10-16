@@ -1,0 +1,18 @@
+{
+  "name": "ZURA STORE - Layanan Digital & Joki Game",
+  "short_name": "ZURA STORE",
+  "description": "Layanan Jasa Joki Game Rank Pro, Akun Aplikasi Premium Bergaransi, & Studio Kreatif Digital KAZURA.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF8F2",
+  "theme_color": "#FFC700",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
