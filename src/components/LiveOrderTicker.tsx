@@ -11,61 +11,18 @@ interface TickerItem {
   tag: string;
 }
 
-const DEFAULT_TICKERS: TickerItem[] = [
-  {
-    id: '1',
-    customerName: 'Rian S.',
-    action: 'baru saja memesan',
-    item: 'Joki MLBB - Mythic Honor ke Glory',
-    timeAgo: '1 menit lalu',
-    tag: 'JOKI KILAT'
-  },
-  {
-    id: '2',
-    customerName: 'Aldi P.',
-    action: 'transaksi selesai',
-    item: 'Netflix Premium 4K UHD 1 Bulan',
-    timeAgo: '3 menit lalu',
-    tag: 'TERVERIFIKASI'
-  },
-  {
-    id: '3',
-    customerName: 'Dimas K.',
-    action: 'memberikan rating bintang 5',
-    item: 'Spotify Premium 3 Bulan Tanpa Iklan',
-    timeAgo: '7 menit lalu',
-    tag: 'RATING 5.0'
-  },
-  {
-    id: '4',
-    customerName: 'Fajar W.',
-    action: 'pesanan selesai diproses',
-    item: 'Joki Free Fire - Master Bintang 25',
-    timeAgo: '12 menit lalu',
-    tag: 'SELESAI'
-  },
-  {
-    id: '5',
-    customerName: 'Bayu T.',
-    action: 'baru saja klaim voucher',
-    item: 'Hemat 10% dengan kode ZURAGACOR',
-    timeAgo: 'Baru saja',
-    tag: 'PROMO'
-  }
-];
-
 export const LiveOrderTicker: React.FC = () => {
   const { orders } = useApp();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Generate dynamic list combining completed orders and defaults
+  // Generate dynamic list from real orders only
   const dynamicTickers: TickerItem[] = React.useMemo(() => {
     const list: TickerItem[] = [];
 
-    // Include recent real completed orders if any
-    orders.slice(0, 3).forEach((o) => {
+    // Include recent real orders
+    orders.slice(0, 5).forEach((o) => {
       list.push({
         id: o.id,
         customerName: o.customerName ? `${o.customerName.slice(0, 4)}***` : 'Pelanggan',
@@ -76,7 +33,7 @@ export const LiveOrderTicker: React.FC = () => {
       });
     });
 
-    return [...list, ...DEFAULT_TICKERS];
+    return list;
   }, [orders]);
 
   useEffect(() => {

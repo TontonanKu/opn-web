@@ -29,78 +29,8 @@ import {
   fetchCloudAdminStatus 
 } from '../utils/supabaseSync';
 
-// Seed demo messages separated by room ID (Order Code)
-const INITIAL_CHAT_MESSAGES: ChatMessage[] = [
-  // Room for Order 1: Dimas Aditya (MLBB)
-  {
-    id: "msg-d1",
-    roomId: "ZURA-ML-849201",
-    orderCode: "ZURA-ML-849201",
-    sender: "system",
-    senderName: "Sistem Zura",
-    customerPhone: "081392817291",
-    text: "[SISTEM] Pesanan Dibuat! (KODE: ZURA-ML-849201) - Mobile Legends (Epic -> Legend). Menunggu respon admin.",
-    timestamp: Date.now() - 1000 * 60 * 120,
-    isRead: true
-  },
-  {
-    id: "msg-d2",
-    roomId: "ZURA-ML-849201",
-    orderCode: "ZURA-ML-849201",
-    sender: "customer",
-    senderName: "Dimas Aditya",
-    customerPhone: "081392817291",
-    text: "Halo min, ini akun Moonton saya sudah di-bind. Tolong diproses sekarang ya min.",
-    timestamp: Date.now() - 1000 * 60 * 115,
-    isRead: true
-  },
-  {
-    id: "msg-d3",
-    roomId: "ZURA-ML-849201",
-    orderCode: "ZURA-ML-849201",
-    sender: "admin",
-    senderName: "Admin Zura",
-    customerPhone: "081392817291",
-    text: "Siap kak Dimas! Booster Mythical Glory kami sudah login dan sedang match pertama ya.",
-    timestamp: Date.now() - 1000 * 60 * 110,
-    isRead: true
-  },
-
-  // Room for Order 2: Aulia Rahma (Netflix)
-  {
-    id: "msg-a1",
-    roomId: "ZURA-APP-509124",
-    orderCode: "ZURA-APP-509124",
-    sender: "system",
-    senderName: "Sistem Zura",
-    customerPhone: "085817263541",
-    text: "[SISTEM] Pesanan Dibuat! (KODE: ZURA-APP-509124) - Netflix Premium 4K UHD. Menunggu konfirmasi admin.",
-    timestamp: Date.now() - 1000 * 60 * 60,
-    isRead: true
-  },
-  {
-    id: "msg-a2",
-    roomId: "ZURA-APP-509124",
-    orderCode: "ZURA-APP-509124",
-    sender: "customer",
-    senderName: "Aulia Rahma",
-    customerPhone: "085817263541",
-    text: "Min, saya sudah transfer via QRIS ya. Ini profile pribadi kan?",
-    timestamp: Date.now() - 1000 * 60 * 55,
-    isRead: true
-  },
-  {
-    id: "msg-a3",
-    roomId: "ZURA-APP-509124",
-    orderCode: "ZURA-APP-509124",
-    sender: "admin",
-    senderName: "Admin Zura",
-    customerPhone: "085817263541",
-    text: "Iya betul kak Aulia! Akun Ultra HD 4K profil 1 device sudah aktif. PIN profil: 8821. Selamat menonton!",
-    timestamp: Date.now() - 1000 * 60 * 50,
-    isRead: true
-  }
-];
+// Real-time chat messages (starts clean)
+const INITIAL_CHAT_MESSAGES: ChatMessage[] = [];
 
 interface AppContextType {
   adminStatus: AdminStatusType;
@@ -272,8 +202,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Orders State (Master list for admin, metrics, and testimonials)
   const [orders, setOrders] = useState<Order[]>(() => {
-    const saved = localStorage.getItem('zura_orders');
-    return saved ? JSON.parse(saved) : INITIAL_ORDERS;
+    try {
+      const saved = localStorage.getItem('zura_orders');
+      if (saved) {
+        const parsed: Order[] = JSON.parse(saved);
+        return parsed.filter(o => !o.id.startsWith('ord-demo-'));
+      }
+    } catch {}
+    return INITIAL_ORDERS;
   });
 
   useEffect(() => {
@@ -382,8 +318,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Real-time Chat Messages State
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>(() => {
-    const saved = localStorage.getItem('zura_chat_messages');
-    return saved ? JSON.parse(saved) : INITIAL_CHAT_MESSAGES;
+    try {
+      const saved = localStorage.getItem('zura_chat_messages');
+      if (saved) {
+        const parsed: ChatMessage[] = JSON.parse(saved);
+        return parsed.filter(m => !m.id.startsWith('msg-d') && !m.id.startsWith('msg-a'));
+      }
+    } catch {}
+    return INITIAL_CHAT_MESSAGES;
   });
 
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -419,7 +361,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeReceiptOrder, setActiveReceiptOrder] = useState<Order | null>(null);
 
   // Admin selected active chat room in Admin Hub
-  const [adminActiveRoomId, setAdminActiveRoomId] = useState<string>('ZURA-ML-849201');
+  const [adminActiveRoomId, setAdminActiveRoomId] = useState<string>('');
 
   // Determine current active room for this specific customer
   const customerRoomId = activeOrderToTrack 

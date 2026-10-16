@@ -90,7 +90,18 @@ export const TestimonialSection: React.FC = () => {
               <span className="text-neutral-700 text-[11px]">Setiap ulasan terverifikasi 100% dari transaksi nyata</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {completedOrders.length === 0 ? (
+              <div className="bg-[#FAF8F2] border-2 border-black p-8 text-center shadow-[3px_3px_0px_#000]">
+                <MessageSquare className="w-8 h-8 text-neutral-400 mx-auto mb-2" />
+                <h4 className="font-display font-black text-base uppercase text-[#121212]">
+                  Belum Ada Ulasan Transaksi Web
+                </h4>
+                <p className="text-xs font-mono text-neutral-600 mt-1 max-w-md mx-auto">
+                  Jadilah pelanggan pertama yang menyelesaikan pesanan dan memberikan ulasan! Anda juga dapat melihat dokumentasi di tab Bukti Chat WhatsApp.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {completedOrders.map((order) => {
                 const receipt = order.receipt;
                 const rating = order.rating || receipt?.rating || 5;
@@ -189,7 +200,8 @@ export const TestimonialSection: React.FC = () => {
                   </div>
                 );
               })}
-            </div>
+              </div>
+            )}
           </div>
         )}
 
