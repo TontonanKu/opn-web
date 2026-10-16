@@ -18,7 +18,8 @@ import {
   Sparkles,
   ShoppingBag,
   AlertCircle,
-  HelpCircle
+  HelpCircle,
+  Crown
 } from 'lucide-react';
 import { ADMIN_CONFIG } from '../data/initialData';
 import { sanitizeInput } from '../utils/securityUtils';
@@ -32,7 +33,8 @@ export const CustomerProfileModal: React.FC = () => {
     logout, 
     updateUserName, 
     openOrderTracking, 
-    openReceiptModal 
+    openReceiptModal,
+    setViewMode 
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'orders' | 'profile'>('orders');
@@ -179,6 +181,35 @@ export const CustomerProfileModal: React.FC = () => {
             <X className="w-4 h-4 stroke-[3]" />
           </button>
         </div>
+
+        {/* Admin Quick Jump Banner */}
+        {user.role === 'admin' && (
+          <div className="bg-[#121212] text-white p-3.5 border-b-2 border-black flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-inner">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 bg-[#FFC700] text-black border border-white flex items-center justify-center shrink-0">
+                <Crown className="w-5 h-5 text-black" />
+              </div>
+              <div>
+                <div className="font-mono font-black text-xs text-[#FFC700] uppercase">
+                  STATUS AKUN: SUPER ADMINISTRATOR
+                </div>
+                <div className="text-[11px] text-neutral-300">
+                  Akses langsung dashboard admin untuk kelola order & chat
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setActiveModal(null);
+                setViewMode('admin-dashboard');
+              }}
+              className="bg-[#FFC700] hover:bg-[#FFD43B] text-black font-mono font-black text-xs px-3.5 py-2 border border-black shadow-[2px_2px_0px_#FFF] shrink-0 uppercase transition-all"
+            >
+              BUKA PANEL ADMIN &rarr;
+            </button>
+          </div>
+        )}
 
         {/* Tab Controls */}
         <div className="flex border-b-2 border-black bg-white">

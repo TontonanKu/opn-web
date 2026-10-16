@@ -134,23 +134,54 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Auth User
   const [user, setUser] = useState<User | null>(() => {
     const saved = localStorage.getItem('zura_user');
-    return saved ? JSON.parse(saved) : null;
+    if (!saved) return null;
+    try {
+      const u = JSON.parse(saved);
+      // Auto-correct if user previously logged in as admin credentials or name
+      const isKnownAdmin = 
+        u.role === 'admin' ||
+        u.id === 'usr_admin' ||
+        (u.name && (u.name.toLowerCase() === 'zura super admin' || u.name.toLowerCase() === 'admin')) ||
+        (u.phone && (u.phone === 'admin' || u.phone === ADMIN_CONFIG.whatsappNumber || u.phone === '082172795156')) ||
+        (u.email && u.email.toLowerCase() === ADMIN_CREDENTIALS.email.toLowerCase());
+      
+      if (isKnownAdmin) {
+        const upgradedAdmin: User = {
+          id: 'usr_admin',
+          name: 'Zura Super Admin',
+          phone: ADMIN_CONFIG.whatsappNumber,
+          email: ADMIN_CREDENTIALS.email,
+          role: 'admin'
+        };
+        localStorage.setItem('zura_user', JSON.stringify(upgradedAdmin));
+        return upgradedAdmin;
+      }
+      return u;
+    } catch {
+      return null;
+    }
   });
 
   const login = (name: string, phone: string, role: 'customer' | 'admin' = 'customer') => {
     const newUser: User = {
-      id: 'usr_' + Date.now(),
+      id: role === 'admin' ? 'usr_admin' : 'usr_' + Date.now(),
       name,
       phone,
-      role
+      role,
+      ...(role === 'admin' ? { email: ADMIN_CREDENTIALS.email } : {})
     };
     setUser(newUser);
     localStorage.setItem('zura_user', JSON.stringify(newUser));
+    if (role === 'admin') {
+      setViewMode('admin-dashboard');
+    }
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem('zura_user');
+    localStorage.removeItem('zura_view_mode');
+    setViewMode('store');
   };
 
   const updateUserName = (newName: string): boolean => {
@@ -356,13 +387,93 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [unreadCount, setUnreadCount] = useState(0);
 
   // View mode routing: 'store' | 'admin-login' | 'admin-dashboard'
-  const [viewMode, setViewMode] = useState<'store' | 'admin-login' | 'admin-dashboard'>('store');
+  const [viewMode, setViewModeState] = useState<'store' | 'admin-login' | 'admin-dashboard'>(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#admin' || hash === '#admin-dashboard') {
+        const savedUser = localStorage.getItem('zura_user');
+        if (savedUser) {
+          try {
+            const u = JSON.parse(savedUser);
+            if (u.role === 'admin' || u.id === 'usr_admin' || u.name === 'Zura Super Admin') return 'admin-dashboard';
+          } catch {}
+        }
+        return 'admin-login';
+      }
+      if (hash === '#login-admin' || hash === '#admin-login') {
+        return 'admin-login';
+      }
+      const savedMode = localStorage.getItem('zura_view_mode');
+      if (savedMode === 'admin-dashboard') {
+        const savedUser = localStorage.getItem('zura_user');
+        if (savedUser) {
+          try {
+            const u = JSON.parse(savedUser);
+            if (u.role === 'admin' || u.id === 'usr_admin' || u.name === 'Zura Super Admin') return 'admin-dashboard';
+          } catch {}
+        }
+      }
+    }
+    return 'store';
+  });
 
-  const adminLogin = (email: string, pass: string): boolean => {
-    if (
-      email.trim().toLowerCase() === ADMIN_CREDENTIALS.email.toLowerCase() &&
-      pass === ADMIN_CREDENTIALS.password
-    ) {
+  const setViewMode = (mode: 'store' | 'admin-login' | 'admin-dashboard') => {
+    setViewModeState(mode);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('zura_view_mode', mode);
+      if (mode === 'admin-dashboard') {
+        window.location.hash = 'admin';
+      } else if (mode === 'admin-login') {
+        window.location.hash = 'admin-login';
+      } else {
+        if (window.location.hash === '#admin' || window.location.hash === '#admin-login' || window.location.hash === '#admin-dashboard') {
+          try {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+          } catch {}
+        }
+      }
+    }
+  };
+
+  // Deep linking and hash change listener (#admin, #admin-login)
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#admin' || hash === '#admin-dashboard') {
+        const savedUser = localStorage.getItem('zura_user');
+        if (savedUser) {
+          try {
+            const u = JSON.parse(savedUser);
+            if (u.role === 'admin' || u.id === 'usr_admin' || u.name === 'Zura Super Admin') {
+              setViewModeState('admin-dashboard');
+              return;
+            }
+          } catch {}
+        }
+        setViewModeState('admin-login');
+      } else if (hash === '#admin-login' || hash === '#login-admin') {
+        setViewModeState('admin-login');
+      }
+    };
+
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
+  const adminLogin = (identifier: string, pass: string): boolean => {
+    const cleanId = identifier.trim().toLowerCase();
+    const cleanDigits = identifier.replace(/[^0-9]/g, '');
+    const isIdAdmin = 
+      cleanId === 'admin' ||
+      cleanId === 'superadmin' ||
+      cleanId === ADMIN_CREDENTIALS.email.toLowerCase() ||
+      cleanId === 'admin@zura-w.my.id' ||
+      cleanId === 'zuraw.official@gmail.com' ||
+      cleanDigits === '082172795156' ||
+      cleanDigits === '6282172795156' ||
+      cleanDigits === ADMIN_CONFIG.whatsappNumber;
+
+    if (isIdAdmin && pass === ADMIN_CREDENTIALS.password) {
       const adminUser: User = {
         id: 'usr_admin',
         name: 'Zura Super Admin',

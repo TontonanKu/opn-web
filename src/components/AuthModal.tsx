@@ -165,16 +165,31 @@ export const AuthModal: React.FC = () => {
     }
 
     // 1. Stealth check: jika kredensial admin, otomatis buka Admin Dashboard
-    const isEmailAdmin = cleanId.toLowerCase() === ADMIN_CREDENTIALS.email.toLowerCase();
+    const cleanIdLower = cleanId.toLowerCase().trim();
+    const cleanDigits = cleanId.replace(/[^0-9]/g, '');
     const isPassAdmin = password === ADMIN_CREDENTIALS.password;
+    const isIdAdmin = 
+      cleanIdLower === 'admin' ||
+      cleanIdLower === 'superadmin' ||
+      cleanIdLower === ADMIN_CREDENTIALS.email.toLowerCase() ||
+      cleanIdLower === 'admin@zura-w.my.id' ||
+      cleanIdLower === 'zuraw.official@gmail.com' ||
+      cleanDigits === '082172795156' ||
+      cleanDigits === '6282172795156' ||
+      cleanDigits === ADMIN_CONFIG.whatsappNumber;
 
-    if (isEmailAdmin && isPassAdmin) {
-      login('Zura Super Admin', ADMIN_CONFIG.whatsappNumber, 'admin');
-      setViewMode('admin-dashboard');
-      resetForm();
-      setIsRegister(false);
-      setActiveModal(null);
-      return;
+    if (isIdAdmin) {
+      if (isPassAdmin) {
+        login('Zura Super Admin', ADMIN_CONFIG.whatsappNumber, 'admin');
+        setViewMode('admin-dashboard');
+        resetForm();
+        setIsRegister(false);
+        setActiveModal(null);
+        return;
+      } else {
+        setErrorMessage('Password admin salah! Silakan masukkan password admin yang benar.');
+        return;
+      }
     }
 
     try {

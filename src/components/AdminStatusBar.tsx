@@ -1,10 +1,10 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { ADMIN_CONFIG } from '../data/initialData';
-import { ShieldCheck, Clock, MessageSquare, AlertTriangle, CheckCircle2, Zap } from 'lucide-react';
+import { ShieldCheck, Clock, MessageSquare, AlertTriangle, CheckCircle2, Zap, Crown } from 'lucide-react';
 
 export const AdminStatusBar: React.FC = () => {
-  const { adminStatus } = useApp();
+  const { adminStatus, user, setViewMode } = useApp();
 
   return (
     <div className="border-b-[3px] border-[#121212] bg-[#FFC700] text-[#121212] font-semibold text-xs md:text-sm py-2 px-4 shadow-sm">
@@ -36,16 +36,29 @@ export const AdminStatusBar: React.FC = () => {
           </span>
         </div>
 
-        <div className="flex items-center gap-3 text-xs md:text-sm">
-          <div className="flex items-center gap-1 font-mono">
-            <Clock className="w-3.5 h-3.5 text-neutral-800" />
-            <span>Garansi Respon: <strong>{ADMIN_CONFIG.maxWaitMinutes} Menit</strong></span>
-          </div>
-          <span className="hidden md:inline">|</span>
-          <div className="flex items-center gap-1">
-            <ShieldCheck className="w-3.5 h-3.5 text-neutral-800" />
-            <span className="hidden md:inline">100% Anti-Banned & Legal</span>
-          </div>
+        <div className="flex items-center gap-2 sm:gap-3 text-xs md:text-sm">
+          {user?.role === 'admin' ? (
+            <button
+              onClick={() => setViewMode('admin-dashboard')}
+              className="bg-[#121212] hover:bg-neutral-800 text-[#FFC700] border-2 border-black px-2.5 py-0.5 font-mono font-black text-xs flex items-center gap-1.5 shadow-[2px_2px_0px_#000] active:scale-95 transition-all"
+              title="Akses Langsung Dashboard Admin"
+            >
+              <Crown className="w-3.5 h-3.5 text-[#FFC700]" />
+              <span>👑 Buka Panel Admin</span>
+            </button>
+          ) : (
+            <>
+              <div className="flex items-center gap-1 font-mono">
+                <Clock className="w-3.5 h-3.5 text-neutral-800" />
+                <span>Garansi Respon: <strong>{ADMIN_CONFIG.maxWaitMinutes} Menit</strong></span>
+              </div>
+              <span className="hidden md:inline">|</span>
+              <div className="flex items-center gap-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-neutral-800" />
+                <span className="hidden md:inline">100% Anti-Banned & Legal</span>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -279,8 +279,20 @@ export const Navbar: React.FC = () => {
 
           </div>
 
-          {/* Mobile hamburger menu toggle */}
+          {/* Mobile hamburger menu toggle & quick actions */}
           <div className="flex items-center gap-2 md:hidden">
+            {/* Direct Admin Panel shortcut on Mobile Header */}
+            {user?.role === 'admin' && (
+              <button
+                onClick={() => setViewMode('admin-dashboard')}
+                className="bg-[#121212] text-[#FFC700] border-2 border-black px-2.5 py-1.5 text-xs font-mono font-black uppercase flex items-center gap-1.5 shadow-[2px_2px_0px_#000] active:scale-95 transition-all"
+                title="Akses Dashboard Admin"
+              >
+                <Crown className="w-3.5 h-3.5 text-[#FFC700]" />
+                <span>Panel</span>
+              </button>
+            )}
+
             {activeOrders.length > 0 && (
               <button
                 onClick={() => openOrderTracking(activeOrders[0])}
@@ -397,6 +409,20 @@ export const Navbar: React.FC = () => {
                 className="brutal-btn-yellow text-xs py-2.5 text-center font-bold"
               >
                 Masuk / Buat Akun
+              </button>
+            )}
+
+            {user?.role !== 'admin' && (
+              <button
+                type="button"
+                onClick={() => {
+                  setViewMode('admin-login');
+                  setMobileMenuOpen(false);
+                }}
+                className="text-[11px] font-mono text-neutral-600 hover:text-black text-center pt-1 underline flex items-center justify-center gap-1"
+              >
+                <Crown className="w-3 h-3 text-[#FF5900]" />
+                <span>Portal Khusus Admin Toko</span>
               </button>
             )}
           </div>

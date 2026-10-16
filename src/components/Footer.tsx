@@ -9,11 +9,12 @@ import {
   ShieldCheck, 
   Clock, 
   ArrowUp,
-  Heart
+  Heart,
+  Crown
 } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const { setViewMode, setActiveModal } = useApp();
+  const { setViewMode, setActiveModal, user } = useApp();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -126,6 +127,22 @@ export const Footer: React.FC = () => {
               className="text-neutral-400 hover:text-[#FFC700] underline"
             >
               Ketentuan Garansi & Privasi
+            </button>
+            <span className="text-neutral-700">|</span>
+            <button
+              type="button"
+              onClick={() => {
+                if (user?.role === 'admin') {
+                  setViewMode('admin-dashboard');
+                } else {
+                  setViewMode('admin-login');
+                }
+              }}
+              className="text-neutral-400 hover:text-[#FFC700] flex items-center gap-1.5 underline transition-colors"
+              title="Akses Portal Administrator Toko"
+            >
+              <Crown className="w-3.5 h-3.5 text-[#FFC700]" />
+              <span>{user?.role === 'admin' ? 'Buka Panel Admin' : 'Akses Portal Admin'}</span>
             </button>
           </div>
 

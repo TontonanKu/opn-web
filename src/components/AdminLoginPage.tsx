@@ -93,16 +93,16 @@ export const AdminLoginPage: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-mono font-black uppercase text-[#121212] mb-1">
-                EMAIL ADMIN RESMI
+                EMAIL / USERNAME / WHATSAPP ADMIN
               </label>
               <div className="flex items-center border-2 border-black bg-white">
                 <span className="px-3 text-neutral-500">
                   <Mail className="w-4 h-4" />
                 </span>
                 <input
-                  type="email"
+                  type="text"
                   required
-                  placeholder="admin@zurastore.com"
+                  placeholder="admin atau admin@zurastore.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full p-2.5 text-xs font-bold focus:outline-none"
