@@ -122,7 +122,7 @@ export interface WhatsAppTestimonial {
   customerName: string;
   serviceCategory: string;
   date: string;
-  avatar: string;
+  avatar?: string;
   chatSnippet: string;
   screenshotUrl: string;
   rating: number;

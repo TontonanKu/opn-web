@@ -478,71 +478,168 @@ export const PORTFOLIO_PROJECTS: ProjectPortfolio[] = [
 ];
 
 export const INITIAL_WHATSAPP_TESTIMONIALS: WhatsAppTestimonial[] = [
+  // --- WUTHERING WAVES VERIFIED TESTIMONIALS ---
   {
-    id: "wa-1",
-    customerName: "Febri Ananda (Customer 01)",
+    id: "wa-wuwa-1",
+    customerName: "Febri Ananda",
     serviceCategory: "Joki Wuthering Waves",
     date: "20 Agu 2026, 15:43 WIB",
-    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80",
     chatSnippet: "Jokian Selesai! Order: 1.600 Astrites. Pembayaran Diterima Rp 30.000 ke Kazura Store Batam. Terima kasih atas kepercayaannya!",
     screenshotUrl: "/testimonials/wuwa/Group 1.png",
     rating: 5,
     orderCode: "ZURA-WW-01"
   },
   {
-    id: "wa-2",
-    customerName: "Rakha Ibnu Shoji (Customer 02)",
+    id: "wa-wuwa-2",
+    customerName: "Rakha Ibnu Shoji",
     serviceCategory: "Joki Wuthering Waves",
     date: "23 Agu 2026, 02:38 WIB",
-    avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=150&q=80",
     chatSnippet: "Jokian Selesai - Order: 5.200 Astrites (Waktu pengerjaan: 9 jam). Chat: 'mantap thank you min 😁'. Transfer Rp 50.000 ke Kazura Store.",
     screenshotUrl: "/testimonials/wuwa/Group 2.png",
     rating: 5,
     orderCode: "ZURA-WW-02"
   },
   {
-    id: "wa-3",
-    customerName: "Customer 03 (Mandiri / GoPay)",
+    id: "wa-wuwa-3",
+    customerName: "Customer WuWa (Mandiri / GoPay)",
     serviceCategory: "Joki Wuthering Waves",
     date: "25 Agu 2026, 08:01 WIB",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
     chatSnippet: "Order 8.000 Astrites selesai! Chat: 'terimakasih banyak min, next kalo joki disini lagi deh 😆👍'. Pembayaran Rp 75.000 sukses.",
     screenshotUrl: "/testimonials/wuwa/Group 3.png",
     rating: 5,
     orderCode: "ZURA-WW-03"
   },
   {
-    id: "wa-4",
-    customerName: "M Muhammad Nabil (Customer 04)",
+    id: "wa-wuwa-4",
+    customerName: "M Muhammad Nabil",
     serviceCategory: "Joki Wuthering Waves",
     date: "27 Agu 2026, 13:35 WIB",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80",
     chatSnippet: "Order 12.000 Astrites selesai! Chat: 'Walah cepet bat min, Makasih min'. Pembayaran SeaBank Rp 145.000 ke Kazura Store.",
     screenshotUrl: "/testimonials/wuwa/Group 4.png",
     rating: 5,
     orderCode: "ZURA-WW-04"
   },
   {
-    id: "wa-5",
-    customerName: "Customer 05 (QRIS Payment)",
+    id: "wa-wuwa-5",
+    customerName: "Customer WuWa (QRIS Payment)",
     serviceCategory: "Joki Wuthering Waves",
     date: "29 Agu 2026, 18:49 WIB",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
     chatSnippet: "Jokian Selesai - Quest Beneath a Melting Sky. Chat: '🙏😭 thanks bangg'. Pembayaran QRIS Rp 13.000 berhasil ke Kazura Store.",
     screenshotUrl: "/testimonials/wuwa/Group 5.png",
     rating: 5,
     orderCode: "ZURA-WW-05"
   },
+
+  // --- ROBLOX & GAME MIDMAN VERIFIED TESTIMONIALS ---
   {
-    id: "wa-6",
-    customerName: "Ndu Joji (Roblox Pet Trade)",
-    serviceCategory: "Joki & Trade Roblox",
+    id: "wa-rblx-1",
+    customerName: "Ndu Joji",
+    serviceCategory: "Trade Pet Roblox",
     date: "07 Agu 2026, 18:35 WIB",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80",
     chatSnippet: "Order Pet Orangutan Roblox 2.81 KG selesai via PS. Chat: 'ok ty mas sukses terus ya 👍'. Transfer BCA ke DANA Kazura Rp 500.000.",
     screenshotUrl: "/testimonials/roblox/image.webp",
     rating: 5,
     orderCode: "ZURA-RBLX-01"
+  },
+  {
+    id: "wa-rblx-2",
+    customerName: "chiwaprikitiw",
+    serviceCategory: "Trade Pet Roblox",
+    date: "11 Agu 2026, 23:56 WIB",
+    chatSnippet: "Gift Pet Aromatic Kitsune [7.31 KG] selesai. Chat: 'thx kak 👍'. Pembayaran QRIS DANA Rp 250.000 ke Kazura Store.",
+    screenshotUrl: "/testimonials/roblox/image (1).webp",
+    rating: 5,
+    orderCode: "ZURA-RBLX-02"
+  },
+  {
+    id: "wa-rblx-3",
+    customerName: "zayelle",
+    serviceCategory: "Top Up & Membership",
+    date: "30 Mar 2026, 12:24 WIB",
+    chatSnippet: "Top Up Monthly Member Global - 750 Diamond masuk! Chat: 'okee dahh masukk'. Pembayaran DuitNow QR IDR 235.000 berhasil.",
+    screenshotUrl: "/testimonials/roblox/image (2).webp",
+    rating: 5,
+    orderCode: "ZURA-TOPUP-01"
+  },
+  {
+    id: "wa-rblx-4",
+    customerName: "SHADOWBREAK (Sage L)",
+    serviceCategory: "Jasa Midman (MM)",
+    date: "21 Jun 2026, 19:36 WIB",
+    chatSnippet: "Transaksi Aman Jasa Midman Kazura Store selesai. Chat: 'Sudah ya terima kasih telah menggunakan jasa midman saya'. BCA QRIS IDR 210.000.",
+    screenshotUrl: "/testimonials/roblox/image (3).webp",
+    rating: 5,
+    orderCode: "ZURA-MM-01"
+  },
+  {
+    id: "wa-rblx-5",
+    customerName: "Din4Nduu (ndusophie)",
+    serviceCategory: "Trade Farm Pet",
+    date: "07 Agu 2026, 08:24 WIB",
+    chatSnippet: "Trade Roblox Farm Pet selesai. Chat: 'Makasih banyak kak'. Transfer m-BCA ke DANA Kazura Rp 200.000.",
+    screenshotUrl: "/testimonials/roblox/image (4).webp",
+    rating: 5,
+    orderCode: "ZURA-RBLX-03"
+  },
+  {
+    id: "wa-rblx-6",
+    customerName: "Muh. Sakir (Buyer 14)",
+    serviceCategory: "Joki & Trade Game",
+    date: "29 Mar 2026, 14:17 WIB",
+    chatSnippet: "Order Transaksi Discord selesai. Chat: 'Done ya, makasih'. Pembayaran SeaBank QRIS Rp 195.000 ke Kazura Store Batam.",
+    screenshotUrl: "/testimonials/roblox/image (5).webp",
+    rating: 5,
+    orderCode: "ZURA-DSC-01"
+  },
+  {
+    id: "wa-rblx-7",
+    customerName: "Buyer 14 (Batch 2)",
+    serviceCategory: "Joki & Trade Game",
+    date: "31 Mar 2026, 22:23 WIB",
+    chatSnippet: "Order Transaksi Discord Batch 2 selesai. Chat: 'Done ya, makasih'. Pembayaran QRIS DANA SmartPay Rp 195.000 sukses.",
+    screenshotUrl: "/testimonials/roblox/image (6).webp",
+    rating: 5,
+    orderCode: "ZURA-DSC-02"
+  },
+  {
+    id: "wa-rblx-8",
+    customerName: "Din4Nduu (ndusophie)",
+    serviceCategory: "Trade Farm Pet",
+    date: "07 Agu 2026, 08:13 WIB",
+    chatSnippet: "m-Transfer BCA Berhasil Rp 200.000 ke Kazura Store (DANA 3901082172795156). Chat: 'Makasih banyak kak'.",
+    screenshotUrl: "/testimonials/roblox/image (7).webp",
+    rating: 5,
+    orderCode: "ZURA-RBLX-04"
+  },
+  {
+    id: "wa-rblx-9",
+    customerName: "Rendy Ardiansyah (rndyardh)",
+    serviceCategory: "Trade Pet Roblox",
+    date: "08 Agu 2026, 18:00 WIB",
+    chatSnippet: "Gift Pet Kitsune [2.77 KG] Age 1 selesai via PS. Chat: 'sama sama'. Pembayaran BRImo QRIS Rp 190.000 BERHASIL.",
+    screenshotUrl: "/testimonials/roblox/image (8).webp",
+    rating: 5,
+    orderCode: "ZURA-RBLX-05"
+  },
+  {
+    id: "wa-rblx-10",
+    customerName: "Muh. Sakir (Buyer 14)",
+    serviceCategory: "Joki & Trade Discord",
+    date: "29 Mar 2026, 14:10 WIB",
+    chatSnippet: "Transaksi SeaBank QRIS Rp 195.000 Terverifikasi Resmi. Chat: 'Done ya, makasih'. Pembayaran ke Kazura Store Batam.",
+    screenshotUrl: "/testimonials/roblox/image (9).webp",
+    rating: 5,
+    orderCode: "ZURA-DSC-03"
+  },
+  {
+    id: "wa-rblx-11",
+    customerName: "Buyer 14 (Batch 2)",
+    serviceCategory: "Joki & Trade Discord",
+    date: "31 Mar 2026, 22:15 WIB",
+    chatSnippet: "Transaksi QRIS DANA SmartPay Rp 195.000 Terverifikasi Resmi. Chat: 'Done ya, makasih'. Pembayaran ke Kazura Store Batam.",
+    screenshotUrl: "/testimonials/roblox/image (10).webp",
+    rating: 5,
+    orderCode: "ZURA-DSC-04"
   }
 ];
 

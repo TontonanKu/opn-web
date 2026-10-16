@@ -337,38 +337,32 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return () => clearInterval(interval);
   }, []);
 
-  // WhatsApp Testimonials State (Auto-invalidate old dummy unsplash cache)
+  // WhatsApp Testimonials State (Auto-invalidate old cache and load all 16 authentic testimonials)
   const [testimonials, setTestimonials] = useState<WhatsAppTestimonial[]>(() => {
     try {
-      // Invalidate old legacy dummy cache if present
-      const oldSaved = localStorage.getItem('zura_testimonials');
-      if (oldSaved && (oldSaved.includes('Rian Pratama') || oldSaved.includes('unsplash.com'))) {
-        localStorage.removeItem('zura_testimonials');
-      }
+      localStorage.removeItem('zura_testimonials');
+      localStorage.removeItem('zura_testimonials_v2');
 
-      const saved = localStorage.getItem('zura_testimonials_v2');
+      const saved = localStorage.getItem('zura_testimonials_v3');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0 && !parsed.some((t: any) => t.screenshotUrl?.includes('unsplash.com') || t.customerName?.includes('Rian Pratama'))) {
+        if (Array.isArray(parsed) && parsed.length >= INITIAL_WHATSAPP_TESTIMONIALS.length && !parsed.some((t: any) => t.screenshotUrl?.includes('unsplash.com') || t.avatar?.includes('unsplash.com'))) {
           return parsed;
         }
       }
     } catch {}
-    localStorage.removeItem('zura_testimonials');
-    localStorage.setItem('zura_testimonials_v2', JSON.stringify(INITIAL_WHATSAPP_TESTIMONIALS));
+    localStorage.setItem('zura_testimonials_v3', JSON.stringify(INITIAL_WHATSAPP_TESTIMONIALS));
     return INITIAL_WHATSAPP_TESTIMONIALS;
   });
 
   useEffect(() => {
-    // Proactively purge any lingering dummy data
-    if (testimonials.some(t => t.screenshotUrl?.includes('unsplash.com') || t.customerName?.includes('Rian Pratama'))) {
+    // Proactively purge any lingering dummy or partial data
+    if (testimonials.length < INITIAL_WHATSAPP_TESTIMONIALS.length || testimonials.some(t => t.screenshotUrl?.includes('unsplash.com') || t.avatar?.includes('unsplash.com'))) {
       setTestimonials(INITIAL_WHATSAPP_TESTIMONIALS);
-      localStorage.setItem('zura_testimonials_v2', JSON.stringify(INITIAL_WHATSAPP_TESTIMONIALS));
-      localStorage.removeItem('zura_testimonials');
+      localStorage.setItem('zura_testimonials_v3', JSON.stringify(INITIAL_WHATSAPP_TESTIMONIALS));
       return;
     }
-    localStorage.setItem('zura_testimonials_v2', JSON.stringify(testimonials));
-    localStorage.removeItem('zura_testimonials');
+    localStorage.setItem('zura_testimonials_v3', JSON.stringify(testimonials));
   }, [testimonials]);
 
   // Real-time Chat Messages State
@@ -1039,9 +1033,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           customerName: targetOrder.customerName,
           serviceCategory: targetOrder.itemName,
           date: 'Hari ini',
-          avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
           chatSnippet: review,
-          screenshotUrl: targetOrder.paymentProofUrl || 'https://images.unsplash.com/photo-1616469829941-c7200edec809?auto=format&fit=crop&w=600&q=80',
+          screenshotUrl: targetOrder.paymentProofUrl || '/testimonials/wuwa/Group 1.png',
           rating,
           orderCode: targetOrder.orderCode
         });

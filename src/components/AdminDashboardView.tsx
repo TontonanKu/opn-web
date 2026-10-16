@@ -219,9 +219,8 @@ export const AdminDashboardView: React.FC = () => {
       customerName: waCustName,
       serviceCategory: waCategory,
       date: 'Baru saja',
-      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
       chatSnippet: waSnippet,
-      screenshotUrl: waScreenshotUrl || 'https://images.unsplash.com/photo-1616469829941-c7200edec809?auto=format&fit=crop&w=600&q=80',
+      screenshotUrl: waScreenshotUrl || '/testimonials/wuwa/Group 1.png',
       rating: Number(waRating),
       orderCode: `ZURA-WA-${Math.floor(10000 + Math.random() * 90000)}`
     });

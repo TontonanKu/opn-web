@@ -246,15 +246,13 @@ export const TestimonialSection: React.FC = () => {
                   {/* WhatsApp Chat Body */}
                   <div className="p-4 flex-1 flex flex-col justify-between">
                     <div>
-                      {/* Customer info */}
+                      {/* Customer info without person profile photo */}
                       <div className="flex items-center gap-2.5 mb-2.5">
-                        <img 
-                          src={testi.avatar} 
-                          alt={testi.customerName}
-                          className="w-9 h-9 rounded-full border-2 border-black object-cover" 
-                        />
-                        <div>
-                          <h4 className="font-bold text-xs text-[#121212] leading-tight">
+                        <div className="w-9 h-9 bg-[#FFC700] border-2 border-black flex items-center justify-center font-display font-black text-sm shadow-[1.5px_1.5px_0px_#000] shrink-0 text-black">
+                          {testi.customerName ? testi.customerName.charAt(0).toUpperCase() : 'Z'}
+                        </div>
+                        <div className="min-w-0">
+                          <h4 className="font-bold text-xs text-[#121212] leading-tight truncate">
                             {testi.customerName}
                           </h4>
                           <span className="text-[10px] font-mono text-neutral-500">
