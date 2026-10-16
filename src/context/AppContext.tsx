@@ -306,14 +306,38 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return () => clearInterval(interval);
   }, []);
 
-  // WhatsApp Testimonials State
+  // WhatsApp Testimonials State (Auto-invalidate old dummy unsplash cache)
   const [testimonials, setTestimonials] = useState<WhatsAppTestimonial[]>(() => {
-    const saved = localStorage.getItem('zura_testimonials');
-    return saved ? JSON.parse(saved) : INITIAL_WHATSAPP_TESTIMONIALS;
+    try {
+      // Invalidate old legacy dummy cache if present
+      const oldSaved = localStorage.getItem('zura_testimonials');
+      if (oldSaved && (oldSaved.includes('Rian Pratama') || oldSaved.includes('unsplash.com'))) {
+        localStorage.removeItem('zura_testimonials');
+      }
+
+      const saved = localStorage.getItem('zura_testimonials_v2');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0 && !parsed.some((t: any) => t.screenshotUrl?.includes('unsplash.com') || t.customerName?.includes('Rian Pratama'))) {
+          return parsed;
+        }
+      }
+    } catch {}
+    localStorage.removeItem('zura_testimonials');
+    localStorage.setItem('zura_testimonials_v2', JSON.stringify(INITIAL_WHATSAPP_TESTIMONIALS));
+    return INITIAL_WHATSAPP_TESTIMONIALS;
   });
 
   useEffect(() => {
-    localStorage.setItem('zura_testimonials', JSON.stringify(testimonials));
+    // Proactively purge any lingering dummy data
+    if (testimonials.some(t => t.screenshotUrl?.includes('unsplash.com') || t.customerName?.includes('Rian Pratama'))) {
+      setTestimonials(INITIAL_WHATSAPP_TESTIMONIALS);
+      localStorage.setItem('zura_testimonials_v2', JSON.stringify(INITIAL_WHATSAPP_TESTIMONIALS));
+      localStorage.removeItem('zura_testimonials');
+      return;
+    }
+    localStorage.setItem('zura_testimonials_v2', JSON.stringify(testimonials));
+    localStorage.removeItem('zura_testimonials');
   }, [testimonials]);
 
   // Real-time Chat Messages State
