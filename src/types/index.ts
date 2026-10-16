@@ -51,6 +51,14 @@ export interface GameService {
   }[];
 }
 
+export interface PremiumAppVariant {
+  id: string;
+  name: string;
+  duration: string;
+  price: number;
+  noteSeller?: string;
+}
+
 export interface PremiumApp {
   id: string;
   name: string;
@@ -66,6 +74,7 @@ export interface PremiumApp {
   isHighlighted?: boolean;
   expiresAt?: string;
   expiryNotice?: string;
+  variants?: PremiumAppVariant[];
 }
 
 export interface ProjectPortfolio {

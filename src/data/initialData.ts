@@ -189,15 +189,66 @@ export const PREMIUM_APPS: PremiumApp[] = [
     category: "STREAMING & ENTERTAINMENT",
     badge: "Via Invite",
     badgeColor: "red",
-    price: 12000,
-    duration: "/ 1 Month",
-    description: "Ad-free YouTube videos & YouTube Music, background play, and offline downloads.",
-    noteSeller: "Best to order during daytime, requires email only, 1-month warranty",
+    price: 20000,
+    duration: "1 Bulan",
+    description: "Nonton YouTube bebas iklan & YouTube Music Premium, background playback (PIP), dan download video offline.",
+    noteSeller: "Best to order during daytime, butuh email saja, garansi 1 bulan penuh",
     features: [
-      "Ad-Free Video & Music",
+      "Bebas Iklan Video & Musik",
       "Background Playback (PIP)",
-      "YouTube Music Premium Included",
-      "1-Month Warranty"
+      "YouTube Music Premium Termasuk",
+      "Garansi 1 Bulan Penuh"
+    ]
+  },
+  {
+    id: "capcut-pro",
+    name: "CapCut Pro (Team Plan)",
+    category: "VIDEO & CREATIVE AI",
+    badge: "Akun Seller",
+    badgeColor: "red",
+    price: 40000,
+    duration: "26 – 31 Hari",
+    description: "Akses seluruh fitur editing premium CapCut Pro: auto-caption akurat, efek AI canggih, export 4K 60fps tanpa watermark, dan cloud storage.",
+    noteSeller: "HOT PRODUCT, garansi 1 minggu",
+    features: [
+      "Semua Fitur Pro & AI Unlocked",
+      "Auto-Caption & Voice Generator AI",
+      "Export 4K 60FPS Tanpa Watermark",
+      "Garansi 1 Minggu (Akun Seller Resmi)"
+    ],
+    isHighlighted: true
+  },
+  {
+    id: "spotify-premium",
+    name: "Spotify Premium (Individual Plan)",
+    category: "MUSIC & AUDIO STREAMING",
+    badge: "Akun Seller",
+    badgeColor: "green",
+    price: 25000,
+    duration: "26 – 31 Hari",
+    description: "Dengarkan jutaan lagu tanpa jeda iklan, skip musik tanpa batas, audio kualitas tertinggi (320kbps), dan download lagu offline.",
+    noteSeller: "No garansi",
+    features: [
+      "100% Bebas Iklan",
+      "Download Lagu & Dengarkan Offline",
+      "Unlimited Skip Lagu",
+      "Audio Ultra Kualitas Tinggi (320 kbps)"
+    ],
+    variants: [
+      {
+        id: "spotify-1m",
+        name: "1 Bulan (26-31 Hari)",
+        duration: "26 – 31 Hari",
+        price: 25000,
+        noteSeller: "No garansi"
+      },
+      {
+        id: "spotify-2m",
+        name: "2 Bulan (50-60 Hari)",
+        duration: "50 – 60 Hari",
+        price: 20000,
+        noteSeller: "No garansi, produk ini lebih rawan dari pada varian yang 1 bulan."
+      }
     ]
   },
   {
@@ -207,7 +258,7 @@ export const PREMIUM_APPS: PremiumApp[] = [
     badge: "Code Redeem",
     badgeColor: "blue",
     price: 50000,
-    duration: "/ 12 Months",
+    duration: "12 Months",
     description: "Adobe AI graphic design tool. Thousands of premium templates, text-to-image AI, 1-click background removal, and Adobe Fonts.",
     noteSeller: "RECOMMENDED TO TRY, redeem immediately after purchase, super easy code activation, no warranty",
     features: [
@@ -223,8 +274,8 @@ export const PREMIUM_APPS: PremiumApp[] = [
     category: "GRAPHIC DESIGN & SLIDES",
     badge: "Via Invite",
     badgeColor: "blue",
-    price: 20000,
-    duration: "/ LIFETIME",
+    price: 12000,
+    duration: "LIFETIME",
     description: "Access millions of premium Canva Edu templates, vector elements, stock photos, magic resize, and brand kit forever.",
     noteSeller: "Stays in 1 team forever, email address only (no password needed), 6-month warranty",
     features: [
@@ -241,7 +292,7 @@ export const PREMIUM_APPS: PremiumApp[] = [
     badge: "1P1U Private",
     badgeColor: "dark",
     price: 40000,
-    duration: "/ 14-Day Warranty",
+    duration: "14-Day Warranty",
     description: "Watch Netflix movies & series in Ultra HD 4K. 1 Profile 1 User with private PIN, zero profile collisions.",
     noteSeller: "Extremely rare limits, full 14-Day warranty.",
     features: [
@@ -258,7 +309,7 @@ export const PREMIUM_APPS: PremiumApp[] = [
     badge: "Limited Promo",
     badgeColor: "yellow",
     price: 50000,
-    duration: "/ 18 Bulan",
+    duration: "18 Bulan",
     expiresAt: "2026-10-24T23:59:59+07:00",
     expiryNotice: "READY S.D 24 OKTOBER 2026",
     description: "Akun Gemini Pro Private durasi panjang 18 bulan dengan akses model AI flagship, Antigravity AI, dan aktivasi langsung via link resmi.",
@@ -363,24 +414,23 @@ export const PORTFOLIO_PROJECTS: ProjectPortfolio[] = [
   },
   {
     id: "outbreak",
-    title: "Outbreak - Zombie Survival 2D & RRBY Portal",
+    title: "Outbreak - Jobdesk Portal Tim RRBY (Game Unity 6)",
     type: "ai",
     aiLabel: "AI Powered",
-    category: "Game Tech & Unity 6",
+    category: "Team Portal & Task Matrix",
     imageUrl: "/projects/outbreak.png",
-    description: "Game 2D Top-Down Zombie Survival 'Outbreak' berbasis Unity 6 dengan sistem Wave AI musuh dan dynamic lighting 2D, terintegrasi dengan Portal Tim RRBY (Reihan, Bintang, Royan, Eby) berbasis Firebase Cloud Realtime Sync.",
-    toolsUsed: ["Unity 6", "C# Engine", "Firebase Realtime DB", "Enemy AI Wave", "2D Dynamic Lighting", "Web Portal"],
-    tags: ["Zombie Survival", "Unity 6 2D", "Enemy AI", "Firebase Sync", "Task Matrix", "Game Dev"],
+    description: "Web portal koordinasi jobdesk & pengumpulan tugas tim RRBY (Reihan, Bintang, Royan, Eby) untuk proyek pengembangan Game 2D Zombie Survival 'Outbreak' di Unity 6 (game masih dalam tahap proses pengembangan aktif), terintegrasi live sync Firebase Realtime Cloud Database.",
+    toolsUsed: ["Firebase Realtime DB", "Task Matrix", "Unity 6 (In-Dev)", "Figma Link", "Mindmap", "Web Portal"],
+    tags: ["Jobdesk Portal", "RRBY Team", "Firebase Sync", "Unity 6 In-Dev", "Task Matrix"],
     year: "2024",
     demoUrl: "https://outbreak.zura-w.my.id/",
     githubUrl: "https://github.com/TontonanKu/OUTBREAK",
-    actionText: "Buka Portal & Web Game ↗",
+    actionText: "Buka Portal Jobdesk Tim ↗",
     features: [
-      "Gameplay 2D Top-Down Zombie Survival dengan Unity 6 Universal Render Pipeline (URP)",
-      "Sistem AI Pathfinding zombie cerdas dan gelombang serangan dinamis (Dynamic Wave Difficulty)",
-      "Portal Manajemen Tugas Tim RRBY dengan sinkronisasi Firebase Realtime Cloud Database",
-      "Task Matrix & Role Tracker real-time untuk Reihan (Lead Dev), Bintang, Royan, dan Eby",
-      "Visual atmospheric 2D dynamic lights, sound engine retro horor, dan asset pack kustom"
+      "Dashboard manajemen tugas & matriks pembagian jobdesk 4 anggota tim (Reihan, Bintang, Royan, Eby)",
+      "Sinkronisasi realtime status pengerjaan berbasis Firebase Realtime Cloud Database",
+      "Portal terintegrasi acuan desain Figma, Mindmap Outbreak, dan repositori pengumpulan file dosen",
+      "Status Game Outbreak: Game 2D Top-Down Zombie Survival Unity 6 saat ini dalam proses pengembangan aktif"
     ]
   },
   {
@@ -430,47 +480,69 @@ export const PORTFOLIO_PROJECTS: ProjectPortfolio[] = [
 export const INITIAL_WHATSAPP_TESTIMONIALS: WhatsAppTestimonial[] = [
   {
     id: "wa-1",
-    customerName: "Rian Pratama (Jakarta)",
-    serviceCategory: "Joki MLBB",
-    date: "Kemarin, 21:14 WIB",
+    customerName: "Febri Ananda (Customer 01)",
+    serviceCategory: "Joki Wuthering Waves",
+    date: "20 Agu 2026, 15:43 WIB",
     avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80",
-    chatSnippet: "Gokil beneran cepet bgt bro! Tadi sore Legend IV sekarang udah Mythic 15 bintang! WR 100% savage berkali-kali. Makasih min, next order lagi!",
-    screenshotUrl: "https://images.unsplash.com/photo-1616469829941-c7200edec809?auto=format&fit=crop&w=600&q=80",
+    chatSnippet: "Jokian Selesai! Order: 1.600 Astrites. Pembayaran Diterima Rp 30.000 ke Kazura Store Batam. Terima kasih atas kepercayaannya!",
+    screenshotUrl: "/testimonials/wuwa/Group 1.png",
     rating: 5,
-    orderCode: "ZURA-ML-98214"
+    orderCode: "ZURA-WW-01"
   },
   {
     id: "wa-2",
-    customerName: "Fajar Maulana (Bandung)",
-    serviceCategory: "Netflix 4K UHD",
-    date: "12 Okt 2024, 14:02 WIB",
+    customerName: "Rakha Ibnu Shoji (Customer 02)",
+    serviceCategory: "Joki Wuthering Waves",
+    date: "23 Agu 2026, 02:38 WIB",
     avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=150&q=80",
-    chatSnippet: "Akun Netflix udah bisa min, langsung login di Smart TV lancar jaya no on-hold! Mantap responsif bgt pas 10 menit timer langsung kelar akunnya.",
-    screenshotUrl: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&w=600&q=80",
+    chatSnippet: "Jokian Selesai - Order: 5.200 Astrites (Waktu pengerjaan: 9 jam). Chat: 'mantap thank you min 😁'. Transfer Rp 50.000 ke Kazura Store.",
+    screenshotUrl: "/testimonials/wuwa/Group 2.png",
     rating: 5,
-    orderCode: "ZURA-APP-41902"
+    orderCode: "ZURA-WW-02"
   },
   {
     id: "wa-3",
-    customerName: "Dinda Salsabila (Surabaya)",
-    serviceCategory: "ChatGPT Plus & Canva Pro",
-    date: "10 Okt 2024, 18:30 WIB",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
-    chatSnippet: "Canva Pro nya udah masuk email min, fitur pro aktif semua buat ngerjain tugas skripsi! ChatGPT Plus juga kenceng banget. Trusted!",
-    screenshotUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+    customerName: "Customer 03 (Mandiri / GoPay)",
+    serviceCategory: "Joki Wuthering Waves",
+    date: "25 Agu 2026, 08:01 WIB",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
+    chatSnippet: "Order 8.000 Astrites selesai! Chat: 'terimakasih banyak min, next kalo joki disini lagi deh 😆👍'. Pembayaran Rp 75.000 sukses.",
+    screenshotUrl: "/testimonials/wuwa/Group 3.png",
     rating: 5,
-    orderCode: "ZURA-APP-77291"
+    orderCode: "ZURA-WW-03"
   },
   {
     id: "wa-4",
-    customerName: "Kevin Wijaya (Medan)",
-    serviceCategory: "Joki Valorant",
-    date: "08 Okt 2024, 23:45 WIB",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
-    chatSnippet: "From Gold 2 to Ascendant 1! Booster ramah, mainnya rapih gak pake cheat, match history ijo semua. Rekomendasi buat anak Valo!",
-    screenshotUrl: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80",
+    customerName: "M Muhammad Nabil (Customer 04)",
+    serviceCategory: "Joki Wuthering Waves",
+    date: "27 Agu 2026, 13:35 WIB",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80",
+    chatSnippet: "Order 12.000 Astrites selesai! Chat: 'Walah cepet bat min, Makasih min'. Pembayaran SeaBank Rp 145.000 ke Kazura Store.",
+    screenshotUrl: "/testimonials/wuwa/Group 4.png",
     rating: 5,
-    orderCode: "ZURA-VAL-33821"
+    orderCode: "ZURA-WW-04"
+  },
+  {
+    id: "wa-5",
+    customerName: "Customer 05 (QRIS Payment)",
+    serviceCategory: "Joki Wuthering Waves",
+    date: "29 Agu 2026, 18:49 WIB",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
+    chatSnippet: "Jokian Selesai - Quest Beneath a Melting Sky. Chat: '🙏😭 thanks bangg'. Pembayaran QRIS Rp 13.000 berhasil ke Kazura Store.",
+    screenshotUrl: "/testimonials/wuwa/Group 5.png",
+    rating: 5,
+    orderCode: "ZURA-WW-05"
+  },
+  {
+    id: "wa-6",
+    customerName: "Ndu Joji (Roblox Pet Trade)",
+    serviceCategory: "Joki & Trade Roblox",
+    date: "07 Agu 2026, 18:35 WIB",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80",
+    chatSnippet: "Order Pet Orangutan Roblox 2.81 KG selesai via PS. Chat: 'ok ty mas sukses terus ya 👍'. Transfer BCA ke DANA Kazura Rp 500.000.",
+    screenshotUrl: "/testimonials/roblox/image.webp",
+    rating: 5,
+    orderCode: "ZURA-RBLX-01"
   }
 ];
 
