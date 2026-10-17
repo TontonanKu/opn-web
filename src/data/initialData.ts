@@ -415,8 +415,8 @@ export const PORTFOLIO_PROJECTS: ProjectPortfolio[] = [
   {
     id: "outbreak",
     title: "Outbreak - Jobdesk Portal Tim RRBY (Game Unity 6)",
-    type: "ai",
-    aiLabel: "AI Powered",
+    type: "manual",
+    aiLabel: "TEAM PORTAL",
     category: "Team Portal & Task Matrix",
     imageUrl: "/projects/outbreak.png",
     description: "Web portal koordinasi jobdesk & pengumpulan tugas tim RRBY (Reihan, Bintang, Royan, Eby) untuk proyek pengembangan Game 2D Zombie Survival 'Outbreak' di Unity 6 (game masih dalam tahap proses pengembangan aktif), terintegrasi live sync Firebase Realtime Cloud Database.",
