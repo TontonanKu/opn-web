@@ -15,7 +15,17 @@ import {
 import { ADMIN_CONFIG } from '../data/initialData';
 import { useApp } from '../context/AppContext';
 
-export const HeroBanner: React.FC = () => {
+interface HeroBannerProps {
+  onNavigateToJoki?: () => void;
+  onNavigateToApps?: () => void;
+  onNavigateToTestimoni?: () => void;
+}
+
+export const HeroBanner: React.FC<HeroBannerProps> = ({
+  onNavigateToJoki,
+  onNavigateToApps,
+  onNavigateToTestimoni
+}) => {
   const { adminStatus } = useApp();
 
   return (
@@ -77,29 +87,32 @@ export const HeroBanner: React.FC = () => {
 
             {/* Action buttons */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
-              <a 
-                href="#joki"
-                className="brutal-btn-yellow text-sm sm:text-base py-3.5 px-6 flex items-center gap-2 group"
+              <button 
+                type="button"
+                onClick={onNavigateToJoki ? onNavigateToJoki : () => { window.location.hash = 'joki'; }}
+                className="brutal-btn-yellow text-sm sm:text-base py-3.5 px-6 flex items-center gap-2 group cursor-pointer"
               >
                 <span>ORDER JOKI SEKARANG</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </button>
 
-              <a 
-                href="#aplikasi"
-                className="brutal-btn-orange text-sm sm:text-base py-3.5 px-6 flex items-center gap-2"
+              <button 
+                type="button"
+                onClick={onNavigateToApps ? onNavigateToApps : () => { window.location.hash = 'aplikasi'; }}
+                className="brutal-btn-orange text-sm sm:text-base py-3.5 px-6 flex items-center gap-2 cursor-pointer"
               >
                 <Smartphone className="w-5 h-5" />
                 <span>BELI APP PREMIUM</span>
-              </a>
+              </button>
 
-              <a 
-                href="#testimoni"
-                className="brutal-btn-white text-sm py-3.5 px-5 flex items-center gap-2"
+              <button 
+                type="button"
+                onClick={onNavigateToTestimoni ? onNavigateToTestimoni : () => { window.location.hash = 'testimoni'; }}
+                className="brutal-btn-white text-sm py-3.5 px-5 flex items-center gap-2 cursor-pointer"
               >
                 <Receipt className="w-4 h-4 text-[#FF5900]" />
                 <span>LIHAT STRUK TESTI</span>
-              </a>
+              </button>
             </div>
 
             {/* Features check */}

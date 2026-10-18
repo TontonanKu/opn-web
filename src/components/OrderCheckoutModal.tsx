@@ -47,6 +47,25 @@ export const OrderCheckoutModal: React.FC = () => {
   // Bot Protection Honeypot
   const [botTrap, setBotTrap] = useState('');
 
+  // Saved customer data from previous checkout (auto-fill convenience)
+  const [savedCheckoutData, setSavedCheckoutData] = useState<{ name: string; phone: string } | null>(null);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('zura_last_checkout_data');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.name && parsed.phone) {
+          setSavedCheckoutData(parsed);
+          setCustomerName(prev => prev || parsed.name);
+          setCustomerPhone(prev => prev || parsed.phone);
+        }
+      }
+    } catch {
+      // ignore storage error
+    }
+  }, []);
+
   // Close with ESC key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -136,6 +155,16 @@ export const OrderCheckoutModal: React.FC = () => {
       ...(checkoutItem.formData || {}),
       customerNotes: cleanNotes
     };
+
+    // Persist customer data for fast checkout next time
+    try {
+      localStorage.setItem('zura_last_checkout_data', JSON.stringify({
+        name: cleanCustomerName,
+        phone: cleanCustomerPhone
+      }));
+    } catch {
+      // ignore
+    }
 
     createOrder({
       userId: user?.id,
@@ -370,6 +399,26 @@ export const OrderCheckoutModal: React.FC = () => {
                 </div>
               )}
             </div>
+
+            {/* Auto-fill from previous session */}
+            {savedCheckoutData && (customerName !== savedCheckoutData.name || customerPhone !== savedCheckoutData.phone) && (
+              <div className="bg-[#FFF3B0] border-2 border-black p-2.5 flex items-center justify-between text-xs font-mono shadow-[2px_2px_0px_#000]">
+                <div className="flex items-center gap-1.5 truncate">
+                  <Sparkles className="w-4 h-4 text-[#FF5900] shrink-0" />
+                  <span className="truncate">Data sebelumnya: <strong>{savedCheckoutData.name}</strong> ({savedCheckoutData.phone})</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCustomerName(savedCheckoutData.name);
+                    setCustomerPhone(savedCheckoutData.phone);
+                  }}
+                  className="bg-black hover:bg-neutral-800 text-[#FFC700] px-2.5 py-1 text-[11px] font-mono font-black uppercase shrink-0 transition-colors"
+                >
+                  ⚡ Gunakan
+                </button>
+              </div>
+            )}
 
             {/* Customer Contacts */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

@@ -14,21 +14,34 @@ import {
   ChevronRight,
   LucideIcon,
   Crown,
-  Check
+  Check,
+  Home,
+  HelpCircle
 } from 'lucide-react';
+
+export type StoreTab = 'home' | 'joki' | 'apps' | 'portfolio';
 
 interface NavItemConfig {
   id: string;
+  tabTarget?: StoreTab;
   href: string;
   label: string;
   icon: LucideIcon;
-  badgeText: string;
-  badgeType: 'hot' | 'square';
+  badgeText?: string;
+  badgeType?: 'hot' | 'square';
 }
 
 const navItems: NavItemConfig[] = [
   {
+    id: 'home',
+    tabTarget: 'home',
+    href: '#home',
+    label: 'BERANDA',
+    icon: Home,
+  },
+  {
     id: 'joki',
+    tabTarget: 'joki',
     href: '#joki',
     label: 'JOKI GAME',
     icon: Zap,
@@ -37,6 +50,7 @@ const navItems: NavItemConfig[] = [
   },
   {
     id: 'aplikasi',
+    tabTarget: 'apps',
     href: '#aplikasi',
     label: 'APLIKASI',
     icon: Sparkles,
@@ -45,6 +59,7 @@ const navItems: NavItemConfig[] = [
   },
   {
     id: 'portfolio',
+    tabTarget: 'portfolio',
     href: '#portfolio',
     label: 'AI & DESAIN',
     icon: Palette,
@@ -53,15 +68,35 @@ const navItems: NavItemConfig[] = [
   },
   {
     id: 'testimoni',
+    tabTarget: 'home',
     href: '#testimoni',
     label: 'TESTIMONI',
     icon: ReceiptText,
     badgeText: 'CHECK',
     badgeType: 'square',
   },
+  {
+    id: 'faq',
+    tabTarget: 'home',
+    href: '#faq',
+    label: 'FAQ',
+    icon: HelpCircle,
+    badgeText: 'Q&A',
+    badgeType: 'square',
+  },
 ];
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  currentTab?: StoreTab;
+  onSelectTab?: (tab: StoreTab) => void;
+  onNavigateSection?: (sectionId: string) => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({
+  currentTab = 'home',
+  onSelectTab,
+  onNavigateSection
+}) => {
   const { 
     user, 
     logout, 
@@ -73,38 +108,56 @@ export const Navbar: React.FC = () => {
   } = useApp();
   
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>('');
+  const [activeSection, setActiveSection] = useState<string>('home');
 
-  // Scroll listener to update activeSection dynamically based on viewport position
+  // Scroll listener to update activeSection when on the 'home' tab
   useEffect(() => {
+    if (currentTab !== 'home') {
+      setActiveSection(currentTab);
+      return;
+    }
+
     const handleScroll = () => {
-      // When at top near Hero banner (< 250px), no nav button is highlighted
-      if (window.scrollY < 250) {
-        setActiveSection('');
-        return;
-      }
+      const scrollPos = window.scrollY + 250;
+      const faqEl = document.getElementById('faq');
+      const testiEl = document.getElementById('testimoni');
 
-      const sections = ['testimoni', 'portfolio', 'aplikasi', 'joki'];
-      const scrollPos = window.scrollY + 200;
-
-      for (const id of sections) {
-        const el = document.getElementById(id);
-        if (el) {
-          const top = el.offsetTop;
-          if (scrollPos >= top) {
-            setActiveSection(id);
-            return;
-          }
-        }
+      if (faqEl && scrollPos >= faqEl.offsetTop) {
+        setActiveSection('faq');
+      } else if (testiEl && scrollPos >= testiEl.offsetTop) {
+        setActiveSection('testimoni');
+      } else {
+        setActiveSection('home');
       }
-      setActiveSection('');
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [currentTab]);
+
+  const handleNavClick = (item: NavItemConfig, e: React.MouseEvent) => {
+    e.preventDefault();
+    if (item.tabTarget) {
+      onSelectTab?.(item.tabTarget);
+    }
+    if (item.id === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setActiveSection('home');
+    } else if (item.id === 'testimoni' || item.id === 'faq') {
+      setActiveSection(item.id);
+      setTimeout(() => {
+        const el = document.getElementById(item.id);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 50);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setActiveSection(item.id);
+    }
+  };
 
   // Filter orders for logged in user to show order counter badge
   const userOrders = orders.filter(o => {
@@ -128,13 +181,14 @@ export const Navbar: React.FC = () => {
           {/* Logo brand */}
           <div className="flex items-center gap-3">
             <a 
-              href="#" 
+              href="#home" 
               onClick={(e) => {
                 e.preventDefault();
+                onSelectTab?.('home');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                setActiveSection('');
+                setActiveSection('home');
               }}
-              className="flex items-center gap-2.5 group"
+              className="flex items-center gap-2.5 group cursor-pointer"
             >
               <div className="w-11 h-11 bg-[#FFC700] border-[2.5px] border-[#121212] flex items-center justify-center font-display font-black text-2xl shadow-brutal-sm group-hover:bg-[#FF5900] group-hover:text-white transition-colors">
                 Z
@@ -159,16 +213,17 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Desktop Navigation Links with Pop-Out Hover State from User Reference */}
-          <nav className="hidden lg:flex items-center gap-3">
+          <nav className="hidden lg:flex items-center gap-2.5">
             {navItems.map((item) => {
-              const isActive = activeSection === item.id;
+              const isActive = (currentTab !== 'home' && item.tabTarget === currentTab) || 
+                               (currentTab === 'home' && activeSection === item.id);
               const Icon = item.icon;
               return (
                 <div key={item.id} className="relative flex flex-col items-center group py-1.5">
                   <a 
                     href={item.href}
-                    onClick={() => setActiveSection(item.id)}
-                    className={`font-display font-black text-xs uppercase tracking-wider py-2 px-3.5 rounded-none flex items-center gap-2 border-[2.5px] transition-all duration-150 cursor-pointer select-none ${
+                    onClick={(e) => handleNavClick(item, e)}
+                    className={`font-display font-black text-xs uppercase tracking-wider py-2 px-3 rounded-none flex items-center gap-1.5 border-[2.5px] transition-all duration-150 cursor-pointer select-none ${
                       isActive
                         ? 'bg-[#FFD43B] text-black border-black shadow-[4px_4px_0px_#000] -translate-x-0.5 -translate-y-1'
                         : 'bg-transparent text-[#121212] border-transparent group-hover:bg-[#FFD43B] group-hover:text-black group-hover:border-black group-hover:shadow-[4px_4px_0px_#000] group-hover:-translate-x-0.5 group-hover:-translate-y-1'
@@ -178,7 +233,7 @@ export const Navbar: React.FC = () => {
                     <span>{item.label}</span>
 
                     {/* Neo-brutalist Badges from reference image */}
-                    {item.badgeType === 'hot' ? (
+                    {item.badgeText && item.badgeType === 'hot' && (
                       <span className={`font-mono font-black text-[10px] px-1.5 py-0.5 border-[1.5px] border-black transition-all ${
                         isActive
                           ? 'bg-[#FF5900] text-white shadow-[1px_1px_0px_#000]'
@@ -186,7 +241,8 @@ export const Navbar: React.FC = () => {
                       }`}>
                         {item.badgeText}
                       </span>
-                    ) : (
+                    )}
+                    {item.badgeText && item.badgeType === 'square' && (
                       <span className={`w-5 h-5 flex items-center justify-center font-mono font-black text-[10px] border-[1.5px] border-black transition-all ${
                         isActive
                           ? 'bg-black text-[#FFD43B]'
@@ -318,14 +374,15 @@ export const Navbar: React.FC = () => {
       {mobileMenuOpen && (
         <div className="md:hidden border-t-2 border-[#121212] bg-[#FAF8F5] p-4 flex flex-col gap-2.5 shadow-lg">
           {navItems.map((item) => {
-            const isActive = activeSection === item.id;
+            const isActive = (currentTab !== 'home' && item.tabTarget === currentTab) || 
+                             (currentTab === 'home' && activeSection === item.id);
             const Icon = item.icon;
             return (
               <a
                 key={item.id}
                 href={item.href}
-                onClick={() => {
-                  setActiveSection(item.id);
+                onClick={(e) => {
+                  handleNavClick(item, e);
                   setMobileMenuOpen(false);
                 }}
                 className={`font-display font-black text-xs py-3 px-3.5 border-2 border-black flex items-center justify-between transition-all ${
@@ -340,11 +397,12 @@ export const Navbar: React.FC = () => {
                 </div>
                 
                 <div className="flex items-center gap-2">
-                  {item.badgeType === 'hot' ? (
+                  {item.badgeText && item.badgeType === 'hot' && (
                     <span className="bg-[#FF5900] text-white font-mono font-black text-[9px] px-1.5 py-0.5 border border-black shadow-[1px_1px_0px_#000]">
                       {item.badgeText}
                     </span>
-                  ) : (
+                  )}
+                  {item.badgeText && item.badgeType === 'square' && (
                     <span className="w-5 h-5 flex items-center justify-center font-mono font-black text-[9px] border border-black bg-[#FFD43B] text-black shadow-[1px_1px_0px_#000]">
                       {item.badgeText === 'CHECK' ? <Check className="w-3 h-3 stroke-[3]" /> : item.badgeText}
                     </span>

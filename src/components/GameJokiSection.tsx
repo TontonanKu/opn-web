@@ -13,10 +13,15 @@ import {
   CheckCircle2,
   Check,
   Gift,
-  Star
+  Star,
+  ArrowLeft
 } from 'lucide-react';
 
-export const GameJokiSection: React.FC = () => {
+interface GameJokiSectionProps {
+  onBackToHome?: () => void;
+}
+
+export const GameJokiSection: React.FC<GameJokiSectionProps> = ({ onBackToHome }) => {
   const { openCheckout } = useApp();
   const [selectedGameId, setSelectedGameId] = useState<string>(GAME_SERVICES[0].id);
   const [viewTab, setViewTab] = useState<'tiers' | 'packages'>('tiers');
@@ -76,9 +81,25 @@ export const GameJokiSection: React.FC = () => {
   };
 
   return (
-    <section id="joki" className="py-16 bg-[#FAF8F2] border-b-[3px] border-[#121212]">
+    <section id="joki" className="py-12 bg-[#FAF8F2] border-b-[3px] border-[#121212]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
+        {/* Top Breadcrumb Navigation */}
+        {onBackToHome && (
+          <div className="mb-6 flex items-center justify-between border-b-2 border-dashed border-neutral-300 pb-3">
+            <button
+              onClick={onBackToHome}
+              className="inline-flex items-center gap-1.5 font-mono text-xs font-bold uppercase text-neutral-600 hover:text-black transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4 text-[#FF5900]" />
+              <span>← Kembali ke Beranda</span>
+            </button>
+            <span className="font-mono text-[11px] text-neutral-400 font-bold hidden sm:inline">
+              Beranda &gt; Katalog Joki Game
+            </span>
+          </div>
+        )}
+
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
           <div>

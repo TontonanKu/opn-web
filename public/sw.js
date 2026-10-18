@@ -1,12 +1,22 @@
-// Zura Store Service Worker - Native Mobile / APK & PWA Push Notifications
-const CACHE_NAME = 'zura-store-sw-v1';
+// Zura Store Service Worker - Native Mobile / APK & PWA Push Notifications + Asset Caching
+const CACHE_NAME = 'zura-store-sw-v2';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
+  );
 });
 
 // Handle Notification Clicks (Focus or open app window to #admin)
@@ -55,4 +65,43 @@ self.addEventListener('push', (event) => {
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
+});
+
+// Stale-while-revalidate caching for static assets
+self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET' || !event.request.url.startsWith('http')) {
+    return;
+  }
+
+  // Network-first for HTML document navigation
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match('/') || caches.match('/index.html'))
+    );
+    return;
+  }
+
+  // Cache static assets (styles, scripts, images, fonts)
+  if (
+    event.request.destination === 'style' ||
+    event.request.destination === 'script' ||
+    event.request.destination === 'image' ||
+    event.request.destination === 'font'
+  ) {
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        const fetchPromise = fetch(event.request).then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
+          }
+          return networkResponse;
+        }).catch(() => cachedResponse);
+
+        return cachedResponse || fetchPromise;
+      })
+    );
+  }
 });
