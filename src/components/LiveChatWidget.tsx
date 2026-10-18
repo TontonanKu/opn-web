@@ -18,7 +18,9 @@ import {
   Image as ImageIcon,
   ZoomIn,
   Download,
-  Receipt
+  Receipt,
+  Maximize2,
+  Minimize2
 } from 'lucide-react';
 import { ADMIN_CONFIG } from '../data/initialData';
 import { compressImageFile } from '../utils/imageUtils';
@@ -47,6 +49,7 @@ export const LiveChatWidget: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // In-chat review states
@@ -98,6 +101,16 @@ export const LiveChatWidget: React.FC = () => {
       markChatAsRead();
     }
   }, [activeMessages, isChatOpen]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isFullscreen]);
 
   const handleImageFile = async (file: File) => {
     try {
@@ -195,18 +208,22 @@ export const LiveChatWidget: React.FC = () => {
         </button>
       )}
 
-      {/* Floating Private Chat Window */}
+      {/* Floating / Fullscreen Private Chat Window */}
       {isChatOpen && (
-        <div className="fixed bottom-3 right-3 sm:bottom-5 sm:right-5 z-50 max-w-sm sm:max-w-md w-[calc(100vw-24px)] sm:w-[400px] max-h-[88vh] brutal-card bg-[#FAF8F2] flex flex-col shadow-brutal-lg animate-fade-in border-[3px] border-[#121212] overflow-hidden">
+        <div className={`fixed z-50 bg-[#FAF8F2] flex flex-col shadow-brutal-lg animate-fade-in overflow-hidden transition-all duration-200 ${
+          isFullscreen 
+            ? 'inset-0 w-full h-full max-w-none max-h-none rounded-none border-0' 
+            : 'bottom-3 right-3 sm:bottom-5 sm:right-5 max-w-sm sm:max-w-md w-[calc(100vw-24px)] sm:w-[420px] max-h-[88vh] h-[640px] brutal-card border-[3px] border-[#121212]'
+        }`}>
           
           {/* Header */}
-          <div className="bg-[#FFC700] p-3.5 border-b-[3px] border-[#121212] flex items-center justify-between">
+          <div className="bg-[#FFC700] p-3.5 border-b-[3px] border-[#121212] flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 bg-black text-[#FFC700] border-2 border-black flex items-center justify-center font-display font-black text-base">
+              <div className="w-8 h-8 bg-black text-[#FFC700] border-2 border-black flex items-center justify-center font-display font-black text-base shrink-0">
                 Z
               </div>
               <div>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 flex-wrap">
                   <h4 className="font-display font-black text-sm uppercase text-[#121212] leading-none flex items-center gap-1">
                     <Lock className="w-3.5 h-3.5 text-[#121212]" />
                     <span>LIVE CHAT ZURA</span>
@@ -216,19 +233,35 @@ export const LiveChatWidget: React.FC = () => {
                   }`}>
                     {adminStatus === 'online' ? 'ONLINE' : 'OFFLINE'}
                   </span>
+                  {isFullscreen && (
+                    <span className="text-[9px] font-mono font-black px-1.5 py-0.2 bg-black text-white border border-black uppercase">
+                      LAYAR PENUH
+                    </span>
+                  )}
                 </div>
-                <span className="text-[10px] font-mono text-neutral-800 block mt-0.5 font-bold">
+                <span className="text-[10px] font-mono text-neutral-800 block mt-0.5 font-bold truncate max-w-[200px] sm:max-w-md">
                   {chatTab === 'order' && myOrders.length > 0 ? `Order: #${effectiveRoomId}` : 'Tanya Jawab CS Umum'}
                 </span>
               </div>
             </div>
 
-            <button
-              onClick={() => setIsChatOpen(false)}
-              className="p-1 border-2 border-black bg-white hover:bg-black hover:text-white transition-colors"
-            >
-              <X className="w-4 h-4" />
-            </button>
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => setIsFullscreen(!isFullscreen)}
+                className="p-1.5 border-2 border-black bg-white hover:bg-black hover:text-white transition-colors flex items-center justify-center"
+                title={isFullscreen ? "Kembalikan ke ukuran jendela mini (Esc)" : "Perbesar mode layar penuh (Fullscreen) agar mudah dibaca & diketik"}
+              >
+                {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+              </button>
+              <button
+                onClick={() => setIsChatOpen(false)}
+                className="p-1.5 border-2 border-black bg-white hover:bg-red-600 hover:text-white transition-colors flex items-center justify-center"
+                title="Tutup Chat"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
           {/* Sub-Tabs: Chat Pesanan vs Tanya Jawab CS */}
@@ -422,7 +455,9 @@ export const LiveChatWidget: React.FC = () => {
           </div>
 
           {/* Messages Body */}
-          <div className="p-3.5 flex-1 max-h-[320px] min-h-[240px] overflow-y-auto space-y-3 bg-[#FAF8F2] text-xs">
+          <div className={`p-3.5 sm:p-5 flex-1 overflow-y-auto space-y-3 bg-[#FAF8F2] ${
+            isFullscreen ? 'h-full max-h-none text-sm' : 'max-h-[340px] min-h-[240px] text-xs'
+          }`}>
             {chatTab === 'order' && myOrders.length === 0 ? (
               <div className="text-center py-8 text-neutral-500 font-mono text-xs">
                 <ShoppingBag className="w-8 h-8 mx-auto text-[#FFC700] mb-2" />
@@ -457,9 +492,9 @@ export const LiveChatWidget: React.FC = () => {
 
                 if (isSystem) {
                   return (
-                    <div key={msg.id} className="bg-amber-100 border border-amber-400 p-2 text-[11px] text-amber-900 font-mono shadow-sm">
+                    <div key={msg.id} className="bg-amber-100 border border-amber-400 p-2.5 text-[11px] sm:text-xs text-amber-900 font-mono shadow-sm">
                       <div className="flex items-center gap-1 font-bold text-amber-950 uppercase mb-0.5">
-                        <Sparkles className="w-3 h-3 text-[#FF5900]" />
+                        <Sparkles className="w-3.5 h-3.5 text-[#FF5900]" />
                         <span>{msg.senderName}</span>
                       </div>
                       <p className="leading-snug">{msg.text}</p>
@@ -476,7 +511,7 @@ export const LiveChatWidget: React.FC = () => {
                     className={`flex flex-col ${isCustomer ? 'items-end' : 'items-start'}`}
                   >
                     <div className="flex items-center gap-1 mb-0.5">
-                      <span className="text-[10px] font-mono font-bold text-neutral-500 flex items-center gap-1">
+                      <span className="text-[10px] sm:text-[11px] font-mono font-bold text-neutral-500 flex items-center gap-1">
                         {msg.sender === 'admin' ? (
                           <>
                             <ShieldCheck className="w-3 h-3 text-[#FF5900]" />
@@ -492,7 +527,9 @@ export const LiveChatWidget: React.FC = () => {
                     </div>
 
                     <div
-                      className={`p-2.5 max-w-[85%] border-2 border-black text-xs font-medium leading-relaxed shadow-[2px_2px_0px_#000] ${
+                      className={`p-2.5 sm:p-3 border-2 border-black font-medium leading-relaxed shadow-[2px_2px_0px_#000] ${
+                        isFullscreen ? 'text-sm sm:text-base max-w-[90%] sm:max-w-[75%]' : 'text-xs max-w-[85%]'
+                      } ${
                         isCustomer 
                           ? 'bg-[#FFC700] text-black rounded-tl-lg' 
                           : 'bg-white text-[#121212] rounded-tr-lg'
@@ -636,7 +673,9 @@ export const LiveChatWidget: React.FC = () => {
 
           {/* Input Form (Only if not closed and (tab !== 'order' || myOrders.length > 0)) */}
           {!isOrderChatClosed && (chatTab !== 'order' || myOrders.length > 0) && (
-            <form onSubmit={handleSend} className="p-2.5 bg-white border-t-2 border-black flex items-center gap-2">
+            <form onSubmit={handleSend} className={`bg-white border-t-2 border-black flex items-center gap-2 shrink-0 ${
+              isFullscreen ? 'p-3 sm:p-4' : 'p-2.5'
+            }`}>
               <input
                 type="file"
                 ref={fileInputRef}
@@ -648,12 +687,14 @@ export const LiveChatWidget: React.FC = () => {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isUploading}
-                className={`p-2 border-2 border-black transition-colors relative shrink-0 ${
+                className={`border-2 border-black transition-colors relative shrink-0 ${
+                  isFullscreen ? 'p-2.5 sm:p-3' : 'p-2'
+                } ${
                   selectedImage ? 'bg-[#FFC700]' : 'bg-white hover:bg-[#FFC700]'
                 }`}
                 title="Kirim Foto / Bukti Transfer / Screenshot"
               >
-                <ImageIcon className="w-4 h-4 text-black" />
+                <ImageIcon className={isFullscreen ? "w-5 h-5 text-black" : "w-4 h-4 text-black"} />
               </button>
 
               <input
@@ -662,14 +703,19 @@ export const LiveChatWidget: React.FC = () => {
                 value={inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
                 onPaste={handlePaste}
-                className="flex-1 border-2 border-black p-2 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-black"
+                className={`flex-1 border-2 border-black font-semibold focus:outline-none focus:ring-2 focus:ring-[#FFC700] ${
+                  isFullscreen ? 'p-2.5 sm:p-3 text-sm sm:text-base' : 'p-2 text-xs'
+                }`}
               />
               <button
                 type="submit"
                 disabled={isUploading || (!inputVal.trim() && !selectedImage)}
-                className="brutal-btn-yellow px-3 py-2 text-xs flex items-center justify-center font-bold disabled:opacity-50"
+                className={`brutal-btn-yellow flex items-center justify-center font-bold disabled:opacity-50 shrink-0 ${
+                  isFullscreen ? 'px-4 sm:px-6 py-2.5 sm:py-3 text-sm gap-2' : 'px-3 py-2 text-xs'
+                }`}
               >
-                <Send className="w-4 h-4 text-black" />
+                <Send className={isFullscreen ? "w-4 h-4 sm:w-5 sm:h-5 text-black" : "w-4 h-4 text-black"} />
+                {isFullscreen && <span className="hidden sm:inline font-mono">Kirim</span>}
               </button>
             </form>
           )}

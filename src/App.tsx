@@ -17,6 +17,7 @@ import { LiveOrderTicker } from './components/LiveOrderTicker';
 import { AdminLoginPage } from './components/AdminLoginPage';
 import { AdminDashboardView } from './components/AdminDashboardView';
 import { LiveChatWidget } from './components/LiveChatWidget';
+import { IncomingOrderAlert } from './components/IncomingOrderAlert';
 import { Footer } from './components/Footer';
 import { ADMIN_CONFIG } from './data/initialData';
 import { MessageSquare, Receipt } from 'lucide-react';
@@ -36,7 +37,12 @@ const MainLayout: React.FC = () => {
 
   // If Admin Dashboard is active (full dedicated view, NOT a popup modal!)
   if (viewMode === 'admin-dashboard') {
-    return <AdminDashboardView />;
+    return (
+      <>
+        <IncomingOrderAlert />
+        <AdminDashboardView />
+      </>
+    );
   }
 
   // Active / pending order check
@@ -69,6 +75,9 @@ const MainLayout: React.FC = () => {
       <AuthModal />
       <CustomerProfileModal />
       <TermsAndGuaranteeModal />
+
+      {/* Real-Time Incoming Order Pop-up Alert Banner */}
+      <IncomingOrderAlert />
 
       {/* Social Proof Live Order Notification Ticker */}
       <LiveOrderTicker />

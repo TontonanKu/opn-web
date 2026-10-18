@@ -15,6 +15,7 @@ import {
   INITIAL_WHATSAPP_TESTIMONIALS 
 } from '../data/initialData';
 import { soundService } from '../utils/audioUtils';
+import { notifyNewOrder, notifyNewChatMessage } from '../utils/notificationService';
 import { notifyNewOrderTelegram, notifyChatMessageTelegram } from '../utils/telegramUtils';
 import { purgeSensitiveFormData, generateVerificationFingerprint } from '../utils/securityUtils';
 import { supabase } from '../utils/supabaseClient';
@@ -524,7 +525,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           const updatedOrders = event.data.payload;
           setOrders(updatedOrders);
         } else if (event.data?.type === 'NEW_ORDER') {
+          const incomingOrder = event.data.payload;
           soundService.playNewOrderSound();
+          if (incomingOrder) {
+            notifyNewOrder(incomingOrder);
+            if (typeof window !== 'undefined') {
+              window.dispatchEvent(new CustomEvent('zura:new-order', { detail: incomingOrder }));
+            }
+          }
         }
       };
     } catch (e) {
@@ -572,6 +580,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 return [newOrder, ...prev];
               });
               soundService.playNewOrderSound();
+              notifyNewOrder(newOrder);
+              if (typeof window !== 'undefined') {
+                window.dispatchEvent(new CustomEvent('zura:new-order', { detail: newOrder }));
+              }
             }
           } else if (payload.eventType === 'UPDATE') {
             const updated = (payload.new?.data || payload.new) as Order;
@@ -598,6 +610,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 return [...prev, newMsg];
               });
               soundService.playNewMessageSound();
+              if (newMsg.sender === 'customer') {
+                notifyNewChatMessage(newMsg.senderName, newMsg.text, newMsg.orderCode);
+              }
               if (!isChatOpen && newMsg.roomId === customerRoomId) {
                 setUnreadCount(c => c + 1);
               }
@@ -832,6 +847,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch (e) {}
 
     soundService.playNewOrderSound();
+    notifyNewOrder(newOrder);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('zura:new-order', { detail: newOrder }));
+    }
     notifyNewOrderTelegram(newOrder).catch(() => {});
 
     return newOrder;

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { ADMIN_CONFIG } from '../data/initialData';
-import { ShieldCheck, Clock, MessageSquare, AlertTriangle, CheckCircle2, Zap, Crown } from 'lucide-react';
+import { ShieldCheck, Clock, MessageSquare, AlertTriangle, CheckCircle2, Zap, Crown, Bell } from 'lucide-react';
+import { triggerTestMobileNotification } from '../utils/notificationService';
 
 export const AdminStatusBar: React.FC = () => {
   const { adminStatus, user, setViewMode } = useApp();
@@ -38,14 +39,24 @@ export const AdminStatusBar: React.FC = () => {
 
         <div className="flex items-center gap-2 sm:gap-3 text-xs md:text-sm">
           {user?.role === 'admin' ? (
-            <button
-              onClick={() => setViewMode('admin-dashboard')}
-              className="bg-[#121212] hover:bg-neutral-800 text-[#FFC700] border-2 border-black px-2.5 py-0.5 font-mono font-black text-xs flex items-center gap-1.5 shadow-[2px_2px_0px_#000] active:scale-95 transition-all"
-              title="Akses Langsung Dashboard Admin"
-            >
-              <Crown className="w-3.5 h-3.5 text-[#FFC700]" />
-              <span>👑 Buka Panel Admin</span>
-            </button>
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => triggerTestMobileNotification()}
+                className="bg-white hover:bg-[#FFD633] text-black border-2 border-black px-2 py-0.5 font-mono font-bold text-xs flex items-center gap-1 shadow-[2px_2px_0px_#000] active:scale-95 transition-all"
+                title="Uji Notifikasi Pop-up dan Getar di Layar HP"
+              >
+                <Bell className="w-3 h-3 text-black" />
+                <span>Tes Notif HP</span>
+              </button>
+              <button
+                onClick={() => setViewMode('admin-dashboard')}
+                className="bg-[#121212] hover:bg-neutral-800 text-[#FFC700] border-2 border-black px-2.5 py-0.5 font-mono font-black text-xs flex items-center gap-1.5 shadow-[2px_2px_0px_#000] active:scale-95 transition-all"
+                title="Akses Langsung Dashboard Admin"
+              >
+                <Crown className="w-3.5 h-3.5 text-[#FFC700]" />
+                <span>👑 Panel Admin</span>
+              </button>
+            </div>
           ) : (
             <>
               <div className="flex items-center gap-1 font-mono">

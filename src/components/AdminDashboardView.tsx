@@ -35,13 +35,21 @@ import {
   Info,
   ClipboardList,
   Package,
-  HelpCircle,
-  ShieldCheck
+  ShieldCheck,
+  Smartphone,
+  BellRing,
+  HelpCircle
 } from 'lucide-react';
 import { Order } from '../types';
 import { compressImageFile } from '../utils/imageUtils';
 import { exportOrdersToCSV } from '../utils/exportUtils';
 import { TelegramConfig, getTelegramConfig, saveTelegramConfig, testTelegramConnection } from '../utils/telegramUtils';
+import { 
+  isNotificationSupported, 
+  getNotificationPermission, 
+  requestNotificationPermission, 
+  triggerTestMobileNotification 
+} from '../utils/notificationService';
 
 export const AdminDashboardView: React.FC = () => {
   const { 
@@ -70,6 +78,7 @@ export const AdminDashboardView: React.FC = () => {
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'orders' | 'chat' | 'testi' | 'telegram'>('orders');
+  const [notifPermission, setNotifPermission] = useState<NotificationPermission>(() => getNotificationPermission());
   
   // Telegram Bot Settings State
   const [tgConfig, setTgConfig] = useState<TelegramConfig>(getTelegramConfig());
@@ -316,6 +325,43 @@ export const AdminDashboardView: React.FC = () => {
                 </button>
               )}
             </div>
+
+            {/* Mobile / Screen Pop-up Notification Control */}
+            <div className="flex items-center gap-1.5 bg-neutral-900 border border-neutral-700 px-2.5 py-1.5 font-mono text-xs">
+              <div className="flex items-center gap-1 text-neutral-300">
+                <Smartphone className="w-3.5 h-3.5 text-[#FF5900]" />
+                <span className="hidden xl:inline text-[11px]">Notif Layar HP:</span>
+              </div>
+              {notifPermission === 'granted' ? (
+                <>
+                  <span className="px-2 py-0.5 bg-green-950 text-green-400 border border-green-600 text-[10px] font-black uppercase">
+                    AKTIF
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => triggerTestMobileNotification()}
+                    className="px-2 py-1 bg-[#FFC700] hover:bg-[#FFD633] text-black border border-black text-[11px] font-bold flex items-center gap-1 transition-colors active:scale-95 shadow-[2px_2px_0px_#000]"
+                    title="Uji coba pop-up banner, suara dan getar HP"
+                  >
+                    <BellRing className="w-3 h-3 text-black" />
+                    <span>Tes Notif HP</span>
+                  </button>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  onClick={async () => {
+                    const granted = await requestNotificationPermission();
+                    setNotifPermission(granted ? 'granted' : 'denied');
+                  }}
+                  className="px-2.5 py-1 bg-green-500 hover:bg-green-600 text-black border border-black text-[11px] font-black flex items-center gap-1 transition-colors animate-pulse"
+                  title="Izinkan notifikasi pop-up di layar HP/browser ketika ada order baru"
+                >
+                  <Bell className="w-3.5 h-3.5 text-black" />
+                  <span>Aktifkan Notif HP</span>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Right: Actions */}
@@ -400,16 +446,50 @@ export const AdminDashboardView: React.FC = () => {
             </button>
           </div>
 
-          {/* Quick CS status on mobile */}
-          <div className="flex md:hidden items-center justify-between bg-white border-2 border-black p-2 text-xs">
-            <span className="font-bold">Status CS:</span>
-            <button
-              onClick={() => setAdminStatus(adminStatus === 'online' ? 'offline' : 'online')}
-              className="font-bold underline text-[#FF5900] flex items-center gap-1.5"
-            >
-              <span className={`w-2 h-2 rounded-full ${adminStatus === 'online' ? 'bg-green-500 animate-pulse' : 'bg-red-600'}`}></span>
-              <span>{adminStatus === 'online' ? 'Online' : 'Offline'}</span>
-            </button>
+          {/* Quick CS status & Mobile Pop-up Notif Controls on mobile */}
+          <div className="flex flex-col sm:flex-row md:hidden gap-2 bg-white border-2 border-black p-2.5 text-xs font-mono shadow-sm">
+            <div className="flex items-center justify-between">
+              <span className="font-bold">Status CS:</span>
+              <button
+                onClick={() => setAdminStatus(adminStatus === 'online' ? 'offline' : 'online')}
+                className="font-bold underline text-[#FF5900] flex items-center gap-1.5"
+              >
+                <span className={`w-2 h-2 rounded-full ${adminStatus === 'online' ? 'bg-green-500 animate-pulse' : 'bg-red-600'}`}></span>
+                <span>{adminStatus === 'online' ? 'Online' : 'Offline'}</span>
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between pt-2 border-t border-neutral-200">
+              <span className="font-bold flex items-center gap-1">
+                <Smartphone className="w-3.5 h-3.5 text-[#FF5900]" />
+                <span>Notif Pop-up HP:</span>
+              </span>
+              <div className="flex items-center gap-1.5">
+                {notifPermission === 'granted' ? (
+                  <button
+                    type="button"
+                    onClick={() => triggerTestMobileNotification()}
+                    className="px-2 py-0.5 bg-[#FFC700] hover:bg-[#FFD633] text-black font-bold border border-black text-[11px] flex items-center gap-1 shadow-sm active:scale-95"
+                    title="Kirim tes pop-up dan getar ke layar HP sekarang"
+                  >
+                    <BellRing className="w-3 h-3 text-black" />
+                    <span>🧪 Tes Notif HP</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      const granted = await requestNotificationPermission();
+                      setNotifPermission(granted ? 'granted' : 'denied');
+                    }}
+                    className="px-2 py-0.5 bg-green-500 hover:bg-green-600 text-white font-bold border border-black text-[11px] flex items-center gap-1 animate-pulse active:scale-95"
+                  >
+                    <Bell className="w-3 h-3 text-white" />
+                    <span>🔔 Aktifkan Notif HP</span>
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
 
         </div>
