@@ -17,7 +17,7 @@ import {
 import { soundService } from '../utils/audioUtils';
 import { notifyNewOrder, notifyNewChatMessage } from '../utils/notificationService';
 import { notifyNewOrderTelegram, notifyChatMessageTelegram } from '../utils/telegramUtils';
-import { purgeSensitiveFormData, generateVerificationFingerprint } from '../utils/securityUtils';
+import { purgeSensitiveFormData, generateVerificationFingerprint, hashPassword } from '../utils/securityUtils';
 import { supabase } from '../utils/supabaseClient';
 import { 
   fetchCloudOrders, 
@@ -68,7 +68,7 @@ interface AppContextType {
   // App View Routing
   viewMode: 'store' | 'admin-login' | 'admin-dashboard';
   setViewMode: (mode: 'store' | 'admin-login' | 'admin-dashboard') => void;
-  adminLogin: (email: string, pass: string) => boolean;
+  adminLogin: (email: string, pass: string) => Promise<boolean>;
 
   // Modals & Navigation state
   activeModal: 'login' | 'checkout' | 'tracking' | 'receipt' | 'customer-profile' | 'terms' | null;
@@ -244,10 +244,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return INITIAL_ORDERS;
   });
 
-  useEffect(() => {
-    localStorage.setItem('zura_orders', JSON.stringify(orders));
-  }, [orders]);
-
   // Track order codes checked out on this specific visitor device/browser
   const [myOrderCodes, setMyOrderCodes] = useState<string[]>(() => {
     try {
@@ -263,6 +259,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       localStorage.setItem('zura_my_order_codes', JSON.stringify(myOrderCodes));
     } catch {}
   }, [myOrderCodes]);
+
+  useEffect(() => {
+    if (user?.role === 'admin') {
+      localStorage.setItem('zura_orders', JSON.stringify(orders));
+    } else {
+      // Data Privacy Guard: mask other customers' phone and remove sensitive form data in visitor localStorage
+      const sanitizedOrders = orders.map(o => {
+        const isMine = myOrderCodes.includes(o.orderCode) || (user && (o.userId === user.id || o.customerPhone === user.phone));
+        if (isMine) return o;
+        return {
+          ...o,
+          customerPhone: o.customerPhone ? `${o.customerPhone.slice(0, 4)}••••${o.customerPhone.slice(-2)}` : '',
+          extraFormData: undefined
+        };
+      });
+      localStorage.setItem('zura_orders', JSON.stringify(sanitizedOrders));
+    }
+  }, [orders, user, myOrderCodes]);
 
   // Isolated orders for this customer (visitors never see demo or other users' orders)
   const myOrders = useMemo(() => {
@@ -455,7 +469,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
-  const adminLogin = (identifier: string, pass: string): boolean => {
+  const adminLogin = async (identifier: string, pass: string): Promise<boolean> => {
     const cleanId = identifier.trim().toLowerCase();
     const cleanDigits = identifier.replace(/[^0-9]/g, '');
     const isIdAdmin = 
@@ -468,7 +482,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       cleanDigits === '6282172795156' ||
       cleanDigits === ADMIN_CONFIG.whatsappNumber;
 
-    if (isIdAdmin && pass === ADMIN_CREDENTIALS.password) {
+    if (!isIdAdmin) return false;
+
+    const hashedInput = await hashPassword(pass);
+    if (hashedInput === ADMIN_CREDENTIALS.passwordHash) {
       const adminUser: User = {
         id: 'usr_admin',
         name: 'Zura Super Admin',

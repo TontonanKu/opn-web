@@ -163,9 +163,10 @@ Terima kasih atas kepercayaan Anda di Zura Store!`;
                 Paket: {receipt.variantOrRank}
               </div>
 
-              {/* Account details if exists */}
-              {receipt.accountDetails && Object.keys(receipt.accountDetails).length > 0 && (
+              {/* Account details if exists (Only visible to the owner of this order or admin) */}
+              {canManageReceipt && receipt.accountDetails && Object.keys(receipt.accountDetails).length > 0 && (
                 <div className="bg-[#FAF8F2] border border-neutral-300 p-2 text-[10px] space-y-0.5 mb-1">
+                  <div className="text-[9px] uppercase font-bold text-neutral-400 mb-0.5">Detail Data Akun:</div>
                   {Object.entries(receipt.accountDetails).map(([k, v]) => (
                     <div key={k} className="flex justify-between">
                       <span className="text-neutral-500">{k}:</span>

@@ -167,7 +167,8 @@ export const AuthModal: React.FC = () => {
     // 1. Stealth check: jika kredensial admin, otomatis buka Admin Dashboard
     const cleanIdLower = cleanId.toLowerCase().trim();
     const cleanDigits = cleanId.replace(/[^0-9]/g, '');
-    const isPassAdmin = password === ADMIN_CREDENTIALS.password;
+    const hashedInput = await hashPassword(password);
+    const isPassAdmin = hashedInput === ADMIN_CREDENTIALS.passwordHash;
     const isIdAdmin = 
       cleanIdLower === 'admin' ||
       cleanIdLower === 'superadmin' ||

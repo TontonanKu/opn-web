@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { ADMIN_CREDENTIALS } from '../data/initialData';
 import { 
   ShieldCheck, 
   Lock, 
@@ -8,8 +7,7 @@ import {
   ArrowRight, 
   ArrowLeft, 
   KeyRound, 
-  AlertCircle,
-  Sparkles
+  AlertCircle
 } from 'lucide-react';
 
 export const AdminLoginPage: React.FC = () => {
@@ -17,20 +15,21 @@ export const AdminLoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
+    setIsSubmitting(true);
 
-    const success = adminLogin(email, password);
-    if (!success) {
-      setErrorMsg('Email atau password admin salah! Periksa kembali kredensial Anda.');
+    try {
+      const success = await adminLogin(email, password);
+      if (!success) {
+        setErrorMsg('Email atau password admin salah! Periksa kembali kredensial Anda.');
+      }
+    } finally {
+      setIsSubmitting(false);
     }
-  };
-
-  const handleUseDefault = () => {
-    setEmail(ADMIN_CREDENTIALS.email);
-    setPassword(ADMIN_CREDENTIALS.password);
   };
 
   return (
@@ -131,33 +130,13 @@ export const AdminLoginPage: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full brutal-btn-yellow py-3.5 px-6 flex items-center justify-between text-xs uppercase font-display font-black group mt-2"
+              disabled={isSubmitting}
+              className="w-full brutal-btn-yellow py-3.5 px-6 flex items-center justify-between text-xs uppercase font-display font-black group mt-2 disabled:opacity-50"
             >
-              <span>BUKA DASHBOARD ADMIN</span>
+              <span>{isSubmitting ? 'MEMVERIFIKASI...' : 'BUKA DASHBOARD ADMIN'}</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </form>
-
-          {/* Quick Credential Hint for Evaluation */}
-          <div className="mt-6 pt-4 border-t-2 border-dashed border-neutral-300 bg-amber-50 p-3 border border-amber-300">
-            <div className="flex items-center justify-between mb-1 text-[11px] font-mono font-bold text-amber-900">
-              <span className="flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5 text-[#FF5900]" />
-                Kredensial Default Admin:
-              </span>
-              <button
-                type="button"
-                onClick={handleUseDefault}
-                className="underline text-[#FF5900] hover:text-black font-extrabold"
-              >
-                Isi Otomatis
-              </button>
-            </div>
-            <div className="font-mono text-[10px] text-neutral-700 space-y-0.5">
-              <div>Email: <strong>{ADMIN_CREDENTIALS.email}</strong></div>
-              <div>Password: <strong>{ADMIN_CREDENTIALS.password}</strong></div>
-            </div>
-          </div>
 
         </div>
 

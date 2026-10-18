@@ -144,7 +144,7 @@ export const GAME_SERVICES: GameService[] = [
 
 export const ADMIN_CREDENTIALS = {
   email: "admin@zurastore.com",
-  password: "akuganteng12"
+  passwordHash: "9ef7d1bdd38d8eb06541cc1586e0e73e45044fc4fc0eb8ca835ab1e8041d84f3"
 };
 
 export const PREMIUM_APPS: PremiumApp[] = [
