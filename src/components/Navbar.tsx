@@ -81,8 +81,6 @@ const navItems: NavItemConfig[] = [
     href: '#faq',
     label: 'FAQ',
     icon: HelpCircle,
-    badgeText: 'Q&A',
-    badgeType: 'square',
   },
 ];
 
