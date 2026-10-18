@@ -15,8 +15,7 @@ import {
   LucideIcon,
   Crown,
   Check,
-  Home,
-  HelpCircle
+  Home
 } from 'lucide-react';
 
 export type StoreTab = 'home' | 'joki' | 'apps' | 'portfolio';
@@ -75,13 +74,6 @@ const navItems: NavItemConfig[] = [
     badgeText: 'CHECK',
     badgeType: 'square',
   },
-  {
-    id: 'faq',
-    tabTarget: 'home',
-    href: '#faq',
-    label: 'FAQ',
-    icon: HelpCircle,
-  },
 ];
 
 interface NavbarProps {
@@ -117,12 +109,9 @@ export const Navbar: React.FC<NavbarProps> = ({
 
     const handleScroll = () => {
       const scrollPos = window.scrollY + 250;
-      const faqEl = document.getElementById('faq');
       const testiEl = document.getElementById('testimoni');
 
-      if (faqEl && scrollPos >= faqEl.offsetTop) {
-        setActiveSection('faq');
-      } else if (testiEl && scrollPos >= testiEl.offsetTop) {
+      if (testiEl && scrollPos >= testiEl.offsetTop) {
         setActiveSection('testimoni');
       } else {
         setActiveSection('home');
@@ -143,10 +132,10 @@ export const Navbar: React.FC<NavbarProps> = ({
     if (item.id === 'home') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       setActiveSection('home');
-    } else if (item.id === 'testimoni' || item.id === 'faq') {
-      setActiveSection(item.id);
+    } else if (item.id === 'testimoni') {
+      setActiveSection('testimoni');
       setTimeout(() => {
-        const el = document.getElementById(item.id);
+        const el = document.getElementById('testimoni');
         if (el) {
           el.scrollIntoView({ behavior: 'smooth' });
         }
