@@ -6,6 +6,7 @@ export interface User {
   phone: string;
   email?: string;
   role: 'customer' | 'admin';
+  adminToken?: string;
 }
 
 export type ServiceCategory = 'joki_game' | 'app_premium' | 'design_ai';

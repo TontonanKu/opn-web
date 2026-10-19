@@ -138,3 +138,30 @@ export const generateVerificationFingerprint = (orderCode: string, totalAmount: 
 export const isHoneypotTriggered = (value?: string): boolean => {
   return Boolean(value && value.trim().length > 0);
 };
+
+/**
+ * Checks whether a name, phone, or email matches reserved admin identifiers
+ * to prevent customer impersonation or privilege escalation.
+ */
+export const isReservedAdminIdentifier = (value?: string): boolean => {
+  if (!value) return false;
+  const clean = value.trim().toLowerCase();
+  const digits = value.replace(/[^0-9]/g, '');
+
+  const reservedNamesAndEmails = [
+    'admin',
+    'superadmin',
+    'super admin',
+    'zura admin',
+    'admin zura',
+    'zura super admin',
+    'admin@zurastore.com',
+    'admin@zura-w.my.id',
+    'zuraw.official@gmail.com'
+  ];
+
+  if (reservedNamesAndEmails.includes(clean)) return true;
+  if (digits === '082172795156' || digits === '6282172795156') return true;
+  return false;
+};
+

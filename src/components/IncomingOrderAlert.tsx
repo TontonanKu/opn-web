@@ -52,7 +52,7 @@ export const IncomingOrderAlert: React.FC = () => {
     }
   }, [latestIncomingOrder, isDismissed]);
 
-  if (!latestIncomingOrder || isDismissed) return null;
+  if (!latestIncomingOrder || isDismissed || user?.role !== 'admin') return null;
 
   const formattedAmount = new Intl.NumberFormat('id-ID', {
     style: 'currency',

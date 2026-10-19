@@ -17,7 +17,7 @@ import {
 import { soundService } from '../utils/audioUtils';
 import { notifyNewOrder, notifyNewChatMessage } from '../utils/notificationService';
 import { notifyNewOrderTelegram, notifyChatMessageTelegram } from '../utils/telegramUtils';
-import { purgeSensitiveFormData, generateVerificationFingerprint, hashPassword } from '../utils/securityUtils';
+import { purgeSensitiveFormData, generateVerificationFingerprint, hashPassword, sanitizeInput, checkRateLimit, isReservedAdminIdentifier } from '../utils/securityUtils';
 import { supabase } from '../utils/supabaseClient';
 import { 
   fetchCloudOrders, 
@@ -138,25 +138,30 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (!saved) return null;
     try {
       const u = JSON.parse(saved);
-      // Auto-correct if user previously logged in as admin credentials or name
-      const isKnownAdmin = 
-        u.role === 'admin' ||
-        u.id === 'usr_admin' ||
-        (u.name && (u.name.toLowerCase() === 'zura super admin' || u.name.toLowerCase() === 'admin')) ||
-        (u.phone && (u.phone === 'admin' || u.phone === ADMIN_CONFIG.whatsappNumber || u.phone === '082172795156')) ||
-        (u.email && u.email.toLowerCase() === ADMIN_CREDENTIALS.email.toLowerCase());
+      // Verify genuine admin session token to prevent privilege escalation via name/phone spoofing
+      const isVerifiedAdmin = 
+        u.role === 'admin' &&
+        u.id === 'usr_admin' &&
+        u.adminToken === ADMIN_CREDENTIALS.passwordHash;
       
-      if (isKnownAdmin) {
-        const upgradedAdmin: User = {
+      if (isVerifiedAdmin) {
+        const verifiedAdminUser: User = {
           id: 'usr_admin',
           name: 'Zura Super Admin',
           phone: ADMIN_CONFIG.whatsappNumber,
           email: ADMIN_CREDENTIALS.email,
-          role: 'admin'
+          role: 'admin',
+          adminToken: ADMIN_CREDENTIALS.passwordHash
         };
-        localStorage.setItem('zura_user', JSON.stringify(upgradedAdmin));
-        return upgradedAdmin;
+        return verifiedAdminUser;
       }
+
+      // If someone tampered with role='admin' without valid token, downgrade or clear
+      if (u.role === 'admin' || u.id === 'usr_admin') {
+        localStorage.removeItem('zura_user');
+        return null;
+      }
+
       return u;
     } catch {
       return null;
@@ -166,10 +171,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const login = (name: string, phone: string, role: 'customer' | 'admin' = 'customer') => {
     const newUser: User = {
       id: role === 'admin' ? 'usr_admin' : 'usr_' + Date.now(),
-      name,
+      name: sanitizeInput(name),
       phone,
       role,
-      ...(role === 'admin' ? { email: ADMIN_CREDENTIALS.email } : {})
+      ...(role === 'admin' ? { email: ADMIN_CREDENTIALS.email, adminToken: ADMIN_CREDENTIALS.passwordHash } : {})
     };
     setUser(newUser);
     localStorage.setItem('zura_user', JSON.stringify(newUser));
@@ -186,8 +191,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const updateUserName = (newName: string): boolean => {
-    const trimmed = newName.trim();
+    const trimmed = sanitizeInput(newName.trim());
     if (!user || !trimmed || trimmed.length < 2) return false;
+    if (user.role !== 'admin' && isReservedAdminIdentifier(trimmed)) return false;
 
     const updatedUser: User = { ...user, name: trimmed };
     setUser(updatedUser);
@@ -288,7 +294,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const cleanUserPhone = user.phone.replace(/[^0-9]/g, '');
         const cleanOrderPhone = (o.customerPhone || '').replace(/[^0-9]/g, '');
         if (cleanUserPhone && cleanOrderPhone && cleanUserPhone === cleanOrderPhone) return true;
-        if (o.customerName && o.customerName.toLowerCase() === user.name.toLowerCase()) return true;
       }
       return myOrderCodes.includes(o.orderCode);
     });
@@ -404,7 +409,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (savedUser) {
           try {
             const u = JSON.parse(savedUser);
-            if (u.role === 'admin' || u.id === 'usr_admin' || u.name === 'Zura Super Admin') return 'admin-dashboard';
+            if (u.role === 'admin' && u.id === 'usr_admin' && u.adminToken === ADMIN_CREDENTIALS.passwordHash) return 'admin-dashboard';
           } catch {}
         }
         return 'admin-login';
@@ -418,7 +423,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (savedUser) {
           try {
             const u = JSON.parse(savedUser);
-            if (u.role === 'admin' || u.id === 'usr_admin' || u.name === 'Zura Super Admin') return 'admin-dashboard';
+            if (u.role === 'admin' && u.id === 'usr_admin' && u.adminToken === ADMIN_CREDENTIALS.passwordHash) return 'admin-dashboard';
           } catch {}
         }
       }
@@ -453,7 +458,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (savedUser) {
           try {
             const u = JSON.parse(savedUser);
-            if (u.role === 'admin' || u.id === 'usr_admin' || u.name === 'Zura Super Admin') {
+            if (u.role === 'admin' && u.id === 'usr_admin' && u.adminToken === ADMIN_CREDENTIALS.passwordHash) {
               setViewModeState('admin-dashboard');
               return;
             }
@@ -491,7 +496,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         name: 'Zura Super Admin',
         phone: ADMIN_CONFIG.whatsappNumber,
         email: ADMIN_CREDENTIALS.email,
-        role: 'admin'
+        role: 'admin',
+        adminToken: ADMIN_CREDENTIALS.passwordHash
       };
       setUser(adminUser);
       localStorage.setItem('zura_user', JSON.stringify(adminUser));
@@ -516,8 +522,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     : (myOrders[0]?.orderCode || customerSessionId);
 
   useEffect(() => {
-    localStorage.setItem('zura_chat_messages', JSON.stringify(chatMessages));
-  }, [chatMessages]);
+    try {
+      if (user?.role === 'admin') {
+        localStorage.setItem('zura_chat_messages', JSON.stringify(chatMessages));
+      } else {
+        // Privacy Guard: Only persist messages belonging to this visitor's own rooms/orders
+        const myRoomIds = new Set<string>([
+          customerSessionId,
+          customerRoomId,
+          ...myOrderCodes,
+          ...myOrders.map(o => o.orderCode)
+        ]);
+        const filteredMessages = chatMessages.filter(m => myRoomIds.has(m.roomId));
+        localStorage.setItem('zura_chat_messages', JSON.stringify(filteredMessages));
+      }
+    } catch {}
+  }, [chatMessages, user, customerSessionId, customerRoomId, myOrderCodes, myOrders]);
 
   // Cross-tab real-time sync with BroadcastChannel
   useEffect(() => {
@@ -728,9 +748,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     imageUrl?: string
   ) => {
     const sender = overrideSender || (user?.role === 'admin' ? 'admin' : 'customer');
+    if (sender === 'customer') {
+      const rateCheck = checkRateLimit('chat_msg_limit', 12, 30);
+      if (!rateCheck.allowed) return;
+    }
+
+    const cleanText = sanitizeInput(text).slice(0, 1500);
     const senderName = sender === 'admin' 
       ? 'Admin Zura' 
-      : (user?.name || 'Pelanggan');
+      : sanitizeInput(user?.name || 'Pelanggan');
 
     const effectiveRoomId = targetRoomId || customerRoomId;
     const effectiveOrderCode = orderCodeParam || (effectiveRoomId.startsWith('ZURA-') ? effectiveRoomId : undefined);
@@ -742,7 +768,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       sender,
       senderName,
       customerPhone: user?.phone,
-      text,
+      text: cleanText,
       imageUrl,
       timestamp: Date.now(),
       isRead: false
@@ -761,7 +787,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     soundService.playNewMessageSound();
 
     if (sender === 'customer') {
-      notifyChatMessageTelegram(senderName, text, effectiveOrderCode, Boolean(imageUrl)).catch(() => {});
+      notifyChatMessageTelegram(senderName, cleanText, effectiveOrderCode, Boolean(imageUrl)).catch(() => {});
     }
 
     // Auto bot response if admin is offline

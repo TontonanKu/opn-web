@@ -15,7 +15,7 @@ import {
   Zap,
   Check
 } from 'lucide-react';
-import { validatePhoneNumber, sanitizeInput, hashPassword } from '../utils/securityUtils';
+import { validatePhoneNumber, sanitizeInput, hashPassword, isReservedAdminIdentifier } from '../utils/securityUtils';
 
 interface RegisteredUser {
   id: string;
@@ -93,6 +93,15 @@ export const AuthModal: React.FC = () => {
 
     if (!cleanName.trim()) {
       setErrorMessage('Harap masukkan nama lengkap atau nama panggilan Anda.');
+      return;
+    }
+
+    if (
+      isReservedAdminIdentifier(cleanName) ||
+      isReservedAdminIdentifier(cleanPhone) ||
+      isReservedAdminIdentifier(cleanEmail)
+    ) {
+      setErrorMessage('Nama, nomor WhatsApp, atau email tersebut dilindungi oleh sistem dan tidak dapat didaftarkan sebagai akun pelanggan.');
       return;
     }
 

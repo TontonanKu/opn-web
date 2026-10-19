@@ -29,7 +29,7 @@ const AdminLoginPage = lazy(() => import('./components/AdminLoginPage').then(m =
 const AdminDashboardView = lazy(() => import('./components/AdminDashboardView').then(m => ({ default: m.AdminDashboardView })));
 
 const MainLayout: React.FC = () => {
-  const { orders, openOrderTracking, viewMode } = useApp();
+  const { myOrders, openOrderTracking, viewMode } = useApp();
 
   // Active storefront tab state: 'home' | 'joki' | 'apps' | 'portfolio'
   const [storeTab, setStoreTab] = useState<StoreTab>(() => {
@@ -127,8 +127,8 @@ const MainLayout: React.FC = () => {
     );
   }
 
-  // Active / pending order check
-  const activeOrder = orders.find(o => o.status === 'pending_admin' || o.status === 'processing');
+  // Active / pending order check (only for this visitor's own orders)
+  const activeOrder = myOrders.find(o => o.status === 'pending_admin' || o.status === 'processing');
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF8F5] selection:bg-[#FFC700] selection:text-black">

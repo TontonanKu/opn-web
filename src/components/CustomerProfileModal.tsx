@@ -29,7 +29,7 @@ export const CustomerProfileModal: React.FC = () => {
     activeModal, 
     setActiveModal, 
     user, 
-    orders, 
+    myOrders, 
     logout, 
     updateUserName, 
     openOrderTracking, 
@@ -62,15 +62,8 @@ export const CustomerProfileModal: React.FC = () => {
 
   if (activeModal !== 'customer-profile' || !user) return null;
 
-  // Filter orders for this customer
-  const userOrders = orders.filter(o => {
-    const matchId = o.userId && o.userId === user.id;
-    const cleanUserPhone = user.phone.replace(/[^0-9]/g, '');
-    const cleanOrderPhone = (o.customerPhone || '').replace(/[^0-9]/g, '');
-    const matchPhone = cleanUserPhone && cleanOrderPhone && (cleanUserPhone === cleanOrderPhone);
-    const matchName = o.customerName && o.customerName.toLowerCase() === user.name.toLowerCase();
-    return matchId || matchPhone || matchName;
-  }).sort((a, b) => b.createdAt - a.createdAt);
+  // Filter orders for this customer (isolated via myOrders)
+  const userOrders = [...myOrders].sort((a, b) => b.createdAt - a.createdAt);
 
   const handleUpdateName = (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,7 +81,7 @@ export const CustomerProfileModal: React.FC = () => {
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3500);
     } else {
-      setErrorMessage('Gagal memperbarui username. Silakan coba kembali.');
+      setErrorMessage('Username tersebut tidak dapat digunakan (dilindungi sistem atau tidak valid).');
     }
   };
 
