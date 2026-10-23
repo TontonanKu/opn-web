@@ -1,5 +1,5 @@
 /**
- * Image helper utility to compress uploaded photos/screenshots
+ * Image helper utility to validate and compress uploaded photos/screenshots
  * down to lightweight Base64 strings for fast client-side chat & sync.
  */
 export const compressImageFile = (
@@ -9,14 +9,39 @@ export const compressImageFile = (
   quality = 0.8
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
-    // If it's not an image, reject
-    if (!file.type.startsWith('image/')) {
-      reject(new Error('File yang dipilih bukan gambar valid.'));
+    if (!file) {
+      reject(new Error('File tidak ditemukan.'));
+      return;
+    }
+
+    // 1. Enforce strict max file size (5MB)
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+    if (file.size > MAX_FILE_SIZE) {
+      reject(new Error('Ukuran foto terlalu besar. Maksimal 5MB.'));
+      return;
+    }
+
+    // 2. Reject SVG files to prevent stored SVG-based XSS payloads
+    if (file.type === 'image/svg+xml' || file.name.toLowerCase().endsWith('.svg')) {
+      reject(new Error('Format file SVG tidak didukung demi keamanan. Gunakan format JPG, PNG, atau WEBP.'));
+      return;
+    }
+
+    // 3. Ensure valid raster image MIME type
+    const validMimes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!validMimes.includes(file.type)) {
+      reject(new Error('Format gambar tidak didukung. Harap upload gambar JPG, PNG, atau WEBP.'));
       return;
     }
 
     const reader = new FileReader();
     reader.onload = (e) => {
+      const dataUrl = e.target?.result as string;
+      if (!dataUrl) {
+        reject(new Error('Gagal membaca file gambar.'));
+        return;
+      }
+
       const img = new Image();
       img.onload = () => {
         let width = img.width;
@@ -33,26 +58,26 @@ export const compressImageFile = (
         }
 
         const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
+        canvas.width = Math.max(1, width);
+        canvas.height = Math.max(1, height);
         const ctx = canvas.getContext('2d');
 
         if (ctx) {
           ctx.drawImage(img, 0, 0, width, height);
           resolve(canvas.toDataURL('image/jpeg', quality));
         } else {
-          resolve(e.target?.result as string);
+          reject(new Error('Gagal memproses canvas gambar.'));
         }
       };
 
       img.onerror = () => {
-        resolve(e.target?.result as string);
+        reject(new Error('File gambar rusak atau tidak dapat didekode.'));
       };
 
-      img.src = e.target?.result as string;
+      img.src = dataUrl;
     };
 
-    reader.onerror = (err) => reject(err);
+    reader.onerror = () => reject(new Error('Gagal membaca file gambar dari perangkat Anda.'));
     reader.readAsDataURL(file);
   });
 };

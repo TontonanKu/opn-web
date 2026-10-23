@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { 
   ShieldAlert, 
@@ -41,6 +41,7 @@ import {
   HelpCircle
 } from 'lucide-react';
 import { Order } from '../types';
+import { ADMIN_CREDENTIALS } from '../data/initialData';
 import { compressImageFile } from '../utils/imageUtils';
 import { exportOrdersToCSV } from '../utils/exportUtils';
 import { TelegramConfig, getTelegramConfig, saveTelegramConfig, testTelegramConnection } from '../utils/telegramUtils';
@@ -53,6 +54,7 @@ import {
 
 export const AdminDashboardView: React.FC = () => {
   const { 
+    user,
     adminStatus, 
     setAdminStatus, 
     orders, 
@@ -76,6 +78,17 @@ export const AdminDashboardView: React.FC = () => {
     toggleSound,
     testSound
   } = useApp();
+
+  // Defense-in-depth: Strict Admin Authentication Guard
+  useEffect(() => {
+    if (!user || user.role !== 'admin' || user.id !== 'usr_admin' || user.adminToken !== ADMIN_CREDENTIALS.passwordHash) {
+      setViewMode('admin-login');
+    }
+  }, [user, setViewMode]);
+
+  if (!user || user.role !== 'admin' || user.id !== 'usr_admin' || user.adminToken !== ADMIN_CREDENTIALS.passwordHash) {
+    return null;
+  }
 
   const [activeTab, setActiveTab] = useState<'orders' | 'chat' | 'testi' | 'telegram'>('orders');
   const [notifPermission, setNotifPermission] = useState<NotificationPermission>(() => getNotificationPermission());

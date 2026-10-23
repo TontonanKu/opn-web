@@ -1,25 +1,26 @@
 /**
  * Security and Anti-Spam Utilities for Zura Store.
- * Provides XSS sanitization, phone validation, and client rate-limiting.
+ * Provides XSS sanitization, phone validation, password hashing, and client rate-limiting.
  */
 
 /**
- * Strips HTML tags, script elements, and dangerous characters to prevent XSS.
+ * Strips HTML tags, script elements, event handlers, and dangerous control characters to prevent XSS.
+ * Leaves standard characters like apostrophes and ampersands intact so React can render them naturally
+ * without ugly HTML entity double-escaping (e.g. avoiding "O&#39;Connor").
  */
 export const sanitizeInput = (input: string): string => {
   if (!input) return '';
   return input
-    .replace(/<[^>]*>/g, '') // Strip HTML tags
-    .replace(/[&<>"']/g, (match) => {
-      switch (match) {
-        case '&': return '&amp;';
-        case '<': return '&lt;';
-        case '>': return '&gt;';
-        case '"': return '&quot;';
-        case "'": return '&#39;';
-        default: return match;
-      }
-    })
+    // 1. Remove script tags and contents
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    // 2. Remove all HTML tags
+    .replace(/<[^>]+>/g, '')
+    // 3. Remove javascript: pseudo-protocols
+    .replace(/javascript\s*:/gi, '')
+    // 4. Remove inline event handlers (e.g. onload=, onerror=, onclick=)
+    .replace(/on\w+\s*=/gi, '')
+    // 5. Remove dangerous non-printable control characters
+    .replace(/[\u0000-\u0008\u000B-\u000C\u000E-\u001F\u007F-\u009F]/g, '')
     .trim();
 };
 
@@ -43,7 +44,7 @@ export const validatePhoneNumber = (phone: string): { isValid: boolean; normaliz
 };
 
 /**
- * In-session rate limiter to prevent bot flood / rapid-fire spam on checkouts & chat.
+ * In-session rate limiter to prevent bot flood / rapid-fire spam on checkouts, logins & chat.
  */
 const rateLimitMap: Record<string, number[]> = {};
 
@@ -86,7 +87,7 @@ export const hashPassword = async (password: string): Promise<string> => {
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   } catch (e) {
-    // Fallback if crypto.subtle is unavailable (e.g. non-secure local dev)
+    // Fallback if crypto.subtle is unavailable (e.g. non-secure dev context)
     return btoa(password);
   }
 };
@@ -164,4 +165,3 @@ export const isReservedAdminIdentifier = (value?: string): boolean => {
   if (digits === '082172795156' || digits === '6282172795156') return true;
   return false;
 };
-

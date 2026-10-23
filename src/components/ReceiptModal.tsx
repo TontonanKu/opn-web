@@ -58,11 +58,16 @@ export const ReceiptModal: React.FC = () => {
   };
 
   const handleCopyReceiptText = () => {
+    const cleanPhone = receipt.customerPhone ? receipt.customerPhone.replace(/[^0-9]/g, '') : '';
+    const phoneToDisplay = canManageReceipt 
+      ? receipt.customerPhone 
+      : (cleanPhone.length >= 8 ? `${cleanPhone.slice(0, 4)}••••${cleanPhone.slice(-3)}` : '08••••••••');
+
     const text = `🧾 *STRUK PEMBAYARAN RESMI ZURA STORE*
 No. Struk: ${receipt.receiptNumber}
 Kode Order: ${activeReceiptOrder.orderCode}
 Tgl Transaksi: ${receipt.transactionDate}
-Pelanggan: ${receipt.customerName} (${receipt.customerPhone})
+Pelanggan: ${receipt.customerName} (${phoneToDisplay})
 Produk/Jasa: ${receipt.serviceName}
 Paket: ${receipt.variantOrRank}
 Metode Bayar: ${receipt.paymentMethod === 'web_transfer' ? 'QRIS / DANA / GoPay' : 'WhatsApp Direct'}

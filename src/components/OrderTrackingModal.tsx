@@ -21,6 +21,8 @@ import {
 
 export const OrderTrackingModal: React.FC = () => {
   const { 
+    user,
+    myOrders,
     activeModal, 
     setActiveModal, 
     activeOrderToTrack, 
@@ -376,10 +378,23 @@ export const OrderTrackingModal: React.FC = () => {
             <span className="text-neutral-500 shrink-0">Nama Pelanggan:</span>
             <span className="font-bold text-black text-right break-words">{currentOrder.customerName}</span>
           </div>
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-neutral-500 shrink-0">WhatsApp:</span>
-            <span className="font-bold text-black text-right">{currentOrder.customerPhone}</span>
-          </div>
+          {(() => {
+            const isOwnerOrAdmin = Boolean(
+              user?.role === 'admin' ||
+              (user && (user.id === currentOrder.userId || user.phone === currentOrder.customerPhone)) ||
+              myOrders.some(o => o.orderCode === currentOrder.orderCode)
+            );
+            const cleanPhone = currentOrder.customerPhone ? currentOrder.customerPhone.replace(/[^0-9]/g, '') : '';
+            const displayPhone = isOwnerOrAdmin 
+              ? currentOrder.customerPhone 
+              : (cleanPhone.length >= 8 ? `${cleanPhone.slice(0, 4)}••••${cleanPhone.slice(-3)}` : '08••••••••');
+            return (
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-neutral-500 shrink-0">WhatsApp:</span>
+                <span className="font-bold text-black text-right">{displayPhone}</span>
+              </div>
+            );
+          })()}
           <div className="flex items-center justify-between gap-2">
             <span className="text-neutral-500 shrink-0">Metode Bayar:</span>
             <span className="font-bold uppercase text-right">

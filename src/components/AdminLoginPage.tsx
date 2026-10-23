@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { checkRateLimit } from '../utils/securityUtils';
 import { 
   ShieldCheck, 
   Lock, 
@@ -20,6 +21,14 @@ export const AdminLoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
+
+    // Brute-force protection: Max 5 attempts per 60 seconds
+    const rateCheck = checkRateLimit('admin_login_page_limit', 5, 60);
+    if (!rateCheck.allowed) {
+      setErrorMsg(`Terlalu banyak percobaan login gagal. Mohon tunggu ${rateCheck.waitSeconds} detik demi keamanan.`);
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {

@@ -37,7 +37,7 @@ interface AppContextType {
   adminStatus: AdminStatusType;
   setAdminStatus: (status: AdminStatusType) => void;
   user: User | null;
-  login: (name: string, phone: string, role?: 'customer' | 'admin') => void;
+  login: (name: string, phone: string) => void;
   logout: () => void;
   orders: Order[];
   myOrders: Order[];
@@ -168,19 +168,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   });
 
-  const login = (name: string, phone: string, role: 'customer' | 'admin' = 'customer') => {
+  const login = (name: string, phone: string) => {
+    const cleanName = sanitizeInput(name);
+    // Disallow regular customers from claiming reserved admin names
+    const finalName = isReservedAdminIdentifier(cleanName) ? 'Pelanggan Zura' : cleanName;
+
     const newUser: User = {
-      id: role === 'admin' ? 'usr_admin' : 'usr_' + Date.now(),
-      name: sanitizeInput(name),
+      id: 'usr_' + Date.now(),
+      name: finalName,
       phone,
-      role,
-      ...(role === 'admin' ? { email: ADMIN_CREDENTIALS.email, adminToken: ADMIN_CREDENTIALS.passwordHash } : {})
+      role: 'customer'
     };
     setUser(newUser);
     localStorage.setItem('zura_user', JSON.stringify(newUser));
-    if (role === 'admin') {
-      setViewMode('admin-dashboard');
-    }
   };
 
   const logout = () => {
@@ -270,14 +270,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (user?.role === 'admin') {
       localStorage.setItem('zura_orders', JSON.stringify(orders));
     } else {
-      // Data Privacy Guard: mask other customers' phone and remove sensitive form data in visitor localStorage
+      // Data Privacy Guard: mask other customers' phone, remove sensitive form data & payment slips in visitor localStorage
       const sanitizedOrders = orders.map(o => {
         const isMine = myOrderCodes.includes(o.orderCode) || (user && (o.userId === user.id || o.customerPhone === user.phone));
         if (isMine) return o;
         return {
           ...o,
           customerPhone: o.customerPhone ? `${o.customerPhone.slice(0, 4)}••••${o.customerPhone.slice(-2)}` : '',
-          extraFormData: undefined
+          extraFormData: undefined,
+          paymentProofUrl: undefined // Privacy Guard: Never expose strangers' transfer receipts to public client storage
         };
       });
       localStorage.setItem('zura_orders', JSON.stringify(sanitizedOrders));
@@ -475,6 +476,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, []);
 
   const adminLogin = async (identifier: string, pass: string): Promise<boolean> => {
+    // Brute-force protection: Max 5 attempts per 60 seconds
+    const rateCheck = checkRateLimit('admin_auth_attempts', 5, 60);
+    if (!rateCheck.allowed) {
+      return false;
+    }
+
     const cleanId = identifier.trim().toLowerCase();
     const cleanDigits = identifier.replace(/[^0-9]/g, '');
     const isIdAdmin = 
@@ -1038,6 +1045,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const submitOrderReview = (orderId: string, rating: number, review: string) => {
     const now = Date.now();
+    const cleanReview = sanitizeInput(review).slice(0, 500);
+    const cleanRating = Math.max(1, Math.min(5, Math.round(rating)));
+
     const updated = orders.map(order => {
       if (order.id !== orderId) return order;
 
@@ -1057,16 +1067,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const updatedReceipt: WebReceipt = {
         ...existingReceipt,
         completedDate: dateStr,
-        rating,
-        review,
+        rating: cleanRating,
+        review: cleanReview,
         paymentStatus: 'SELESAI'
       };
 
       return {
         ...order,
         status: 'completed' as const,
-        rating,
-        reviewText: review,
+        rating: cleanRating,
+        reviewText: cleanReview,
         reviewSubmittedAt: now,
         receipt: updatedReceipt
       };
@@ -1086,20 +1096,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         orderCode: targetOrder.orderCode,
         sender: 'system',
         senderName: 'Sistem Zura',
-        text: `⭐ Terima kasih! Anda memberikan ulasan (${rating}/5 bintang): "${review}". Sesi live chat order ini akan ditutup otomatis dalam 30-60 menit setelah review untuk menjaga performa antrean.`,
+        text: `⭐ Terima kasih! Anda memberikan ulasan (${cleanRating}/5 bintang): "${cleanReview}". Sesi live chat order ini akan ditutup otomatis dalam 30-60 menit setelah review untuk menjaga performa antrean.`,
         timestamp: Date.now(),
         isRead: false
       };
       setChatMessages(prev => [...prev, reviewMsg]);
 
-      if (rating >= 4) {
+      // Public testimonial safeguard: Never leak customer payment transfer screenshots
+      if (cleanRating >= 4) {
         addWhatsAppTestimonial({
           customerName: targetOrder.customerName,
           serviceCategory: targetOrder.itemName,
           date: 'Hari ini',
-          chatSnippet: review,
-          screenshotUrl: targetOrder.paymentProofUrl || '/testimonials/wuwa/Group 1.png',
-          rating,
+          chatSnippet: cleanReview,
+          screenshotUrl: '/testimonials/wuwa/Group 1.png',
+          rating: cleanRating,
           orderCode: targetOrder.orderCode
         });
       }

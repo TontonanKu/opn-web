@@ -142,8 +142,8 @@ export const getFullLeaderboard = (
     // Ignore storage parse error
   }
 
-  // 2. Ingest real store orders
-  const validOrders = (allOrders || []).filter(o => o.status !== 'cancelled');
+  // 2. Ingest real store orders (Only confirmed/active or completed orders count for spend and points)
+  const validOrders = (allOrders || []).filter(o => o.status === 'completed' || o.status === 'processing');
 
   validOrders.forEach(order => {
     const name = order.customerName || 'Pelanggan Zura';
@@ -259,12 +259,12 @@ export const calculateCustomerStats = (
   userOrders: Order[],
   allOrders: Order[] = []
 ): CustomerStats => {
-  const validOrders = (userOrders || []).filter(o => o.status !== 'cancelled');
-  const ordersCount = validOrders.length;
+  const activeOrDoneOrders = (userOrders || []).filter(o => o.status === 'completed' || o.status === 'processing');
+  const ordersCount = (userOrders || []).filter(o => o.status !== 'cancelled').length;
 
-  const totalSpend = validOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
-  const totalTips = validOrders.reduce((sum, o) => sum + (o.tipAmount || 0), 0);
-  const reviewsCount = validOrders.filter(o => Boolean(o.reviewSubmittedAt || o.rating)).length;
+  const totalSpend = activeOrDoneOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
+  const totalTips = activeOrDoneOrders.reduce((sum, o) => sum + (o.tipAmount || 0), 0);
+  const reviewsCount = activeOrDoneOrders.filter(o => Boolean(o.reviewSubmittedAt || o.rating)).length;
 
   // Points calculation:
   // - 1 Point per Rp 1.000 spend

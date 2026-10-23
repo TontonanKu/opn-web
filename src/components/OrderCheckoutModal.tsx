@@ -154,11 +154,17 @@ export const OrderCheckoutModal: React.FC = () => {
     const cleanCustomerPhone = phoneCheck.normalized;
     const cleanNotes = sanitizeInput(notes);
 
-    // Prepare extra form data
-    const extraData: Record<string, string> = {
-      ...(checkoutItem.formData || {}),
-      customerNotes: cleanNotes
-    };
+    // Prepare extra form data with sanitization
+    const extraData: Record<string, string> = {};
+    if (checkoutItem.formData && typeof checkoutItem.formData === 'object') {
+      for (const [k, v] of Object.entries(checkoutItem.formData)) {
+        extraData[sanitizeInput(k)] = typeof v === 'string' ? sanitizeInput(v) : String(v);
+      }
+    }
+    extraData.customerNotes = cleanNotes;
+
+    const safeTipAmount = Math.max(0, Math.min(5000000, tipAmount));
+    const safeFinalAmount = Math.max(0, Math.max(0, baseAmount - discountAmount) + safeTipAmount);
 
     // Persist customer data for fast checkout next time
     try {
@@ -178,9 +184,9 @@ export const OrderCheckoutModal: React.FC = () => {
       itemName,
       itemDetails,
       extraFormData: extraData,
-      totalAmount: finalAmount,
-      tipAmount: tipAmount > 0 ? tipAmount : undefined,
-      originalAmount: baseAmount > finalAmount ? baseAmount : undefined,
+      totalAmount: safeFinalAmount,
+      tipAmount: safeTipAmount > 0 ? safeTipAmount : undefined,
+      originalAmount: baseAmount > safeFinalAmount ? baseAmount : undefined,
       voucherCode: appliedPromo?.code,
       discountAmount: discountAmount > 0 ? discountAmount : undefined,
       paymentMethod,
@@ -436,8 +442,8 @@ export const OrderCheckoutModal: React.FC = () => {
                       onChange={(e) => {
                         const val = e.target.value;
                         setCustomTipInput(val);
-                        const num = parseInt(val, 10);
-                        setTipAmount(isNaN(num) || num < 0 ? 0 : num);
+                        const num = parseInt(val.replace(/[^0-9]/g, ''), 10);
+                        setTipAmount(isNaN(num) || num < 0 ? 0 : Math.min(5000000, num));
                       }}
                       className="w-full text-xs font-mono font-bold bg-transparent focus:outline-none"
                     />

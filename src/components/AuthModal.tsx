@@ -29,7 +29,7 @@ interface RegisteredUser {
 const STORAGE_USERS_KEY = 'zura_registered_users';
 
 export const AuthModal: React.FC = () => {
-  const { activeModal, setActiveModal, login, setViewMode } = useApp();
+  const { activeModal, setActiveModal, login, adminLogin, setViewMode } = useApp();
 
   const [isRegister, setIsRegister] = useState(false);
   const [identifier, setIdentifier] = useState(''); // WhatsApp or Email for Login
@@ -150,7 +150,7 @@ export const AuthModal: React.FC = () => {
       localStorage.setItem(STORAGE_USERS_KEY, JSON.stringify(existingUsers));
 
       // Otomatis login & bersihkan form
-      login(cleanName, phoneCheck.normalized, 'customer');
+      login(cleanName, phoneCheck.normalized);
       setViewMode('store');
       resetForm();
       setIsRegister(false);
@@ -173,11 +173,9 @@ export const AuthModal: React.FC = () => {
       return;
     }
 
-    // 1. Stealth check: jika kredensial admin, otomatis buka Admin Dashboard
+    // 1. Stealth check: jika kredensial admin, otomatis autentikasi via adminLogin
     const cleanIdLower = cleanId.toLowerCase().trim();
     const cleanDigits = cleanId.replace(/[^0-9]/g, '');
-    const hashedInput = await hashPassword(password);
-    const isPassAdmin = hashedInput === ADMIN_CREDENTIALS.passwordHash;
     const isIdAdmin = 
       cleanIdLower === 'admin' ||
       cleanIdLower === 'superadmin' ||
@@ -189,16 +187,20 @@ export const AuthModal: React.FC = () => {
       cleanDigits === ADMIN_CONFIG.whatsappNumber;
 
     if (isIdAdmin) {
-      if (isPassAdmin) {
-        login('Zura Super Admin', ADMIN_CONFIG.whatsappNumber, 'admin');
-        setViewMode('admin-dashboard');
-        resetForm();
-        setIsRegister(false);
-        setActiveModal(null);
-        return;
-      } else {
-        setErrorMessage('Password admin salah! Silakan masukkan password admin yang benar.');
-        return;
+      setIsSubmitting(true);
+      try {
+        const ok = await adminLogin(cleanId, password);
+        if (ok) {
+          resetForm();
+          setIsRegister(false);
+          setActiveModal(null);
+          return;
+        } else {
+          setErrorMessage('Password admin salah atau terlalu banyak percobaan login.');
+          return;
+        }
+      } finally {
+        setIsSubmitting(false);
       }
     }
 
@@ -221,7 +223,7 @@ export const AuthModal: React.FC = () => {
 
       if (matchedUser) {
         if (matchedUser.passwordHash === hashedInput) {
-          login(matchedUser.name, matchedUser.phone, 'customer');
+          login(matchedUser.name, matchedUser.phone);
           setViewMode('store');
           resetForm();
           setIsRegister(false);
@@ -234,14 +236,9 @@ export const AuthModal: React.FC = () => {
         }
       }
 
-      // Jika belum terdaftar sebelumnya, login cepat berbasis nomor WA
-      const phoneCheck = validatePhoneNumber(cleanId);
-      const displayName = cleanId.includes('@') ? cleanId.split('@')[0] : 'Pelanggan Zura';
-      login(displayName, phoneCheck.isValid ? phoneCheck.normalized : cleanId, 'customer');
-      setViewMode('store');
-      resetForm();
-      setIsRegister(false);
-      setActiveModal(null);
+      // Jika belum terdaftar, arahkan user untuk mendaftar akun baru
+      setErrorMessage('Nomor WhatsApp atau email tersebut belum terdaftar. Silakan klik "Daftar Akun Baru" di bawah.');
+      setIsSubmitting(false);
     } catch (err: any) {
       setErrorMessage('Terjadi kendala saat login. Silakan coba lagi.');
     } finally {

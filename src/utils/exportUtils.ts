@@ -2,6 +2,7 @@ import { Order } from '../types';
 
 /**
  * Exports an array of Orders to a formatted CSV file compatible with Excel and Google Sheets.
+ * Includes OWASP CSV Injection (Formula Injection / CWE-1236) sanitization.
  */
 export const exportOrdersToCSV = (orders: Order[]) => {
   const headers = [
@@ -20,9 +21,21 @@ export const exportOrdersToCSV = (orders: Order[]) => {
     'Nomor Struk'
   ];
 
-  const escapeCSV = (str: string | number | undefined | null) => {
-    if (str === undefined || str === null) return '""';
-    const stringified = String(str).replace(/"/g, '""');
+  /**
+   * Sanitizes string against CSV Formula Injection.
+   * If a cell begins with '=', '+', '-', '@', '\t', or '\r', spreadsheet apps may execute it.
+   * Prepending a single quote ensures it is treated strictly as plain text.
+   */
+  const escapeCSV = (val: string | number | undefined | null) => {
+    if (val === undefined || val === null) return '""';
+    let str = String(val);
+
+    // Guard against CSV formula injection
+    if (/^[=+\-@\t\r]/.test(str)) {
+      str = "'" + str;
+    }
+
+    const stringified = str.replace(/"/g, '""');
     return `"${stringified}"`;
   };
 

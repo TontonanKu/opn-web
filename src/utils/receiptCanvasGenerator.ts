@@ -91,11 +91,16 @@ export const downloadReceiptPNG = (receipt: WebReceipt, orderCode: string) => {
     y += 48;
   };
 
+  const cleanPhone = receipt.customerPhone ? receipt.customerPhone.replace(/[^0-9]/g, '') : '';
+  const displayPhone = receipt.customerPhone?.includes('••')
+    ? receipt.customerPhone
+    : (cleanPhone.length >= 8 ? `${cleanPhone.slice(0, 4)}••••${cleanPhone.slice(-3)}` : (receipt.customerPhone || '-'));
+
   drawRow('Kode Pesanan', orderCode, true);
   drawRow('Waktu Transaksi', receipt.transactionDate);
   drawRow('Status Selesai', receipt.completedDate || 'Selesai Terverifikasi');
   drawRow('Nama Pelanggan', receipt.customerName);
-  drawRow('Kontak Pembeli', receipt.customerPhone);
+  drawRow('Kontak Pembeli', displayPhone);
   drawRow('Layanan / Game', receipt.serviceName);
   drawRow('Paket / Varian', receipt.variantOrRank);
   drawRow('Metode Bayar', receipt.paymentMethod === 'web_transfer' ? 'QRIS / DANA / GOPAY (0% BIAYA)' : 'VIA WHATSAPP');
