@@ -351,7 +351,7 @@ export const OrderCheckoutModal: React.FC = () => {
                   <div className="flex gap-2">
                     <input
                       type="text"
-                      placeholder="Masukkan kode voucher (e.g. ZURAGACOR)"
+                      placeholder="Masukkan kode voucher promo (jika ada)"
                       value={promoCodeInput}
                       onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
                       className="flex-1 bg-[#FAF8F2] border-2 border-black p-2 text-xs font-mono font-bold uppercase focus:outline-none focus:bg-white"
@@ -368,34 +368,6 @@ export const OrderCheckoutModal: React.FC = () => {
                   {promoError && (
                     <p className="text-[11px] font-mono text-red-600 font-semibold">{promoError}</p>
                   )}
-
-                  {/* Preset Promo Suggestions */}
-                  <div className="flex items-center gap-1.5 flex-wrap pt-1">
-                    <span className="text-[10px] font-mono text-neutral-500">Coba kode:</span>
-                    {['ZURAGACOR', 'HEMAT10', 'BOOSTKILAT'].map((code) => (
-                      <button
-                        key={code}
-                        type="button"
-                        onClick={() => {
-                          setPromoCodeInput(code);
-                          const result = validatePromoCode(code, baseAmount);
-                          if (result.isValid) {
-                            setAppliedPromo({
-                              code,
-                              discount: result.discountAmount,
-                              message: result.message
-                            });
-                            setPromoError(null);
-                          } else {
-                            setPromoError(result.message);
-                          }
-                        }}
-                        className="text-[10px] font-mono font-bold bg-[#FAF8F2] hover:bg-[#FFC700] border border-black px-1.5 py-0.5 transition-colors"
-                      >
-                        +{code}
-                      </button>
-                    ))}
-                  </div>
                 </div>
               )}
             </div>

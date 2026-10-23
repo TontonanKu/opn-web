@@ -3,7 +3,6 @@ import { AppProvider, useApp } from './context/AppContext';
 import { AdminStatusBar } from './components/AdminStatusBar';
 import { Navbar, StoreTab } from './components/Navbar';
 import { HeroBanner } from './components/HeroBanner';
-import { FlashSaleBanner } from './components/FlashSaleBanner';
 import { FeaturedHighlights } from './components/FeaturedHighlights';
 import { WhyChooseUs } from './components/WhyChooseUs';
 import { FaqSection } from './components/FaqSection';
@@ -152,10 +151,6 @@ const MainLayout: React.FC = () => {
                 const el = document.getElementById('testimoni');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-            />
-            <FlashSaleBanner
-              onNavigateToJoki={() => handleSelectTab('joki')}
-              onNavigateToApps={() => handleSelectTab('apps')}
             />
             <FeaturedHighlights
               onSelectJoki={() => handleSelectTab('joki')}
