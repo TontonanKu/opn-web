@@ -180,11 +180,17 @@ Terima kasih atas kepercayaan Anda di Zura Store!`;
             {/* Totals */}
             <div className="pb-3 border-b-2 border-dashed border-[#121212] space-y-1">
               <div className="flex justify-between text-xs">
-                <span className="text-neutral-500">Subtotal</span>
+                <span className="text-neutral-500">Harga Layanan</span>
                 <span>
-                  {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(receipt.amount)}
+                  {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(receipt.amount - (receipt.tipAmount || 0))}
                 </span>
               </div>
+              {Boolean(receipt.tipAmount && receipt.tipAmount > 0) && (
+                <div className="flex justify-between text-xs text-amber-800 font-bold">
+                  <span>Tip Apresiasi Booster/Admin</span>
+                  <span>+{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(receipt.tipAmount || 0)}</span>
+                </div>
+              )}
               <div className="flex justify-between text-xs">
                 <span className="text-neutral-500">Biaya Admin / Sistem</span>
                 <span className="text-emerald-600 font-bold">Rp 0 (GRATIS)</span>

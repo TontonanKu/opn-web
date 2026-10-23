@@ -71,8 +71,8 @@ interface AppContextType {
   adminLogin: (email: string, pass: string) => Promise<boolean>;
 
   // Modals & Navigation state
-  activeModal: 'login' | 'checkout' | 'tracking' | 'receipt' | 'customer-profile' | 'terms' | null;
-  setActiveModal: (modal: 'login' | 'checkout' | 'tracking' | 'receipt' | 'customer-profile' | 'terms' | null) => void;
+  activeModal: 'login' | 'checkout' | 'tracking' | 'receipt' | 'customer-profile' | 'terms' | 'leaderboard' | null;
+  setActiveModal: (modal: 'login' | 'checkout' | 'tracking' | 'receipt' | 'customer-profile' | 'terms' | 'leaderboard' | null) => void;
   updateUserName: (newName: string) => boolean;
   checkoutItem: any;
   openCheckout: (item: any, type: 'joki_game' | 'app_premium' | 'design_ai') => void;
@@ -507,8 +507,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return false;
   };
 
-  // Modals state (Popups are for Checkout, Login, Tracking, Receipt, Customer Profile, Terms)
-  const [activeModal, setActiveModal] = useState<'login' | 'checkout' | 'tracking' | 'receipt' | 'customer-profile' | 'terms' | null>(null);
+  // Modals state (Popups are for Checkout, Login, Tracking, Receipt, Customer Profile, Terms, Leaderboard)
+  const [activeModal, setActiveModal] = useState<'login' | 'checkout' | 'tracking' | 'receipt' | 'customer-profile' | 'terms' | 'leaderboard' | null>(null);
   const [checkoutItem, setCheckoutItem] = useState<any>(null);
   const [activeOrderToTrack, setActiveOrderToTrack] = useState<Order | null>(null);
   const [activeReceiptOrder, setActiveReceiptOrder] = useState<Order | null>(null);
@@ -832,6 +832,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         customerPhone: order.customerPhone,
         accountDetails: order.extraFormData,
         amount: order.totalAmount,
+        tipAmount: order.tipAmount,
         paymentMethod: order.paymentMethod,
         paymentStatus: order.status === 'completed' ? 'SELESAI' : order.status === 'cancelled' ? 'BATAL' : 'DIPROSES',
         adminNotes: 'Bukti transaksi resmi Zura Store.',
@@ -936,6 +937,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           customerName: order.customerName,
           customerPhone: order.customerPhone,
           amount: order.totalAmount,
+          tipAmount: order.tipAmount,
           voucherCode: order.voucherCode,
           discountAmount: order.discountAmount,
           originalAmount: order.originalAmount,

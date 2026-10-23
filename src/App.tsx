@@ -15,6 +15,7 @@ import { OrderTrackingModal } from './components/OrderTrackingModal';
 import { ReceiptModal } from './components/ReceiptModal';
 import { AuthModal } from './components/AuthModal';
 import { CustomerProfileModal } from './components/CustomerProfileModal';
+import { LeaderboardModal } from './components/LeaderboardModal';
 import { TermsAndGuaranteeModal } from './components/TermsAndGuaranteeModal';
 import { LiveOrderTicker } from './components/LiveOrderTicker';
 import { LiveChatWidget } from './components/LiveChatWidget';
@@ -189,6 +190,7 @@ const MainLayout: React.FC = () => {
       <ReceiptModal />
       <AuthModal />
       <CustomerProfileModal />
+      <LeaderboardModal />
       <TermsAndGuaranteeModal />
 
       {/* Real-Time Incoming Order Pop-up Alert Banner */}

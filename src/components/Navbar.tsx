@@ -15,7 +15,8 @@ import {
   LucideIcon,
   Crown,
   Check,
-  Home
+  Home,
+  Trophy
 } from 'lucide-react';
 
 export type StoreTab = 'home' | 'joki' | 'apps' | 'portfolio';
@@ -268,6 +269,17 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
             )}
 
+            {/* Top Spender Leaderboard Shortcut */}
+            <button
+              type="button"
+              onClick={() => setActiveModal('leaderboard')}
+              className="bg-white hover:bg-[#FFF3B0] text-black border-2 border-black px-3 py-2 text-xs font-mono font-black uppercase flex items-center gap-1.5 shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 transition-all"
+              title="Lihat Papan Peringkat Top Spender Zura Store"
+            >
+              <Trophy className="w-3.5 h-3.5 text-[#FF5900]" />
+              <span className="hidden lg:inline">Top Spender</span>
+            </button>
+
             {/* If logged in as Admin: Dedicated Dashboard button appears */}
             {user?.role === 'admin' && (
               <button
@@ -401,6 +413,23 @@ export const Navbar: React.FC<NavbarProps> = ({
           })}
 
           <div className="pt-2 border-t-2 border-dashed border-neutral-300 flex flex-col gap-2">
+            {/* Top Spender Leaderboard in Mobile Drawer */}
+            <button
+              type="button"
+              onClick={() => {
+                setActiveModal('leaderboard');
+                setMobileMenuOpen(false);
+              }}
+              className="bg-white hover:bg-[#FFF3B0] text-black border-2 border-black p-2.5 text-xs font-mono font-black uppercase flex items-center justify-between shadow-[2px_2px_0px_#000]"
+            >
+              <div className="flex items-center gap-2">
+                <Trophy className="w-4 h-4 text-[#FF5900]" />
+                <span>Leaderboard Top Spender</span>
+              </div>
+              <span className="text-[10px] bg-[#FFC700] px-1.5 py-0.2 border border-black font-mono">
+                Peringkat
+              </span>
+            </button>
             {user?.role === 'admin' && (
               <button
                 onClick={() => {

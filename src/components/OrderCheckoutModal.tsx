@@ -17,8 +17,7 @@ import {
   Smartphone,
   Check,
   Sparkles,
-  Tag
-} from 'lucide-react';
+  Tag,  Heart} from 'lucide-react';
 import { sanitizeInput, validatePhoneNumber, checkRateLimit, isHoneypotTriggered } from '../utils/securityUtils';
 import { validatePromoCode } from '../data/promoCodes';
 
@@ -43,6 +42,11 @@ export const OrderCheckoutModal: React.FC = () => {
   const [promoCodeInput, setPromoCodeInput] = useState('');
   const [appliedPromo, setAppliedPromo] = useState<{ code: string; discount: number; message: string } | null>(null);
   const [promoError, setPromoError] = useState<string | null>(null);
+
+  // Tip Apresiasi States
+  const [tipAmount, setTipAmount] = useState<number>(0);
+  const [isCustomTip, setIsCustomTip] = useState(false);
+  const [customTipInput, setCustomTipInput] = useState('');
 
   // Bot Protection Honeypot
   const [botTrap, setBotTrap] = useState('');
@@ -87,7 +91,7 @@ export const OrderCheckoutModal: React.FC = () => {
 
   const baseAmount = checkoutItem.price || 0;
   const discountAmount = appliedPromo ? appliedPromo.discount : 0;
-  const finalAmount = Math.max(0, baseAmount - discountAmount);
+  const finalAmount = Math.max(0, baseAmount - discountAmount) + tipAmount;
 
   const handleCopy = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -175,6 +179,7 @@ export const OrderCheckoutModal: React.FC = () => {
       itemDetails,
       extraFormData: extraData,
       totalAmount: finalAmount,
+      tipAmount: tipAmount > 0 ? tipAmount : undefined,
       originalAmount: baseAmount > finalAmount ? baseAmount : undefined,
       voucherCode: appliedPromo?.code,
       discountAmount: discountAmount > 0 ? discountAmount : undefined,
@@ -264,22 +269,18 @@ export const OrderCheckoutModal: React.FC = () => {
                 <p className="text-xs font-mono font-semibold text-[#FF5900]">{itemDetails}</p>
               </div>
               <div className="text-right">
-                <span className="text-[10px] font-mono text-neutral-500 uppercase block">Total Biaya</span>
-                {discountAmount > 0 ? (
-                  <div>
-                    <span className="text-xs font-mono line-through text-neutral-400 block">
-                      {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(baseAmount)}
-                    </span>
-                    <span className="font-display font-black text-xl text-emerald-600">
-                      {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(finalAmount)}
-                    </span>
-                    <span className="text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-500 px-1.5 py-0.5 inline-block mt-0.5">
-                      HEMAT {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(discountAmount)}
-                    </span>
-                  </div>
-                ) : (
-                  <span className="font-display font-black text-xl text-[#121212]">
-                    {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(finalAmount)}
+                <span className="text-[10px] font-mono text-neutral-500 uppercase block">Total Bayar</span>
+                <span className="font-display font-black text-xl text-[#FF5900]">
+                  {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(finalAmount)}
+                </span>
+                {discountAmount > 0 && (
+                  <span className="text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-500 px-1.5 py-0.2 block mt-0.5">
+                    Hemat -{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(discountAmount)}
+                  </span>
+                )}
+                {tipAmount > 0 && (
+                  <span className="text-[10px] font-mono font-bold bg-[#FFF3B0] text-amber-900 border border-black px-1.5 py-0.2 block mt-0.5">
+                    +Tip {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(tipAmount)}
                   </span>
                 )}
               </div>
@@ -372,7 +373,94 @@ export const OrderCheckoutModal: React.FC = () => {
               )}
             </div>
 
-            {/* Auto-fill from previous session */}
+                        {/* Tip Apresiasi untuk Admin / Booster Card */}
+            <div className="border-2 border-black bg-white p-3.5 shadow-[2px_2px_0px_#000]">
+              <div className="flex items-center justify-between mb-1.5">
+                <div className="flex items-center gap-1.5">
+                  <Heart className="w-4 h-4 text-red-500 fill-red-500" />
+                  <span className="text-xs font-mono font-bold uppercase text-[#121212]">
+                    Beri Tip Apresiasi Booster / Admin
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono bg-[#FFC700] text-black px-1.5 py-0.2 border border-black font-extrabold uppercase">
+                  Sukarela • +2x Poin
+                </span>
+              </div>
+              <p className="text-[11px] font-mono text-neutral-600 mb-2.5 leading-relaxed">
+                Apresiasi kecepatan & dedikasi booster/CS kami. Setiap tip bernilai <strong>2x Poin Loyalitas</strong> untuk menaikkan peringkat Top Spender akun Anda!
+              </p>
+
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 font-mono text-xs">
+                {[0, 2000, 5000, 10000, 20000].map((amt) => (
+                  <button
+                    key={amt}
+                    type="button"
+                    onClick={() => {
+                      setTipAmount(amt);
+                      setIsCustomTip(false);
+                      setCustomTipInput('');
+                    }}
+                    className={`py-1.5 px-1 text-center border-2 border-black font-bold transition-all ${
+                      tipAmount === amt && !isCustomTip
+                        ? 'bg-[#FFC700] text-black shadow-[2px_2px_0px_#000] font-black'
+                        : 'bg-[#FAF8F2] hover:bg-neutral-100 text-neutral-800'
+                    }`}
+                  >
+                    {amt === 0 ? 'Tanpa Tip' : `+Rp ${amt.toLocaleString('id-ID')}`}
+                  </button>
+                ))}
+
+                <button
+                  type="button"
+                  onClick={() => setIsCustomTip(true)}
+                  className={`py-1.5 px-1 text-center border-2 border-black font-bold transition-all ${
+                    isCustomTip
+                      ? 'bg-[#FFC700] text-black shadow-[2px_2px_0px_#000] font-black'
+                      : 'bg-[#FAF8F2] hover:bg-neutral-100 text-neutral-800'
+                  }`}
+                >
+                  Custom
+                </button>
+              </div>
+
+              {isCustomTip && (
+                <div className="mt-2.5 flex items-center gap-2">
+                  <div className="flex-1 flex items-center border-2 border-black bg-[#FAF8F2] px-2.5 py-1.5">
+                    <span className="text-xs font-mono font-bold text-neutral-500 mr-1">Rp</span>
+                    <input
+                      type="number"
+                      min={1000}
+                      step={1000}
+                      placeholder="Contoh: 15000"
+                      value={customTipInput}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setCustomTipInput(val);
+                        const num = parseInt(val, 10);
+                        setTipAmount(isNaN(num) || num < 0 ? 0 : num);
+                      }}
+                      className="w-full text-xs font-mono font-bold bg-transparent focus:outline-none"
+                    />
+                  </div>
+                  {tipAmount > 0 && (
+                    <span className="text-xs font-mono font-bold text-emerald-700 whitespace-nowrap">
+                      +{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(tipAmount)}
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {tipAmount > 0 && (
+                <div className="mt-2 p-2 bg-[#FFF3B0] border border-black text-[11px] font-mono text-neutral-800 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#FF5900] shrink-0" />
+                  <span>
+                    Terima kasih banyak! Anda mendapatkan bonus <strong>+{Math.floor((tipAmount * 2) / 1000)} Poin Loyalty</strong>.
+                  </span>
+                </div>
+              )}
+            </div>
+
+{/* Auto-fill from previous session */}
             {savedCheckoutData && (customerName !== savedCheckoutData.name || customerPhone !== savedCheckoutData.phone) && (
               <div className="bg-[#FFF3B0] border-2 border-black p-2.5 flex items-center justify-between text-xs font-mono shadow-[2px_2px_0px_#000]">
                 <div className="flex items-center gap-1.5 truncate">

@@ -134,7 +134,7 @@ export const notifyNewOrderTelegram = async (order: Order): Promise<boolean> => 
 📁 <b>Kategori:</b> ${categoryName}
 📦 <b>Item:</b> <b>${escapeHTML(order.itemName)}</b>
 🎯 <b>Detail:</b> ${escapeHTML(order.itemDetails || '-')}
-💰 <b>Total Bayar:</b> <b>${escapeHTML(priceStr)}</b>
+💰 <b>Total Bayar:</b> <b>${escapeHTML(priceStr)}</b>${order.tipAmount ? `\n🎁 <b>Tip Booster:</b> Rp ${order.tipAmount.toLocaleString('id-ID')}` : ''}
 💳 <b>Metode:</b> ${order.paymentMethod === 'web_transfer' ? 'QRIS / DANA / GoPay' : 'WhatsApp Direct'}
 ⏰ <b>Waktu:</b> ${dateStr}
 ⏱️ <b>Batas Respon:</b> 10 Menit

@@ -107,6 +107,7 @@ export interface WebReceipt {
   customerPhone: string;
   accountDetails?: Record<string, string>;
   amount: number;
+  tipAmount?: number;
   paymentMethod: 'web_transfer' | 'whatsapp_direct';
   paymentStatus: 'MENUNGGU_VERIFIKASI' | 'DIPROSES' | 'SELESAI' | 'BATAL';
   adminNotes?: string;
@@ -142,6 +143,7 @@ export interface Order {
   itemDetails: string;
   extraFormData?: Record<string, string>;
   totalAmount: number;
+  tipAmount?: number;
   originalAmount?: number;
   voucherCode?: string;
   discountAmount?: number;
@@ -193,6 +195,40 @@ export interface ChatRoom {
   reviewSubmittedAt?: number;
   rating?: number;
   reviewText?: string;
+}
+
+export type MemberTierName = 
+  | 'Bronze Explorer'
+  | 'Silver Booster'
+  | 'Gold VIP'
+  | 'Platinum Elite'
+  | 'Imperial Connoisseur';
+
+export interface CustomerStats {
+  ordersCount: number;
+  totalSpend: number;
+  totalTips: number;
+  reviewsCount: number;
+  points: number;
+  tier: MemberTierName;
+  rank: number;
+  totalMembers: number;
+  nextTier?: MemberTierName;
+  remainingToNextTier?: number;
+  progressPercent: number;
+}
+
+export interface LeaderboardEntry {
+  rank: number;
+  name: string;
+  phoneMasked: string;
+  totalSpend: number;
+  totalTips: number;
+  totalOrders: number;
+  reviewsCount: number;
+  points: number;
+  tier: MemberTierName;
+  isCurrentUser?: boolean;
 }
 
 
