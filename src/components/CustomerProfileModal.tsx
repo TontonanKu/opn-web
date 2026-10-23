@@ -24,11 +24,17 @@ import {
   Award,
   Heart,
   Flame,
-  Star
+  Star,
+  Wallet,
+  MessageSquare,
+  Gift,
+  Settings,
+  Medal,
+  UserCheck
 } from 'lucide-react';
 import { ADMIN_CONFIG } from '../data/initialData';
 import { sanitizeInput } from '../utils/securityUtils';
-import { calculateCustomerStats, getFullLeaderboard, MEMBER_TIERS, TOTAL_COMMUNITY_MEMBERS } from '../utils/loyaltyUtils';
+import { calculateCustomerStats, getFullLeaderboard, MEMBER_TIERS } from '../utils/loyaltyUtils';
 
 export const CustomerProfileModal: React.FC = () => {
   const { 
@@ -36,6 +42,7 @@ export const CustomerProfileModal: React.FC = () => {
     setActiveModal, 
     user, 
     myOrders, 
+    orders,
     logout, 
     updateUserName, 
     openOrderTracking, 
@@ -72,9 +79,9 @@ export const CustomerProfileModal: React.FC = () => {
   // Filter orders for this customer (isolated via myOrders)
   const userOrders = [...myOrders].sort((a, b) => b.createdAt - a.createdAt);
 
-  // Customer Loyalty & Dashboard Stats
-  const stats = calculateCustomerStats(user, userOrders);
-  const leaderboard = getFullLeaderboard(user, stats);
+  // Customer Loyalty & Dashboard Stats computed strictly from real orders
+  const stats = calculateCustomerStats(user, userOrders, orders);
+  const leaderboard = getFullLeaderboard(user, orders);
 
   const handleUpdateName = (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,28 +122,28 @@ export const CustomerProfileModal: React.FC = () => {
     switch (status) {
       case 'pending_admin':
         return (
-          <span className="inline-flex items-center gap-1 bg-[#FFC700] text-black border border-black px-1.5 py-0.2 text-[10px] font-mono font-bold animate-pulse">
+          <span className="inline-flex items-center gap-1 bg-[#FFC700] text-black border border-black px-1.5 py-0.5 text-[10px] font-mono font-bold animate-pulse">
             <Clock className="w-3 h-3" />
             <span>MENUNGGU ADMIN</span>
           </span>
         );
       case 'processing':
         return (
-          <span className="inline-flex items-center gap-1 bg-blue-400 text-black border border-black px-1.5 py-0.2 text-[10px] font-mono font-bold">
+          <span className="inline-flex items-center gap-1 bg-blue-400 text-black border border-black px-1.5 py-0.5 text-[10px] font-mono font-bold">
             <Sparkles className="w-3 h-3" />
             <span>SEDANG DIKERJAKAN</span>
           </span>
         );
       case 'completed':
         return (
-          <span className="inline-flex items-center gap-1 bg-emerald-400 text-black border border-black px-1.5 py-0.2 text-[10px] font-mono font-bold">
+          <span className="inline-flex items-center gap-1 bg-emerald-400 text-black border border-black px-1.5 py-0.5 text-[10px] font-mono font-bold">
             <CheckCircle2 className="w-3 h-3" />
             <span>SELESAI</span>
           </span>
         );
       case 'cancelled':
         return (
-          <span className="inline-flex items-center gap-1 bg-red-400 text-black border border-black px-1.5 py-0.2 text-[10px] font-mono font-bold">
+          <span className="inline-flex items-center gap-1 bg-red-400 text-black border border-black px-1.5 py-0.5 text-[10px] font-mono font-bold">
             <X className="w-3 h-3" />
             <span>DIBATALKAN</span>
           </span>
@@ -158,10 +165,11 @@ export const CustomerProfileModal: React.FC = () => {
         {/* Sticky Header with Close */}
         <div className="sticky top-0 bg-[#FFC700] z-30 px-5 py-3 border-b-[2.5px] border-black flex items-center justify-between shadow-sm">
           <div className="flex items-center gap-2">
+            <UserCheck className="w-4 h-4 text-black stroke-[2.5]" />
             <span className="font-display font-black text-sm uppercase text-black tracking-wide">
               PORTAL PELANGGAN RESMI
             </span>
-            <span className="bg-[#121212] text-[#FFC700] text-[10px] font-mono font-black px-2 py-0.2 uppercase">
+            <span className="bg-[#121212] text-[#FFC700] text-[10px] font-mono font-black px-2 py-0.5 uppercase">
               {stats.tier}
             </span>
           </div>
@@ -202,15 +210,17 @@ export const CustomerProfileModal: React.FC = () => {
           )}
 
           {/* ======================================================== */}
-          {/* DISCORD-INSPIRED CUSTOMER DASHBOARD CARD               */}
+          {/* MODERN CUSTOMER DASHBOARD CARD (NEO-BRUTALIST DISCORD)   */}
           {/* ======================================================== */}
           <div className="bg-[#121212] text-white border-[3px] border-black p-4 sm:p-5 shadow-[4px_4px_0px_#000] relative overflow-hidden">
             
             {/* Top Row: Title + Avatar */}
             <div className="flex items-center justify-between border-b border-neutral-700/80 pb-3 mb-3">
               <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-lg">🏠</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 bg-[#FFC700] border border-black flex items-center justify-center text-black shadow-[1px_1px_0px_#000]">
+                    <Crown className="w-3.5 h-3.5" />
+                  </div>
                   <h3 className="font-display font-black text-lg sm:text-xl uppercase text-white tracking-wide">
                     CUSTOMER DASHBOARD
                   </h3>
@@ -230,73 +240,96 @@ export const CustomerProfileModal: React.FC = () => {
               </div>
             </div>
 
-            {/* Terminal Stats Box */}
+            {/* Terminal Stats Box with Modern Lucide Icons */}
             <div className="bg-[#181818] border border-neutral-800 p-3 sm:p-3.5 font-mono text-xs space-y-2 mb-3 shadow-inner">
-              <div className="flex items-center justify-between border-b border-neutral-800/80 pb-1">
-                <span className="text-neutral-400 flex items-center gap-2">
-                  <span>🛒</span>
-                  <span>Orders</span>
+              
+              {/* Orders */}
+              <div className="flex items-center justify-between border-b border-neutral-800/80 pb-1.5 pt-0.5">
+                <span className="text-neutral-300 flex items-center gap-2">
+                  <span className="w-5 h-5 bg-neutral-800 border border-neutral-700 flex items-center justify-center text-amber-400">
+                    <ShoppingBag className="w-3 h-3" />
+                  </span>
+                  <span className="font-bold">Total Orders</span>
                 </span>
                 <span className="font-bold text-white">{stats.ordersCount}x</span>
               </div>
 
-              <div className="flex items-center justify-between border-b border-neutral-800/80 pb-1">
-                <span className="text-neutral-400 flex items-center gap-2">
-                  <span>💰</span>
-                  <span>Spend</span>
+              {/* Spend */}
+              <div className="flex items-center justify-between border-b border-neutral-800/80 pb-1.5 pt-0.5">
+                <span className="text-neutral-300 flex items-center gap-2">
+                  <span className="w-5 h-5 bg-neutral-800 border border-neutral-700 flex items-center justify-center text-[#FFC700]">
+                    <Wallet className="w-3 h-3" />
+                  </span>
+                  <span className="font-bold">Total Spend</span>
                 </span>
                 <span className="font-black text-[#FFC700]">
                   {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(stats.totalSpend)}
                 </span>
               </div>
 
-              <div className="flex items-center justify-between border-b border-neutral-800/80 pb-1">
-                <span className="text-neutral-400 flex items-center gap-2">
-                  <span>🎁</span>
-                  <span>Tips</span>
+              {/* Tips */}
+              <div className="flex items-center justify-between border-b border-neutral-800/80 pb-1.5 pt-0.5">
+                <span className="text-neutral-300 flex items-center gap-2">
+                  <span className="w-5 h-5 bg-neutral-800 border border-neutral-700 flex items-center justify-center text-rose-400">
+                    <Heart className="w-3 h-3 fill-rose-500/30" />
+                  </span>
+                  <span className="font-bold">Tips Booster</span>
                 </span>
                 <span className="font-black text-[#FF5900]">
                   {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(stats.totalTips)}
                 </span>
               </div>
 
-              <div className="flex items-center justify-between border-b border-neutral-800/80 pb-1">
-                <span className="text-neutral-400 flex items-center gap-2">
-                  <span>📝</span>
-                  <span>Reviews</span>
+              {/* Reviews */}
+              <div className="flex items-center justify-between border-b border-neutral-800/80 pb-1.5 pt-0.5">
+                <span className="text-neutral-300 flex items-center gap-2">
+                  <span className="w-5 h-5 bg-neutral-800 border border-neutral-700 flex items-center justify-center text-blue-400">
+                    <MessageSquare className="w-3 h-3" />
+                  </span>
+                  <span className="font-bold">Reviews</span>
                 </span>
                 <span className="font-bold text-white">{stats.reviewsCount}x</span>
               </div>
 
-              <div className="flex items-center justify-between border-b border-neutral-800/80 pb-1">
-                <span className="text-neutral-400 flex items-center gap-2">
-                  <span>⭐</span>
-                  <span>Points</span>
+              {/* Points */}
+              <div className="flex items-center justify-between border-b border-neutral-800/80 pb-1.5 pt-0.5">
+                <span className="text-neutral-300 flex items-center gap-2">
+                  <span className="w-5 h-5 bg-neutral-800 border border-neutral-700 flex items-center justify-center text-yellow-300">
+                    <Sparkles className="w-3 h-3" />
+                  </span>
+                  <span className="font-bold">Poin Loyalitas</span>
                 </span>
                 <span className="font-black text-yellow-300">
                   {stats.points.toLocaleString('id-ID')} Pts
                 </span>
               </div>
 
-              <div className="flex items-center justify-between border-b border-neutral-800/80 pb-1">
-                <span className="text-neutral-400 flex items-center gap-2">
-                  <span>🏆</span>
-                  <span>Rank</span>
+              {/* Leaderboard Rank */}
+              <div className="flex items-center justify-between border-b border-neutral-800/80 pb-1.5 pt-0.5">
+                <span className="text-neutral-300 flex items-center gap-2">
+                  <span className="w-5 h-5 bg-neutral-800 border border-neutral-700 flex items-center justify-center text-emerald-400">
+                    <Trophy className="w-3 h-3" />
+                  </span>
+                  <span className="font-bold">Peringkat Top Spender</span>
                 </span>
                 <span className="font-black text-emerald-400">
-                  #{stats.rank} / {stats.totalMembers}
+                  #{stats.rank} / {stats.totalMembers} Member
                 </span>
               </div>
 
-              <div className="flex items-center justify-between pt-0.5">
-                <span className="text-neutral-400 flex items-center gap-2">
-                  <span>🎖️</span>
-                  <span>Tier</span>
+              {/* Tier */}
+              <div className="flex items-center justify-between pt-1">
+                <span className="text-neutral-300 flex items-center gap-2">
+                  <span className="w-5 h-5 bg-neutral-800 border border-neutral-700 flex items-center justify-center text-amber-400">
+                    <Crown className="w-3 h-3" />
+                  </span>
+                  <span className="font-bold">Tier Member</span>
                 </span>
-                <span className="font-black text-[11px] bg-[#FFC700] text-black px-2 py-0.5 border border-black uppercase">
+                <span className="font-black text-[11px] bg-[#FFC700] text-black px-2 py-0.5 border border-black uppercase shadow-[1px_1px_0px_#000]">
                   {stats.tier}
                 </span>
               </div>
+
             </div>
 
             {/* Progress Bar towards Next Tier */}
@@ -321,7 +354,7 @@ export const CustomerProfileModal: React.FC = () => {
               </div>
             </div>
 
-            {/* Discord Sub-Navigation Buttons */}
+            {/* Sub-Navigation Buttons with Modern Icons */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 font-mono text-xs font-bold pt-2 border-t border-neutral-800">
               <button
                 type="button"
@@ -332,7 +365,7 @@ export const CustomerProfileModal: React.FC = () => {
                     : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700'
                 }`}
               >
-                <span>🛒</span>
+                <ShoppingBag className="w-3.5 h-3.5" />
                 <span>Orders</span>
               </button>
 
@@ -345,7 +378,7 @@ export const CustomerProfileModal: React.FC = () => {
                     : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700'
                 }`}
               >
-                <span>🏆</span>
+                <Trophy className="w-3.5 h-3.5" />
                 <span>Rank</span>
               </button>
 
@@ -358,7 +391,7 @@ export const CustomerProfileModal: React.FC = () => {
                     : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700'
                 }`}
               >
-                <span>🎁</span>
+                <Gift className="w-3.5 h-3.5" />
                 <span>Rewards</span>
               </button>
 
@@ -371,7 +404,7 @@ export const CustomerProfileModal: React.FC = () => {
                     : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700'
                 }`}
               >
-                <span>⚙️</span>
+                <Settings className="w-3.5 h-3.5" />
                 <span>Akun</span>
               </button>
             </div>
@@ -385,6 +418,7 @@ export const CustomerProfileModal: React.FC = () => {
             <div className="space-y-3">
               <div className="flex justify-between items-center">
                 <span className="font-mono text-xs font-black text-neutral-800 uppercase flex items-center gap-1.5">
+                  <ShoppingBag className="w-4 h-4 text-[#FF5900]" />
                   <span>RIWAYAT PESANAN SAYA ({userOrders.length})</span>
                 </span>
                 <span className="font-mono text-[11px] text-neutral-500">
@@ -446,8 +480,9 @@ export const CustomerProfileModal: React.FC = () => {
                             {order.itemDetails}
                           </p>
                           {order.tipAmount && order.tipAmount > 0 && (
-                            <span className="inline-flex items-center gap-1 text-[10px] font-mono text-amber-800 font-bold bg-[#FFF3B0] px-1.5 py-0.2 border border-black mt-1">
-                              🎁 Ada Tip Booster: Rp {order.tipAmount.toLocaleString('id-ID')}
+                            <span className="inline-flex items-center gap-1.5 text-[10px] font-mono text-amber-900 font-bold bg-[#FFF3B0] px-2 py-0.5 border border-black mt-1">
+                              <Heart className="w-3 h-3 text-rose-500 fill-rose-500" />
+                              <span>Ada Tip Booster: Rp {order.tipAmount.toLocaleString('id-ID')}</span>
                             </span>
                           )}
                         </div>
@@ -518,81 +553,109 @@ export const CustomerProfileModal: React.FC = () => {
                   </span>
                 </div>
                 <p className="text-[11px] font-mono text-neutral-300">
-                  Posisi Anda saat ini: <strong className="text-emerald-400">#{stats.rank}</strong> dari <strong>{stats.totalMembers} Member</strong> ({stats.tier}).
+                  Posisi Anda saat ini: <strong className="text-emerald-400">#{stats.rank}</strong> dari <strong>{stats.totalMembers} Member Terdaftar</strong> ({stats.tier}).
                 </p>
               </div>
 
-              {/* Top 3 Podium */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-end">
-                {leaderboard[1] && (
-                  <div className="order-2 sm:order-1 bg-white border-2 border-black p-3 text-center shadow-[2px_2px_0px_#000]">
-                    <div className="w-6 h-6 bg-slate-200 border-2 border-black rounded-full flex items-center justify-center font-mono font-black text-xs mx-auto mb-1">
-                      🥈
-                    </div>
-                    <div className="font-display font-black text-xs uppercase truncate">
-                      {leaderboard[1].name}
-                    </div>
-                    <div className="text-[10px] font-mono text-neutral-500">
-                      Rp {leaderboard[1].totalSpend.toLocaleString('id-ID')}
-                    </div>
-                  </div>
-                )}
-
-                {leaderboard[0] && (
-                  <div className="order-1 sm:order-2 bg-[#FFC700] border-2 border-black p-3.5 text-center shadow-[3px_3px_0px_#000] relative">
-                    <div className="w-8 h-8 bg-black text-[#FFC700] border-2 border-black rounded-full flex items-center justify-center font-mono font-black text-sm mx-auto mb-1">
-                      🥇
-                    </div>
-                    <div className="font-display font-black text-sm uppercase truncate">
-                      {leaderboard[0].name}
-                    </div>
-                    <div className="text-xs font-mono font-black">
-                      Rp {leaderboard[0].totalSpend.toLocaleString('id-ID')}
-                    </div>
-                  </div>
-                )}
-
-                {leaderboard[2] && (
-                  <div className="order-3 bg-white border-2 border-black p-3 text-center shadow-[2px_2px_0px_#000]">
-                    <div className="w-6 h-6 bg-amber-100 border-2 border-black rounded-full flex items-center justify-center font-mono font-black text-xs mx-auto mb-1">
-                      🥉
-                    </div>
-                    <div className="font-display font-black text-xs uppercase truncate">
-                      {leaderboard[2].name}
-                    </div>
-                    <div className="text-[10px] font-mono text-neutral-500">
-                      Rp {leaderboard[2].totalSpend.toLocaleString('id-ID')}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Ranks 4 to 10 List */}
-              <div className="bg-white border-2 border-black divide-y divide-neutral-200 font-mono text-xs shadow-[2px_2px_0px_#000]">
-                {leaderboard.slice(3, 10).map((entry) => (
-                  <div 
-                    key={entry.rank}
-                    className={`p-2.5 flex items-center justify-between ${
-                      entry.isCurrentUser ? 'bg-[#FFF3B0] font-black' : ''
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <span className="w-5 text-center font-black text-neutral-500">#{entry.rank}</span>
-                      <div>
-                        <span className="font-bold">{entry.name}</span>
-                        {entry.isCurrentUser && (
-                          <span className="bg-[#FF5900] text-white text-[9px] px-1 py-0.2 ml-1 border border-black">ANDA</span>
-                        )}
-                        <span className="text-[10px] text-neutral-500 block">{entry.tier}</span>
+              {leaderboard.length === 0 ? (
+                <div className="bg-white border-2 border-black p-6 text-center space-y-2">
+                  <Trophy className="w-8 h-8 text-neutral-400 mx-auto" />
+                  <h4 className="font-display font-black text-sm uppercase">Papan Peringkat Masih Bersih</h4>
+                  <p className="font-mono text-xs text-neutral-600">Selesaikan transaksi pertama untuk memuncaki Leaderboard!</p>
+                </div>
+              ) : (
+                <>
+                  {/* Top 3 Podium Cards with Modern Lucide Badges */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-end">
+                    
+                    {/* Rank 2 (Silver) */}
+                    {leaderboard[1] && (
+                      <div className="order-2 sm:order-1 bg-white border-2 border-black p-3 text-center shadow-[2px_2px_0px_#000]">
+                        <div className="w-7 h-7 bg-slate-200 border-2 border-black flex items-center justify-center mx-auto mb-1 shadow-[1px_1px_0px_#000]">
+                          <Medal className="w-4 h-4 text-slate-800" />
+                        </div>
+                        <span className="inline-block bg-slate-200 text-slate-900 px-1.5 py-0.2 text-[9px] font-mono font-black mb-1 border border-black">
+                          RANK #2
+                        </span>
+                        <div className="font-display font-black text-xs uppercase truncate">
+                          {leaderboard[1].name}
+                        </div>
+                        <div className="text-[10px] font-mono text-neutral-500 font-bold">
+                          Rp {leaderboard[1].totalSpend.toLocaleString('id-ID')}
+                        </div>
                       </div>
-                    </div>
-                    <div className="text-right">
-                      <span className="font-black">Rp {entry.totalSpend.toLocaleString('id-ID')}</span>
-                      <span className="text-[10px] text-[#FF5900] block">⭐ {entry.points} Pts</span>
-                    </div>
+                    )}
+
+                    {/* Rank 1 (Gold / Sultan) */}
+                    {leaderboard[0] && (
+                      <div className="order-1 sm:order-2 bg-[#FFC700] border-2 border-black p-3.5 text-center shadow-[3px_3px_0px_#000] relative">
+                        <div className="w-8 h-8 bg-black text-[#FFC700] border-2 border-black flex items-center justify-center mx-auto mb-1 shadow-[1.5px_1.5px_0px_#000]">
+                          <Crown className="w-4 h-4 text-[#FFC700]" />
+                        </div>
+                        <span className="inline-block bg-black text-[#FFC700] px-2 py-0.5 text-[9px] font-mono font-black mb-1 border border-black">
+                          TOP #1 SULTAN
+                        </span>
+                        <div className="font-display font-black text-sm uppercase truncate">
+                          {leaderboard[0].name}
+                        </div>
+                        <div className="text-xs font-mono font-black">
+                          Rp {leaderboard[0].totalSpend.toLocaleString('id-ID')}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Rank 3 (Bronze) */}
+                    {leaderboard[2] && (
+                      <div className="order-3 bg-white border-2 border-black p-3 text-center shadow-[2px_2px_0px_#000]">
+                        <div className="w-7 h-7 bg-amber-100 border-2 border-black flex items-center justify-center mx-auto mb-1 shadow-[1px_1px_0px_#000]">
+                          <Award className="w-4 h-4 text-amber-900" />
+                        </div>
+                        <span className="inline-block bg-amber-100 text-amber-900 px-1.5 py-0.2 text-[9px] font-mono font-black mb-1 border border-black">
+                          RANK #3
+                        </span>
+                        <div className="font-display font-black text-xs uppercase truncate">
+                          {leaderboard[2].name}
+                        </div>
+                        <div className="text-[10px] font-mono text-neutral-500 font-bold">
+                          Rp {leaderboard[2].totalSpend.toLocaleString('id-ID')}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                ))}
-              </div>
+
+                  {/* Ranks 4 to 10 List */}
+                  {leaderboard.length > 3 && (
+                    <div className="bg-white border-2 border-black divide-y divide-neutral-200 font-mono text-xs shadow-[2px_2px_0px_#000]">
+                      {leaderboard.slice(3, 10).map((entry) => (
+                        <div 
+                          key={entry.rank}
+                          className={`p-2.5 flex items-center justify-between ${
+                            entry.isCurrentUser ? 'bg-[#FFF3B0] font-black' : ''
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <span className="w-5 text-center font-black text-neutral-500">#{entry.rank}</span>
+                            <div>
+                              <span className="font-bold">{entry.name}</span>
+                              {entry.isCurrentUser && (
+                                <span className="bg-[#FF5900] text-white text-[9px] px-1 py-0.2 ml-1 border border-black">ANDA</span>
+                              )}
+                              <span className="text-[10px] text-neutral-500 block">{entry.tier}</span>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <span className="font-black">Rp {entry.totalSpend.toLocaleString('id-ID')}</span>
+                            <span className="text-[10px] text-[#FF5900] flex items-center justify-end gap-1">
+                              <Sparkles className="w-2.5 h-2.5 text-yellow-500" />
+                              <span>{entry.points} Pts</span>
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           )}
 
@@ -604,16 +667,25 @@ export const CustomerProfileModal: React.FC = () => {
               <div className="bg-[#FFF3B0] border-2 border-black p-3.5 shadow-[2px_2px_0px_#000] space-y-1.5">
                 <div className="flex items-center gap-1.5 font-black uppercase text-[#121212]">
                   <Sparkles className="w-4 h-4 text-[#FF5900]" />
-                  <span>Cara Kerja Poin & Tier Zura Store</span>
+                  <span>Sistem Poin & Loyalitas Zura Store</span>
                 </div>
-                <p className="text-neutral-700 leading-relaxed text-[11px]">
-                  • <strong>Belanja</strong>: Rp 1.000 pengeluaran = <strong>1 Poin Loyalty</strong>.<br />
-                  • <strong>Tip Booster</strong>: Rp 1.000 tip = <strong>2 Poin Loyalty (2x lipat)</strong>.<br />
-                  • <strong>Review</strong>: Beri ulasan bintang = bonus <strong>+50 Poin</strong>.<br />
-                  Semakin tinggi poin dan total belanja, semakin tinggi Tier dan keuntungan VIP Anda!
-                </p>
+                <div className="text-neutral-800 leading-relaxed text-[11px] space-y-1">
+                  <div className="flex items-start gap-1.5">
+                    <ShoppingBag className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                    <span><strong>Transaksi Belanja</strong>: Rp 1.000 belanja = <strong>1 Poin Loyalty</strong>.</span>
+                  </div>
+                  <div className="flex items-start gap-1.5">
+                    <Heart className="w-3.5 h-3.5 text-rose-500 shrink-0 mt-0.5" />
+                    <span><strong>Tip Booster</strong>: Rp 1.000 tip = <strong>2 Poin Loyalty (2x Lipat)</strong>.</span>
+                  </div>
+                  <div className="flex items-start gap-1.5">
+                    <MessageSquare className="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5" />
+                    <span><strong>Ulasan / Testimoni</strong>: Setiap review = bonus <strong>+50 Poin</strong>.</span>
+                  </div>
+                </div>
               </div>
 
+              {/* Tier Cards with Realistic Benefits */}
               <div className="space-y-2.5">
                 {MEMBER_TIERS.map((tier) => {
                   const isCurrent = tier.name === stats.tier;
@@ -626,6 +698,7 @@ export const CustomerProfileModal: React.FC = () => {
                     >
                       <div className="flex items-center justify-between mb-1.5">
                         <div className="flex items-center gap-1.5">
+                          <Crown className={`w-4 h-4 ${isCurrent ? 'text-black' : 'text-amber-500'}`} />
                           <span className="font-black font-display text-sm uppercase">{tier.name}</span>
                           {isCurrent && (
                             <span className="bg-[#121212] text-[#FFC700] text-[9px] px-1.5 py-0.2 border border-black uppercase font-black">
@@ -638,10 +711,10 @@ export const CustomerProfileModal: React.FC = () => {
                         </span>
                       </div>
 
-                      <div className="space-y-0.5 text-[11px] text-neutral-800">
+                      <div className="space-y-1 text-[11px] text-neutral-800">
                         {tier.benefits.map((b, i) => (
                           <div key={i} className="flex items-center gap-1.5">
-                            <CheckCircle2 className="w-3 h-3 text-emerald-700 shrink-0" />
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
                             <span>{b}</span>
                           </div>
                         ))}

@@ -14,41 +14,61 @@ export const MEMBER_TIERS: TierInfo[] = [
     name: 'Bronze Explorer',
     minSpend: 0,
     maxSpend: 99999,
-    badge: '🥉 Bronze',
+    badge: 'Bronze',
     badgeColor: 'bg-amber-700 text-white',
-    benefits: ['Garansi Respon 10 Menit', 'Akses Struk Digital Resmi', 'Live Chat CS 24/7']
+    benefits: [
+      'Akses Struk Pembayaran Digital Resmi',
+      'Garansi Respon Cepat CS (< 10 Menit)',
+      'Layanan Bantuan WhatsApp & Live Chat 24/7'
+    ]
   },
   {
     name: 'Silver Booster',
     minSpend: 100000,
     maxSpend: 299999,
-    badge: '🥈 Silver',
+    badge: 'Silver',
     badgeColor: 'bg-slate-300 text-slate-900',
-    benefits: ['Antrean Booster Prioritas', 'Akses Struk Digital', 'Bonus Poin Loyalitas 1.2x']
+    benefits: [
+      'Prioritas Pengerjaan di Atas Antrean Reguler',
+      'Akumulasi Poin Loyalitas Setiap Transaksi',
+      'Badge Akun Silver Booster Resmi'
+    ]
   },
   {
     name: 'Gold VIP',
     minSpend: 300000,
     maxSpend: 749999,
-    badge: '🥇 Gold VIP',
+    badge: 'Gold VIP',
     badgeColor: 'bg-[#FFC700] text-black',
-    benefits: ['Fast-Track Pengerjaan Kilat', 'Jalur Khusus CS WhatsApp', 'Badge Profil VIP Emas']
+    benefits: [
+      'Bebas Request Jadwal Pengerjaan (Siang / Malam)',
+      'Jalur Khusus CS WhatsApp Prioritas',
+      'Badge Akun Gold VIP Resmi'
+    ]
   },
   {
     name: 'Platinum Elite',
     minSpend: 750000,
     maxSpend: 1999999,
-    badge: '💎 Platinum',
+    badge: 'Platinum',
     badgeColor: 'bg-cyan-500 text-white',
-    benefits: ['Prioritas Utama Puncak Antrean', 'Request Booster Hero Gratis', 'Garansi Hold/Kendala 100%']
+    benefits: [
+      'Prioritas Utama Antrean Pengerjaan Kilat',
+      'Bebas Request Hero Utama (Tanpa Biaya Tambahan)',
+      'Garansi Ganti Akun/Profil Baru Jika Ada Kendala'
+    ]
   },
   {
     name: 'Imperial Connoisseur',
     minSpend: 2000000,
     maxSpend: Infinity,
-    badge: '👑 Imperial',
+    badge: 'Imperial',
     badgeColor: 'bg-gradient-to-r from-amber-400 via-yellow-300 to-orange-500 text-black',
-    benefits: ['Hall of Fame Top Spender', 'Akses Langsung Kontak Owner Toko', 'Prioritas Pengerjaan Instan No #1']
+    benefits: [
+      'Peringkat Kehormatan di Leaderboard Top Spender',
+      'Pelayanan Jalur VIP Langsung dengan Owner Toko',
+      'Garansi Penggantian Penuh & Pendampingan Paling Prioritas'
+    ]
   }
 ];
 
@@ -62,122 +82,184 @@ export const getTierBySpend = (spend: number): TierInfo => {
 };
 
 /**
- * Historical community top spenders to make leaderboard lively and authentic,
- * exactly like Discord community stores (e.g. 629 active members).
+ * Generates the full sorted Leaderboard computed strictly from real orders and registered users.
+ * NO DUMMY DATA.
  */
-const BASE_LEADERBOARD: Omit<LeaderboardEntry, 'rank' | 'isCurrentUser'>[] = [
-  {
-    name: 'see_one',
-    phoneMasked: '0821••••9912',
-    totalSpend: 4982665,
-    totalTips: 75000,
-    totalOrders: 37,
-    reviewsCount: 13,
-    points: 5780,
-    tier: 'Imperial Connoisseur'
-  },
-  {
-    name: 'KuroNeko_VIP',
-    phoneMasked: '0812••••3841',
-    totalSpend: 3450000,
-    totalTips: 50000,
-    totalOrders: 28,
-    reviewsCount: 19,
-    points: 4500,
-    tier: 'Imperial Connoisseur'
-  },
-  {
-    name: 'RyuuMythic99',
-    phoneMasked: '0857••••1029',
-    totalSpend: 2890000,
-    totalTips: 35000,
-    totalOrders: 22,
-    reviewsCount: 14,
-    points: 3660,
-    tier: 'Imperial Connoisseur'
-  },
-  {
-    name: 'Kenzy_Glory',
-    phoneMasked: '0822••••8841',
-    totalSpend: 1850000,
-    totalTips: 25000,
-    totalOrders: 16,
-    reviewsCount: 11,
-    points: 2450,
-    tier: 'Platinum Elite'
-  },
-  {
-    name: 'AuraSultan_ID',
-    phoneMasked: '0813••••4472',
-    totalSpend: 1420000,
-    totalTips: 20000,
-    totalOrders: 14,
-    reviewsCount: 9,
-    points: 1910,
-    tier: 'Platinum Elite'
-  },
-  {
-    name: 'Dinda_CanvaPro',
-    phoneMasked: '0878••••9012',
-    totalSpend: 890000,
-    totalTips: 15000,
-    totalOrders: 9,
-    reviewsCount: 8,
-    points: 1320,
-    tier: 'Platinum Elite'
-  },
-  {
-    name: 'BintangHonor',
-    phoneMasked: '0896••••5519',
-    totalSpend: 620000,
-    totalTips: 10000,
-    totalOrders: 7,
-    reviewsCount: 6,
-    points: 940,
-    tier: 'Gold VIP'
-  },
-  {
-    name: 'Fikri_Netflix4K',
-    phoneMasked: '0819••••2230',
-    totalSpend: 475000,
-    totalTips: 8000,
-    totalOrders: 5,
-    reviewsCount: 4,
-    points: 691,
-    tier: 'Gold VIP'
-  },
-  {
-    name: 'Vann_SoloRank',
-    phoneMasked: '0852••••7711',
-    totalSpend: 310000,
-    totalTips: 5000,
-    totalOrders: 4,
-    reviewsCount: 3,
-    points: 470,
-    tier: 'Gold VIP'
-  },
-  {
-    name: 'Zhafran_WuWa',
-    phoneMasked: '0821••••3309',
-    totalSpend: 185000,
-    totalTips: 4000,
-    totalOrders: 3,
-    reviewsCount: 2,
-    points: 293,
-    tier: 'Silver Booster'
-  }
-];
+export const getFullLeaderboard = (
+  currentUser: User | null,
+  allOrders: Order[] = []
+): LeaderboardEntry[] => {
+  const customerMap = new Map<string, {
+    name: string;
+    phone: string;
+    totalSpend: number;
+    totalTips: number;
+    totalOrders: number;
+    reviewsCount: number;
+    isCurrentUser: boolean;
+  }>();
 
-export const TOTAL_COMMUNITY_MEMBERS = 629;
+  const getCustomerKey = (name?: string, phone?: string, userId?: string) => {
+    if (userId && userId !== 'usr_admin') return `uid_${userId}`;
+    const cleanPhone = (phone || '').replace(/[^0-9]/g, '');
+    if (cleanPhone.length >= 8) return `phone_${cleanPhone}`;
+    const cleanName = (name || '').trim().toLowerCase();
+    if (cleanName) return `name_${cleanName}`;
+    return null;
+  };
+
+  // 1. Ingest registered users from localStorage (if any exist)
+  try {
+    const rawUsers = typeof window !== 'undefined' ? localStorage.getItem('zura_registered_users') : null;
+    if (rawUsers) {
+      const registeredUsers = JSON.parse(rawUsers);
+      if (Array.isArray(registeredUsers)) {
+        registeredUsers.forEach((reg: any) => {
+          if (reg && reg.name) {
+            const key = getCustomerKey(reg.name, reg.phone, reg.id) || `uid_${reg.id || reg.name}`;
+            const isMatch = Boolean(
+              currentUser && (
+                (reg.id && reg.id === currentUser.id) ||
+                (reg.phone && currentUser.phone && reg.phone.replace(/[^0-9]/g, '') === currentUser.phone.replace(/[^0-9]/g, '')) ||
+                (reg.name.toLowerCase() === currentUser.name.toLowerCase())
+              )
+            );
+
+            customerMap.set(key, {
+              name: reg.name,
+              phone: reg.phone || '',
+              totalSpend: 0,
+              totalTips: 0,
+              totalOrders: 0,
+              reviewsCount: 0,
+              isCurrentUser: isMatch
+            });
+          }
+        });
+      }
+    }
+  } catch (e) {
+    // Ignore storage parse error
+  }
+
+  // 2. Ingest real store orders
+  const validOrders = (allOrders || []).filter(o => o.status !== 'cancelled');
+
+  validOrders.forEach(order => {
+    const name = order.customerName || 'Pelanggan Zura';
+    const phone = order.customerPhone || '';
+    const key = getCustomerKey(name, phone, order.userId) || `order_${order.id}`;
+
+    const isMatch = Boolean(
+      currentUser && (
+        (order.userId && order.userId === currentUser.id) ||
+        (phone && currentUser.phone && phone.replace(/[^0-9]/g, '') === currentUser.phone.replace(/[^0-9]/g, '')) ||
+        (name.toLowerCase() === currentUser.name.toLowerCase())
+      )
+    );
+
+    const existing = customerMap.get(key);
+    const hasReview = Boolean(order.reviewSubmittedAt || order.rating);
+
+    if (existing) {
+      existing.totalSpend += (order.totalAmount || 0);
+      existing.totalTips += (order.tipAmount || 0);
+      existing.totalOrders += 1;
+      if (hasReview) existing.reviewsCount += 1;
+      if (isMatch) existing.isCurrentUser = true;
+      if (name && (!existing.name || existing.name === 'Pelanggan Zura')) existing.name = name;
+      if (phone && !existing.phone) existing.phone = phone;
+    } else {
+      customerMap.set(key, {
+        name,
+        phone,
+        totalSpend: order.totalAmount || 0,
+        totalTips: order.tipAmount || 0,
+        totalOrders: 1,
+        reviewsCount: hasReview ? 1 : 0,
+        isCurrentUser: isMatch
+      });
+    }
+  });
+
+  // 3. Ensure current user is in the map if logged in
+  if (currentUser) {
+    const userKey = getCustomerKey(currentUser.name, currentUser.phone, currentUser.id) || `cur_${currentUser.id}`;
+    let found = false;
+    for (const [, val] of customerMap.entries()) {
+      if (
+        val.isCurrentUser ||
+        (currentUser.phone && val.phone && currentUser.phone.replace(/[^0-9]/g, '') === val.phone.replace(/[^0-9]/g, '')) ||
+        (currentUser.name && val.name.toLowerCase() === currentUser.name.toLowerCase())
+      ) {
+        val.isCurrentUser = true;
+        val.name = currentUser.name;
+        if (currentUser.phone) val.phone = currentUser.phone;
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) {
+      customerMap.set(userKey, {
+        name: currentUser.name,
+        phone: currentUser.phone || '',
+        totalSpend: 0,
+        totalTips: 0,
+        totalOrders: 0,
+        reviewsCount: 0,
+        isCurrentUser: true
+      });
+    }
+  }
+
+  // 4. Transform to LeaderboardEntry array
+  const entries: Omit<LeaderboardEntry, 'rank'>[] = Array.from(customerMap.values()).map(cust => {
+    const spendPoints = Math.floor(cust.totalSpend / 1000);
+    const tipPoints = Math.floor((cust.totalTips * 2) / 1000);
+    const reviewPoints = cust.reviewsCount * 50;
+    const points = spendPoints + tipPoints + reviewPoints;
+
+    const cleanPhone = cust.phone.replace(/[^0-9]/g, '');
+    const phoneMasked = cleanPhone && cleanPhone.length >= 8
+      ? `${cleanPhone.slice(0, 4)}••••${cleanPhone.slice(-3)}`
+      : '08••••••••';
+
+    const tierInfo = getTierBySpend(cust.totalSpend);
+
+    return {
+      name: cust.name,
+      phoneMasked,
+      totalSpend: cust.totalSpend,
+      totalTips: cust.totalTips,
+      totalOrders: cust.totalOrders,
+      reviewsCount: cust.reviewsCount,
+      points,
+      tier: tierInfo.name,
+      isCurrentUser: cust.isCurrentUser
+    };
+  });
+
+  // 5. Sort descending: totalSpend DESC, then points DESC, then totalOrders DESC
+  entries.sort((a, b) => b.totalSpend - a.totalSpend || b.points - a.points || b.totalOrders - a.totalOrders);
+
+  // 6. Assign 1-based ranks
+  return entries.map((entry, idx) => ({
+    ...entry,
+    rank: idx + 1
+  }));
+};
 
 /**
- * Computes customer statistics based on their orders and user data.
+ * Computes customer statistics based strictly on real orders.
+ * NO DUMMY DATA.
  */
 export const calculateCustomerStats = (
   user: User | null,
-  userOrders: Order[]
+  userOrders: Order[],
+  allOrders: Order[] = []
 ): CustomerStats => {
-  const validOrders = userOrders.filter(o => o.status !== 'cancelled');
+  const validOrders = (userOrders || []).filter(o => o.status !== 'cancelled');
   const ordersCount = validOrders.length;
 
   const totalSpend = validOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
@@ -186,7 +268,7 @@ export const calculateCustomerStats = (
 
   // Points calculation:
   // - 1 Point per Rp 1.000 spend
-  // - 2 Points per Rp 1.000 tips (generous bonus for tipping boosters)
+  // - 2 Points per Rp 1.000 tips (apresiasi booster)
   // - 50 Points bonus per review
   const spendPoints = Math.floor(totalSpend / 1000);
   const tipPoints = Math.floor((totalTips * 2) / 1000);
@@ -203,17 +285,16 @@ export const calculateCustomerStats = (
   if (nextTierInfo) {
     const range = nextTierInfo.minSpend - currentTierInfo.minSpend;
     const currentProgress = Math.max(0, totalSpend - currentTierInfo.minSpend);
-    progressPercent = Math.min(99, Math.max(5, Math.round((currentProgress / range) * 100)));
+    progressPercent = range > 0 ? Math.min(99, Math.max(0, Math.round((currentProgress / range) * 100))) : 0;
     remainingToNextTier = Math.max(0, nextTierInfo.minSpend - totalSpend);
   }
 
-  // Calculate Rank in Leaderboard
-  // Count how many base leaderboard members have higher spend
-  const higherSpendersCount = BASE_LEADERBOARD.filter(entry => entry.totalSpend > totalSpend).length;
-  // If user has spend > 0, rank is higherSpendersCount + 1, otherwise put in community tier rank
-  const rank = totalSpend > 0 
-    ? Math.min(higherSpendersCount + 1, TOTAL_COMMUNITY_MEMBERS)
-    : Math.min(18 + Math.floor(Math.random() * 5), TOTAL_COMMUNITY_MEMBERS);
+  // Calculate actual real leaderboard ranking
+  const fullLeaderboard = getFullLeaderboard(user, allOrders);
+  const totalMembers = Math.max(1, fullLeaderboard.length);
+
+  const currentUserEntry = fullLeaderboard.find(e => e.isCurrentUser);
+  const rank = currentUserEntry ? currentUserEntry.rank : 1;
 
   return {
     ordersCount,
@@ -223,54 +304,9 @@ export const calculateCustomerStats = (
     points,
     tier: currentTierInfo.name,
     rank,
-    totalMembers: TOTAL_COMMUNITY_MEMBERS,
+    totalMembers,
     nextTier: nextTierInfo?.name,
     remainingToNextTier,
     progressPercent
   };
-};
-
-/**
- * Generates the full sorted Leaderboard including current user.
- */
-export const getFullLeaderboard = (
-  currentUser: User | null,
-  currentUserStats: CustomerStats
-): LeaderboardEntry[] => {
-  let list: Omit<LeaderboardEntry, 'rank'>[] = BASE_LEADERBOARD.map(entry => ({ ...entry }));
-
-  if (currentUser && currentUserStats.totalSpend > 0) {
-    const phoneMasked = currentUser.phone 
-      ? `${currentUser.phone.slice(0, 4)}••••${currentUser.phone.slice(-4)}`
-      : '08••••••••';
-
-    // Check if user already in list by name
-    const existingIdx = list.findIndex(e => e.name.toLowerCase() === currentUser.name.toLowerCase());
-    const userEntry: Omit<LeaderboardEntry, 'rank'> = {
-      name: currentUser.name,
-      phoneMasked,
-      totalSpend: currentUserStats.totalSpend,
-      totalTips: currentUserStats.totalTips,
-      totalOrders: currentUserStats.ordersCount,
-      reviewsCount: currentUserStats.reviewsCount,
-      points: currentUserStats.points,
-      tier: currentUserStats.tier,
-      isCurrentUser: true
-    };
-
-    if (existingIdx !== -1) {
-      list[existingIdx] = userEntry;
-    } else {
-      list.push(userEntry);
-    }
-  }
-
-  // Sort descending by totalSpend, then points
-  list.sort((a, b) => b.totalSpend - a.totalSpend || b.points - a.points);
-
-  // Assign 1-based ranks
-  return list.map((entry, idx) => ({
-    ...entry,
-    rank: idx + 1
-  }));
 };
