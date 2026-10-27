@@ -110,45 +110,49 @@ export const TestimonialSection: React.FC = () => {
                 return (
                   <div
                     key={order.id}
-                    className="brutal-card bg-white p-5 flex flex-col justify-between shadow-brutal hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all border-[2.5px] border-black"
+                    className="brutal-card bg-white p-5 flex flex-col justify-between shadow-brutal hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all border-[2.5px] border-black overflow-hidden"
                   >
                     <div>
-                      {/* Top Bar: Customer Info & Rating */}
-                      <div className="flex items-start justify-between border-b-2 border-black pb-3 mb-3 gap-2">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-9 h-9 bg-[#FFC700] border-2 border-black flex items-center justify-center font-display font-black text-sm shadow-[1.5px_1.5px_0px_#000]">
-                            {order.customerName ? order.customerName.charAt(0).toUpperCase() : 'P'}
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-1.5">
-                              <span className="font-display font-black text-xs text-[#121212] uppercase truncate max-w-[120px]">
+                      {/* Top Bar: Customer Info, Date & Rating */}
+                      <div className="border-b-2 border-black pb-3 mb-3">
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <div className="w-8 h-8 bg-[#FFC700] border-2 border-black flex items-center justify-center font-display font-black text-xs shadow-[1.5px_1.5px_0px_#000] shrink-0">
+                              {order.customerName ? order.customerName.charAt(0).toUpperCase() : 'P'}
+                            </div>
+                            <div className="min-w-0">
+                              <span className="font-display font-black text-xs text-[#121212] uppercase truncate block">
                                 {order.customerName}
                               </span>
-                              <span className="bg-emerald-100 text-emerald-800 border border-emerald-600 font-mono font-bold text-[9px] px-1.5 py-0.2 uppercase">
-                                VERIFIED
-                              </span>
-                            </div>
-                            
-                            {/* Dynamic Rating Stars */}
-                            <div className="flex items-center gap-1 mt-0.5">
-                              <div className="flex items-center">
-                                {[1, 2, 3, 4, 5].map((starIdx) => (
-                                  <Star 
-                                    key={starIdx} 
-                                    className={`w-3.5 h-3.5 ${starIdx <= rating ? 'fill-[#FFC700] text-[#FFC700]' : 'text-neutral-300'}`} 
-                                  />
-                                ))}
-                              </div>
-                              <span className="font-mono font-bold text-[11px] text-neutral-800 ml-1">
-                                {rating}.0
-                              </span>
                             </div>
                           </div>
+
+                          <span className="font-mono text-[10px] font-bold text-neutral-600 bg-neutral-100 px-2 py-0.5 border border-neutral-300 shrink-0 whitespace-nowrap">
+                            {receipt?.completedDate || (order.reviewSubmittedAt ? new Date(order.reviewSubmittedAt).toLocaleDateString('id-ID') : 'Baru saja')}
+                          </span>
                         </div>
 
-                        <span className="font-mono text-[10px] font-bold text-neutral-500 bg-neutral-100 px-2 py-0.5 border border-neutral-300 shrink-0">
-                          {receipt?.completedDate || (order.reviewSubmittedAt ? new Date(order.reviewSubmittedAt).toLocaleDateString('id-ID') : 'Baru saja')}
-                        </span>
+                        <div className="flex items-center justify-between gap-2">
+                          {/* Dynamic Rating Stars */}
+                          <div className="flex items-center gap-1">
+                            <div className="flex items-center">
+                              {[1, 2, 3, 4, 5].map((starIdx) => (
+                                <Star 
+                                  key={starIdx} 
+                                  className={`w-3.5 h-3.5 ${starIdx <= rating ? 'fill-[#FFC700] text-[#FFC700]' : 'text-neutral-300'}`} 
+                                />
+                              ))}
+                            </div>
+                            <span className="font-mono font-bold text-[11px] text-neutral-800 ml-1">
+                              {rating}.0
+                            </span>
+                          </div>
+
+                          <span className="bg-emerald-100 text-emerald-800 border border-emerald-600 font-mono font-bold text-[9px] px-1.5 py-0.2 uppercase shrink-0 flex items-center gap-1">
+                            <CheckCircle2 className="w-2.5 h-2.5" />
+                            <span>VERIFIED</span>
+                          </span>
+                        </div>
                       </div>
 
                       {/* Prominent Customer Review Bubble */}

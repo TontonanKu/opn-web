@@ -538,7 +538,7 @@ export const INITIAL_WHATSAPP_TESTIMONIALS: WhatsAppTestimonial[] = [
     customerName: "Muhammad Nabil (obscurant)",
     serviceCategory: "Joki Wuthering Waves",
     date: "27 Okt 2026, 17:25 WIB",
-    chatSnippet: "Jokian Selesai! Order: Companion 3 quest + explore 5 + side quest 2. Bonus: 2 side quest + 1 tutorial quest. Terima kasih ka sudah joki bareng kami! Ditunggu orderan selanjutnya 😊🙏",
+    chatSnippet: "Jokian Selesai! Order: Companion 3 quest + explore 5 + side quest 2. Chat pembeli: 'mantap min'. Bonus: 2 side quest + 1 tutorial quest. Terima kasih ka sudah joki bareng kami! Ditunggu orderan selanjutnya 😊🙏",
     screenshotUrl: "/testimonials/wuwa/Group 2.png",
     rating: 5,
     orderCode: "ZURA-WW-261027"
@@ -686,7 +686,7 @@ export const INITIAL_ORDERS: Order[] = [
     adminRespondedAt: 1793096700000,
     rating: 5,
     reviewSubmittedAt: 1793096700000,
-    reviewText: "Jokian quest WuWa cepat banget beres, dapat bonus 2 side quest + 1 tutorial quest. Mantap dan terpercaya!",
+    reviewText: "mantap min",
     verificationHash: "ZR-VERIFIED-6EALQH-KAZURA",
     receipt: {
       receiptNumber: "REC-202610-6EALQH",
@@ -710,7 +710,7 @@ export const INITIAL_ORDERS: Order[] = [
       paymentStatus: "SELESAI",
       adminNotes: "Pembayaran Rp 55.000 via Bank Jago/Mandiri (ID: 261027-••••-6EALQH, Ref: 1tle••••7849) telah diverifikasi lunas. Jokian selesai 100%: Companion 3 quest + explore 5 + side quest 2 + bonus 2 side quest & 1 tutorial quest.",
       rating: 5,
-      review: "Jokian quest WuWa cepat banget beres, dapat bonus 2 side quest + 1 tutorial quest. Mantap dan terpercaya!",
+      review: "mantap min",
       verificationHash: "ZR-VERIFIED-6EALQH-KAZURA"
     }
   }
