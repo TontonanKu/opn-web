@@ -92,16 +92,20 @@ export const GAME_SERVICES: GameService[] = [
       { id: "wuwa-map-rinascita", fromRank: "Exploration Rinascita 100%", toRank: "Full Map", price: 115000, estTime: "1-2 Hari", category: "exploration" },
       { id: "wuwa-map-lahairoi", fromRank: "Exploration LahaiRoi 100%", toRank: "Full Map", price: 275000, estTime: "3-4 Hari", category: "exploration" },
       { id: "wuwa-map-mengzhou", fromRank: "Exploration Mengzhou 100%", toRank: "Full Map", price: 115000, estTime: "1-2 Hari", category: "exploration" },
-      { id: "wuwa-rawat-15b", fromRank: "Rawat Akun 15 Hari (Basic)", toRank: "Daily + Waveplate", price: 18000, estTime: "15 Hari", category: "rawat-akun" },
-      { id: "wuwa-rawat-15s", fromRank: "Rawat Akun 15 Hari (Standard)", toRank: "Daily + Weekly + Holo", price: 30000, estTime: "15 Hari", category: "rawat-akun" },
-      { id: "wuwa-rawat-30b", fromRank: "Rawat Akun 30 Hari (Basic)", toRank: "Daily + Waveplate", price: 33000, estTime: "30 Hari", category: "rawat-akun" },
-      { id: "wuwa-rawat-30s", fromRank: "Rawat Akun 30 Hari (Standard)", toRank: "Daily + Weekly + Holo + Event", price: 55000, estTime: "30 Hari", category: "rawat-akun" }
+      { id: "wuwa-rawat-15b", fromRank: "Rawat Akun 15 Hari (Basic)", toRank: "Daily + Waveplate Biru (Tanpa WP Kuning)", price: 20000, estTime: "15 Hari", category: "rawat-akun" },
+      { id: "wuwa-rawat-15s", fromRank: "Rawat Akun 15 Hari (Standard)", toRank: "Daily + Waveplate + Weekly + Endgame", price: 30000, estTime: "15 Hari", category: "rawat-akun" },
+      { id: "wuwa-rawat-15p", fromRank: "Rawat Akun 15 Hari (Premium)", toRank: "Daily + Waveplate + Weekly + Endgame + Event + Holo", price: 45000, estTime: "15 Hari", category: "rawat-akun" },
+      { id: "wuwa-rawat-30b", fromRank: "Rawat Akun 30 Hari (Basic)", toRank: "Daily + Waveplate (Waveplate biru ga include WP kuning)", price: 40000, estTime: "30 Hari", category: "rawat-akun" },
+      { id: "wuwa-rawat-30s", fromRank: "Rawat Akun 30 Hari (Standard)", toRank: "Daily + Waveplate + Weekly + Endgame", price: 60000, estTime: "30 Hari", category: "rawat-akun" },
+      { id: "wuwa-rawat-30p", fromRank: "Rawat Akun 30 Hari (Premium)", toRank: "Daily + Waveplate + Weekly + Endgame + Event + Bonus (Holo)", price: 90000, estTime: "30 Hari", category: "rawat-akun" }
     ],
     packages: [
-      { id: "wuwa-pkg-15b-5sq", name: "Paket Rawat 15 Hari Basic + 5 Side Quests", price: "Rp 27.440", bonus: "Diskon 2% (Hemat Rp 560)", speed: "15 Hari" },
-      { id: "wuwa-pkg-15p", name: "Paket Rawat Akun 15 Hari Premium", price: "Rp 49.000", bonus: "Diskon 2% (Hemat Rp 1.000)", speed: "15 Hari" },
-      { id: "wuwa-pkg-30p", name: "Paket Rawat Akun 30 Hari Premium + Holo", price: "Rp 88.200", bonus: "Diskon 2% (Hemat Rp 1.800)", speed: "30 Hari" },
-      { id: "wuwa-pkg-rush", name: "Paket Quest Rush (2 Main + 2 Companion + 5 Side)", price: "Rp 43.120", bonus: "Diskon 2% (Hemat Rp 880)", speed: "1-2 Hari" },
+      { id: "wuwa-pkg-30b", name: "Paket Promo Rawat Akun 30 Hari (Basic)", price: "Rp 38.000", bonus: "Hemat Rp 2.000 (Daily + Waveplate Biru)", speed: "30 Hari" },
+      { id: "wuwa-pkg-30s", name: "Paket Promo Rawat Akun 30 Hari (Standard)", price: "Rp 58.000", bonus: "Hemat Rp 2.000 (Daily + Waveplate + Weekly + Endgame)", speed: "30 Hari" },
+      { id: "wuwa-pkg-30p", name: "Paket Promo Rawat Akun 30 Hari (Premium)", price: "Rp 88.000", bonus: "Hemat Rp 2.000 (Full Service + Event + Holo)", speed: "30 Hari" },
+      { id: "wuwa-pkg-15b", name: "Paket Promo Rawat Akun 15 Hari (Basic)", price: "Rp 19.000", bonus: "Hemat Rp 1.000 (Daily + Waveplate)", speed: "15 Hari" },
+      { id: "wuwa-pkg-15s", name: "Paket Promo Rawat Akun 15 Hari (Standard)", price: "Rp 28.500", bonus: "Hemat Rp 1.500 (Daily + Weekly + Endgame)", speed: "15 Hari" },
+      { id: "wuwa-pkg-15p", name: "Paket Promo Rawat Akun 15 Hari (Premium)", price: "Rp 43.000", bonus: "Hemat Rp 2.000 (Daily + Weekly + Event + Holo)", speed: "15 Hari" },
       { id: "wuwa-pkg-explore", name: "Paket Eksplorasi (Rinascita + Mengzhou)", price: "Rp 225.400", bonus: "Diskon 2% (Hemat Rp 4.600)", speed: "2-3 Hari" }
     ]
   },
@@ -529,6 +533,16 @@ export const INITIAL_WHATSAPP_TESTIMONIALS: WhatsAppTestimonial[] = [
     rating: 5,
     orderCode: "ZURA-WW-05"
   },
+  {
+    id: "wa-wuwa-6",
+    customerName: "Muhammad Nabil (obscurant)",
+    serviceCategory: "Joki Wuthering Waves",
+    date: "27 Okt 2026, 13:25 WIB",
+    chatSnippet: "Invoice Pembayaran Diterima! Order: Rawat Akun 30 Hari Standard. Sukses transfer Rp 55.000 via Bank Jago/Mandiri (ID: 261027-69CQ-6EALQH, Ref: 1tleprq47849). Pengerjaan langsung aktif!",
+    screenshotUrl: "/testimonials/wuwa/Group 2.png",
+    rating: 5,
+    orderCode: "ZURA-WW-261027"
+  },
 
   // --- ROBLOX & GAME MIDMAN VERIFIED TESTIMONIALS ---
   {
@@ -643,4 +657,58 @@ export const INITIAL_WHATSAPP_TESTIMONIALS: WhatsAppTestimonial[] = [
   }
 ];
 
-export const INITIAL_ORDERS: Order[] = [];
+export const INITIAL_ORDERS: Order[] = [
+  {
+    id: "ord_261027_nabil",
+    orderCode: "ZURA-WW-261027",
+    createdAt: 1793082300000, // 27 Okt 2026, 13:25 WIB
+    completedAt: 1793082600000,
+    customerName: "Muhammad Nabil (obscurant)",
+    customerPhone: "081047685941",
+    serviceType: "joki_game",
+    itemName: "Wuthering Waves",
+    itemDetails: "Rawat Akun 30 Hari (Standard)",
+    extraFormData: {
+      "Kategori": "Rawat Akun 30 Hari",
+      "Paket": "Standard (Daily + Waveplate + Weekly + Endgame)",
+      "ID Transaksi": "261027-69CQ-6EALQH",
+      "No. Referensi": "1tleprq47849",
+      "Sumber Dana": "Bank Jago 104768565941 (Bank Mandiri)",
+      "Pengirim": "MUHAMMAD NABIL",
+      "Tujuan": "Kazura Store - Batam"
+    },
+    totalAmount: 55000,
+    originalAmount: 55000,
+    paymentMethod: "web_transfer",
+    status: "completed",
+    adminResponseReceived: true,
+    adminRespondedAt: 1793082600000,
+    rating: 5,
+    reviewSubmittedAt: 1793082600000,
+    reviewText: "Pelayanan rawat akun WuWa cepat & amanah. Invoice pembayaran langsung terverifikasi!",
+    verificationHash: "ZR-VERIFIED-6EALQH-KAZURA",
+    receipt: {
+      receiptNumber: "REC-202610-6EALQH",
+      transactionDate: "27 Okt 2026, 13:25 WIB",
+      completedDate: "27 Okt 2026, 13:30 WIB",
+      serviceName: "Wuthering Waves",
+      variantOrRank: "Rawat Akun 30 Hari (Standard)",
+      customerName: "Muhammad Nabil (obscurant)",
+      customerPhone: "0810••••5941",
+      accountDetails: {
+        "ID Transaksi": "261027-69CQ-6EALQH",
+        "No. Referensi": "1tleprq47849",
+        "Pengirim": "MUHAMMAD NABIL (Jago 104768565941)",
+        "Acquirer": "Bank Mandiri / Kazura Store Batam",
+        "Lingkup Layanan": "Daily + Waveplate + Weekly + Endgame"
+      },
+      amount: 55000,
+      paymentMethod: "web_transfer",
+      paymentStatus: "SELESAI",
+      adminNotes: "Pembayaran Rp 55.000 via Bank Jago/Mandiri (ID Transaksi: 261027-69CQ-6EALQH, Ref: 1tleprq47849) telah diverifikasi lunas oleh Kazura Store Batam.",
+      rating: 5,
+      review: "Pelayanan rawat akun WuWa cepat & amanah. Invoice pembayaran langsung terverifikasi!",
+      verificationHash: "ZR-VERIFIED-6EALQH-KAZURA"
+    }
+  }
+];
