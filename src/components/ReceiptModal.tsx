@@ -18,6 +18,32 @@ import {
 import { downloadReceiptPNG } from '../utils/receiptCanvasGenerator';
 import { generateVerificationFingerprint } from '../utils/securityUtils';
 
+const maskSensitiveReceiptValue = (key: string, value: string): string => {
+  if (!value) return value;
+  const lowerKey = key.toLowerCase();
+  if (lowerKey.includes('referensi') || lowerKey.includes('reference')) {
+    if (!value.includes('•') && value.length > 8) {
+      return `${value.slice(0, 4)}••••${value.slice(-4)}`;
+    }
+  }
+  if (lowerKey.includes('id transaksi') || lowerKey.includes('transaction id')) {
+    if (!value.includes('•')) {
+      const parts = value.split('-');
+      if (parts.length >= 3) {
+        return `${parts[0]}-••••-${parts[parts.length - 1]}`;
+      } else if (value.length > 8) {
+        return `${value.slice(0, 6)}••••${value.slice(-4)}`;
+      }
+    }
+  }
+  if (lowerKey.includes('sumber dana') || lowerKey.includes('rekening') || lowerKey.includes('pengirim')) {
+    if (!value.includes('•') && /\d{6,}/.test(value)) {
+      return value.replace(/\d{6,}/g, (match) => `••••••••${match.slice(-4)}`);
+    }
+  }
+  return value;
+};
+
 export const ReceiptModal: React.FC = () => {
   const { activeModal, setActiveModal, activeReceiptOrder, user, viewMode } = useApp();
   const receiptRef = useRef<HTMLDivElement>(null);
@@ -175,7 +201,7 @@ Terima kasih atas kepercayaan Anda di Zura Store!`;
                   {Object.entries(receipt.accountDetails).map(([k, v]) => (
                     <div key={k} className="flex justify-between">
                       <span className="text-neutral-500">{k}:</span>
-                      <span className="font-bold">{v}</span>
+                      <span className="font-bold">{maskSensitiveReceiptValue(k, v)}</span>
                     </div>
                   ))}
                 </div>

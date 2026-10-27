@@ -672,8 +672,8 @@ export const INITIAL_ORDERS: Order[] = [
       "Kategori": "Story & Quest Farming",
       "Order Utama": "3 Companion Quest + 5 Exploration Quest + 2 Side Quest",
       "Bonus Layanan": "2 Side Quest + 1 Tutorial Quest (FREE)",
-      "ID Transaksi": "261027-69CQ-6EALQH",
-      "No. Referensi": "1tleprq47849",
+      "ID Transaksi": "261027-••••-6EALQH",
+      "No. Referensi": "1tle••••7849",
       "Sumber Dana": "Bank Jago (••••••••5941)",
       "Pengirim": "MUHAMMAD NABIL",
       "Tujuan": "Kazura Store - Batam"
@@ -699,8 +699,8 @@ export const INITIAL_ORDERS: Order[] = [
       accountDetails: {
         "Order Utama": "3 Companion + 5 Explore + 2 Side Quest",
         "Bonus Layanan": "2 Side Quest + 1 Tutorial Quest (FREE)",
-        "ID Transaksi": "261027-69CQ-6EALQH",
-        "No. Referensi": "1tleprq47849",
+        "ID Transaksi": "261027-••••-6EALQH",
+        "No. Referensi": "1tle••••7849",
         "Sumber Dana": "Bank Jago (••••••••5941)",
         "Pengirim": "MUHAMMAD NABIL",
         "Status Pengerjaan": "100% Selesai & Lunas (17:25 WIB)"
@@ -708,7 +708,7 @@ export const INITIAL_ORDERS: Order[] = [
       amount: 55000,
       paymentMethod: "web_transfer",
       paymentStatus: "SELESAI",
-      adminNotes: "Pembayaran Rp 55.000 via Bank Jago/Mandiri (ID Transaksi: 261027-69CQ-6EALQH, Ref: 1tleprq47849) telah diverifikasi lunas. Jokian selesai 100%: Companion 3 quest + explore 5 + side quest 2 + bonus 2 side quest & 1 tutorial quest.",
+      adminNotes: "Pembayaran Rp 55.000 via Bank Jago/Mandiri (ID: 261027-••••-6EALQH, Ref: 1tle••••7849) telah diverifikasi lunas. Jokian selesai 100%: Companion 3 quest + explore 5 + side quest 2 + bonus 2 side quest & 1 tutorial quest.",
       rating: 5,
       review: "Jokian quest WuWa cepat banget beres, dapat bonus 2 side quest + 1 tutorial quest. Mantap dan terpercaya!",
       verificationHash: "ZR-VERIFIED-6EALQH-KAZURA"
