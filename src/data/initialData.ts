@@ -664,7 +664,7 @@ export const INITIAL_ORDERS: Order[] = [
     createdAt: 1793082300000, // 27 Okt 2026, 13:25 WIB
     completedAt: 1793096700000, // 27 Okt 2026, 17:25 WIB
     customerName: "Muhammad Nabil (obscurant)",
-    customerPhone: "081047685941",
+    customerPhone: "081298765941",
     serviceType: "joki_game",
     itemName: "Wuthering Waves",
     itemDetails: "Quest Combo (3 Companion + 5 Explore + 2 Side Quest + Bonus)",
@@ -674,7 +674,7 @@ export const INITIAL_ORDERS: Order[] = [
       "Bonus Layanan": "2 Side Quest + 1 Tutorial Quest (FREE)",
       "ID Transaksi": "261027-69CQ-6EALQH",
       "No. Referensi": "1tleprq47849",
-      "Sumber Dana": "Bank Jago 104768565941 (Bank Mandiri)",
+      "Sumber Dana": "Bank Jago (••••••••5941)",
       "Pengirim": "MUHAMMAD NABIL",
       "Tujuan": "Kazura Store - Batam"
     },
@@ -695,13 +695,14 @@ export const INITIAL_ORDERS: Order[] = [
       serviceName: "Wuthering Waves",
       variantOrRank: "Quest Combo (3 Companion + 5 Explore + 2 Side Quest + Bonus)",
       customerName: "Muhammad Nabil (obscurant)",
-      customerPhone: "0810••••5941",
+      customerPhone: "0812••••5941",
       accountDetails: {
         "Order Utama": "3 Companion + 5 Explore + 2 Side Quest",
         "Bonus Layanan": "2 Side Quest + 1 Tutorial Quest (FREE)",
         "ID Transaksi": "261027-69CQ-6EALQH",
         "No. Referensi": "1tleprq47849",
-        "Pengirim": "MUHAMMAD NABIL (Jago 104768565941)",
+        "Sumber Dana": "Bank Jago (••••••••5941)",
+        "Pengirim": "MUHAMMAD NABIL",
         "Status Pengerjaan": "100% Selesai & Lunas (17:25 WIB)"
       },
       amount: 55000,
