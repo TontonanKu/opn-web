@@ -27,15 +27,15 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     id: 'faq-3',
     category: 'Aplikasi Premium',
-    question: 'Apa perbedaan Spotify Premium 1 Bulan (26-31 Hari) vs 2 Bulan (50-60 Hari)?',
-    answer: 'Varian 26-31 Hari (Rp 25.000) adalah Individual Plan via akun seller yang paling stabil dan minim kendala. Sedangkan varian 50-60 Hari (Rp 20.000) adalah opsi super hemat untuk durasi 2 bulan (tanpa garansi, lebih rawan reset). Anda bisa memilih varian yang sesuai kebutuhan langsung di katalog aplikasi.',
+    question: 'Berapa durasi dan harga Spotify Premium serta CapCut Pro?',
+    answer: 'Spotify Premium saat ini tersedia durasi 26-31 Hari (Rp 25.000). Untuk CapCut Pro tersedia pilihan Team Plan (durasi 4-7 Hari Rp 9.000 & 26-31 Hari Rp 40.000) serta Individual Plan (durasi 4-7 Hari Rp 9.000 & 6-7 Bulan Rp 250.000) via akun seller.',
     icon: <Smartphone className="w-4 h-4 text-purple-600" />
   },
   {
     id: 'faq-4',
     category: 'Garansi Aplikasi',
-    question: 'Apakah aplikasi seperti Canva Edu dan CapCut Pro bergaransi?',
-    answer: 'Ya! Canva Edu bergaransi durasi panjang (join via invite email langsung aktif). CapCut Pro (Team Plan via akun seller) berstatus Hot Product dengan garansi ganti baru selama 1 minggu jika terjadi kendala.',
+    question: 'Bagaimana kebijakan garansi untuk produk aplikasi?',
+    answer: 'Aplikasi seperti Canva Edu dan YouTube Premium bergaransi resmi. Sedangkan untuk produk Spotify dan CapCut (Team & Individual) via akun seller berstatus No Garansi dengan harga yang sangat terjangkau.',
     icon: <ShieldCheck className="w-4 h-4 text-blue-600" />
   },
   {

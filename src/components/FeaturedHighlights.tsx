@@ -106,13 +106,13 @@ export const FeaturedHighlights: React.FC<FeaturedHighlightsProps> = ({
               </h3>
               
               <p className="text-xs font-mono text-neutral-600 mb-4 leading-relaxed">
-                Spotify Premium (2 varian), Canva Edu, CapCut Pro Team, Netflix 4K, YouTube Premium & Duolingo Super. Akun resmi & bergaransi.
+                Spotify Premium, Canva Edu, CapCut Pro (Team & Individual), Netflix 4K, YouTube Premium & Duolingo Super.
               </p>
 
               <div className="space-y-1.5 font-mono text-xs text-neutral-800 border-t-2 border-dashed border-neutral-300 pt-3 mb-5">
                 <div className="flex items-center gap-1.5">
                   <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" />
-                  <span>Spotify Premium mulai Rp 20.000</span>
+                  <span>Spotify Premium 26-31 Hari Rp 25.000</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" />
@@ -120,7 +120,7 @@ export const FeaturedHighlights: React.FC<FeaturedHighlightsProps> = ({
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" />
-                  <span>CapCut Pro Team Rp 40.000</span>
+                  <span>CapCut Pro mulai Rp 9.000</span>
                 </div>
               </div>
             </div>

@@ -210,17 +210,69 @@ export const PREMIUM_APPS: PremiumApp[] = [
     category: "VIDEO & CREATIVE AI",
     badge: "Akun Seller",
     badgeColor: "red",
-    price: 40000,
-    duration: "26 – 31 Hari",
-    description: "Akses seluruh fitur editing premium CapCut Pro: auto-caption akurat, efek AI canggih, export 4K 60fps tanpa watermark, dan cloud storage.",
-    noteSeller: "HOT PRODUCT, garansi 1 minggu",
+    price: 9000,
+    duration: "4 – 7 Hari",
+    description: "Akses seluruh fitur editing premium CapCut Pro Team: auto-caption akurat, efek AI canggih, export 4K 60fps tanpa watermark, dan cloud storage.",
+    noteSeller: "Via akun seller, no garansi",
     features: [
       "Semua Fitur Pro & AI Unlocked",
       "Auto-Caption & Voice Generator AI",
       "Export 4K 60FPS Tanpa Watermark",
-      "Garansi 1 Minggu (Akun Seller Resmi)"
+      "Team Plan (Akun Seller)",
+      "No Garansi"
     ],
-    isHighlighted: true
+    isHighlighted: true,
+    variants: [
+      {
+        id: "capcut-team-7d",
+        name: "4-7 Hari",
+        duration: "4 – 7 Hari",
+        price: 9000,
+        noteSeller: "Via akun seller, no garansi"
+      },
+      {
+        id: "capcut-team-1m",
+        name: "26-31 Hari",
+        duration: "26 – 31 Hari",
+        price: 40000,
+        noteSeller: "Via akun seller, no garansi"
+      }
+    ]
+  },
+  {
+    id: "capcut-pro-individual",
+    name: "CapCut Pro (Individual Plan)",
+    category: "VIDEO & CREATIVE AI",
+    badge: "Akun Seller",
+    badgeColor: "red",
+    price: 9000,
+    duration: "4 – 7 Hari",
+    description: "Akses editing premium CapCut Pro akun individual via akun seller. Bebas gunakan semua preset, efek AI eksklusif, auto-caption, dan export 4K 60fps.",
+    noteSeller: "Via akun seller, no garansi",
+    features: [
+      "Akun Individual (Via Akun Seller)",
+      "Semua Fitur Pro & AI Unlocked",
+      "Auto-Caption & Voice Generator AI",
+      "Export 4K 60FPS Tanpa Watermark",
+      "No Garansi"
+    ],
+    isHighlighted: false,
+    variants: [
+      {
+        id: "capcut-indiv-7d",
+        name: "4-7 Hari",
+        duration: "4 – 7 Hari",
+        price: 9000,
+        noteSeller: "Via akun seller, no garansi"
+      },
+      {
+        id: "capcut-indiv-6m",
+        name: "6-7 Bulan",
+        duration: "6 – 7 Bulan",
+        price: 250000,
+        noteSeller: "Via akun seller, no garansi"
+      }
+    ]
   },
   {
     id: "spotify-premium",
@@ -236,23 +288,8 @@ export const PREMIUM_APPS: PremiumApp[] = [
       "100% Bebas Iklan",
       "Download Lagu & Dengarkan Offline",
       "Unlimited Skip Lagu",
-      "Audio Ultra Kualitas Tinggi (320 kbps)"
-    ],
-    variants: [
-      {
-        id: "spotify-1m",
-        name: "1 Bulan (26-31 Hari)",
-        duration: "26 – 31 Hari",
-        price: 25000,
-        noteSeller: "No garansi"
-      },
-      {
-        id: "spotify-2m",
-        name: "2 Bulan (50-60 Hari)",
-        duration: "50 – 60 Hari",
-        price: 20000,
-        noteSeller: "No garansi, produk ini lebih rawan dari pada varian yang 1 bulan."
-      }
+      "Audio Ultra Kualitas Tinggi (320 kbps)",
+      "No Garansi"
     ]
   },
   {

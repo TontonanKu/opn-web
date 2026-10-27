@@ -20,8 +20,8 @@ export const WhyChooseUs: React.FC = () => {
     },
     {
       icon: <HeartHandshake className="w-6 h-6 text-black" />,
-      title: "GARANSI GANTI BARU APLIKASI",
-      desc: "Akun Spotify, Canva, CapCut Pro, dan YouTube Premium adalah akun resmi dengan garansi penggantian jika ada kendala sebelum masa aktif habis."
+      title: "TRANSPARANSI & KEAMANAN AKUN",
+      desc: "Setiap akun aplikasi diuji sebelum dikirim. Status garansi maupun non-garansi dicantumkan secara jujur dan transparan di setiap produk."
     }
   ];
 
