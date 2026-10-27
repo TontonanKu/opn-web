@@ -244,7 +244,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const saved = localStorage.getItem('zura_orders');
       if (saved) {
         const parsed: Order[] = JSON.parse(saved);
-        const filtered = parsed.filter(o => !o.id.startsWith('ord-demo-'));
+        const filtered = parsed
+          .filter(o => !o.id.startsWith('ord-demo-'))
+          .map(o => {
+            const canonical = INITIAL_ORDERS.find(init => init.id === o.id);
+            if (canonical) return canonical;
+            return o;
+          });
         const existingIds = new Set(filtered.map(o => o.id));
         const missing = INITIAL_ORDERS.filter(o => !existingIds.has(o.id));
         return [...missing, ...filtered];
