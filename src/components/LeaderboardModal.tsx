@@ -111,37 +111,10 @@ export const LeaderboardModal: React.FC = () => {
           ) : (
             <>
               {/* Top 3 Podium Cards with Modern Lucide Badges */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end pt-2">
-                
-                {/* Rank 2 (Silver) */}
-                {top3[1] && (
-                  <div className="order-2 sm:order-1 bg-white border-2 border-black p-3.5 shadow-[3px_3px_0px_#000] text-center relative">
-                    <div className="w-8 h-8 bg-slate-200 text-slate-800 border-2 border-black flex items-center justify-center font-mono font-black text-xs mx-auto mb-1.5 shadow-[1.5px_1.5px_0px_#000]">
-                      <Medal className="w-4 h-4 text-slate-800" />
-                    </div>
-                    <span className="inline-block bg-slate-200 text-slate-900 px-1.5 py-0.2 text-[9px] font-mono font-black mb-1 border border-black">
-                      RANK #2
-                    </span>
-                    <div className="font-display font-black text-sm uppercase text-[#121212] truncate">
-                      {top3[1].name}
-                    </div>
-                    <div className="text-[10px] font-mono text-neutral-500 mb-1.5">
-                      {top3[1].phoneMasked}
-                    </div>
-                    <div className="bg-slate-100 border border-slate-300 py-1 px-1.5 font-mono text-xs font-black text-slate-800">
-                      Rp {top3[1].totalSpend.toLocaleString('id-ID')}
-                    </div>
-                    <div className="text-[9px] font-mono text-neutral-600 mt-1 flex items-center justify-center gap-1">
-                      <Sparkles className="w-2.5 h-2.5 text-yellow-500" />
-                      <span>{top3[1].points.toLocaleString('id-ID')} Pts</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Rank 1 (Gold / Crown) */}
-                {top3[0] && (
-                  <div className="order-1 sm:order-2 bg-[#FFC700] border-[2.5px] border-black p-4 shadow-[4px_4px_0px_#000] text-center relative transform sm:-translate-y-2">
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#121212] text-[#FFC700] px-2 py-0.5 text-[9px] font-mono font-black border border-black flex items-center gap-1 shadow-sm">
+              {top3.length === 1 ? (
+                <div className="max-w-xs mx-auto pt-3">
+                  <div className="bg-[#FFC700] border-[2.5px] border-black p-4 shadow-[4px_4px_0px_#000] text-center relative">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#121212] text-[#FFC700] px-2 py-0.5 text-[9px] font-mono font-black border border-black flex items-center gap-1 shadow-sm whitespace-nowrap">
                       <Crown className="w-3 h-3 text-[#FFC700]" />
                       <span>TOP #1 SULTAN</span>
                     </div>
@@ -162,34 +135,88 @@ export const LeaderboardModal: React.FC = () => {
                       <span>{top3[0].points.toLocaleString('id-ID')} Pts • {top3[0].tier}</span>
                     </div>
                   </div>
-                )}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end pt-2">
+                  
+                  {/* Rank 2 (Silver) */}
+                  {top3[1] && (
+                    <div className="order-2 sm:order-1 bg-white border-2 border-black p-3.5 shadow-[3px_3px_0px_#000] text-center relative">
+                      <div className="w-8 h-8 bg-slate-200 text-slate-800 border-2 border-black flex items-center justify-center font-mono font-black text-xs mx-auto mb-1.5 shadow-[1.5px_1.5px_0px_#000]">
+                        <Medal className="w-4 h-4 text-slate-800" />
+                      </div>
+                      <span className="inline-block bg-slate-200 text-slate-900 px-1.5 py-0.2 text-[9px] font-mono font-black mb-1 border border-black">
+                        RANK #2
+                      </span>
+                      <div className="font-display font-black text-sm uppercase text-[#121212] truncate">
+                        {top3[1].name}
+                      </div>
+                      <div className="text-[10px] font-mono text-neutral-500 mb-1.5">
+                        {top3[1].phoneMasked}
+                      </div>
+                      <div className="bg-slate-100 border border-slate-300 py-1 px-1.5 font-mono text-xs font-black text-slate-800">
+                        Rp {top3[1].totalSpend.toLocaleString('id-ID')}
+                      </div>
+                      <div className="text-[9px] font-mono text-neutral-600 mt-1 flex items-center justify-center gap-1">
+                        <Sparkles className="w-2.5 h-2.5 text-yellow-500" />
+                        <span>{top3[1].points.toLocaleString('id-ID')} Pts</span>
+                      </div>
+                    </div>
+                  )}
 
-                {/* Rank 3 (Bronze) */}
-                {top3[2] && (
-                  <div className="order-3 bg-white border-2 border-black p-3.5 shadow-[3px_3px_0px_#000] text-center relative">
-                    <div className="w-8 h-8 bg-amber-100 text-amber-900 border-2 border-black flex items-center justify-center font-mono font-black text-xs mx-auto mb-1.5 shadow-[1.5px_1.5px_0px_#000]">
-                      <Award className="w-4 h-4 text-amber-900" />
+                  {/* Rank 1 (Gold / Crown) */}
+                  {top3[0] && (
+                    <div className="order-1 sm:order-2 bg-[#FFC700] border-[2.5px] border-black p-4 shadow-[4px_4px_0px_#000] text-center relative transform sm:-translate-y-2">
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#121212] text-[#FFC700] px-2 py-0.5 text-[9px] font-mono font-black border border-black flex items-center gap-1 shadow-sm">
+                        <Crown className="w-3 h-3 text-[#FFC700]" />
+                        <span>TOP #1 SULTAN</span>
+                      </div>
+                      <div className="w-9 h-9 bg-black text-[#FFC700] border-2 border-black flex items-center justify-center font-mono font-black text-sm mx-auto mb-1.5 mt-1 shadow-sm">
+                        <Crown className="w-5 h-5 text-[#FFC700]" />
+                      </div>
+                      <div className="font-display font-black text-base uppercase text-[#121212] truncate">
+                        {top3[0].name}
+                      </div>
+                      <div className="text-[10px] font-mono text-neutral-800 mb-1.5 font-bold">
+                        {top3[0].phoneMasked}
+                      </div>
+                      <div className="bg-black text-[#FFC700] border border-black py-1 px-2 font-mono text-xs font-black">
+                        Rp {top3[0].totalSpend.toLocaleString('id-ID')}
+                      </div>
+                      <div className="text-[10px] font-mono font-bold text-neutral-900 mt-1 flex items-center justify-center gap-1">
+                        <Sparkles className="w-3 h-3 text-black" />
+                        <span>{top3[0].points.toLocaleString('id-ID')} Pts • {top3[0].tier}</span>
+                      </div>
                     </div>
-                    <span className="inline-block bg-amber-100 text-amber-900 px-1.5 py-0.2 text-[9px] font-mono font-black mb-1 border border-black">
-                      RANK #3
-                    </span>
-                    <div className="font-display font-black text-sm uppercase text-[#121212] truncate">
-                      {top3[2].name}
-                    </div>
-                    <div className="text-[10px] font-mono text-neutral-500 mb-1.5">
-                      {top3[2].phoneMasked}
-                    </div>
-                    <div className="bg-amber-50 border border-amber-300 py-1 px-1.5 font-mono text-xs font-black text-amber-900">
-                      Rp {top3[2].totalSpend.toLocaleString('id-ID')}
-                    </div>
-                    <div className="text-[9px] font-mono text-neutral-600 mt-1 flex items-center justify-center gap-1">
-                      <Sparkles className="w-2.5 h-2.5 text-yellow-500" />
-                      <span>{top3[2].points.toLocaleString('id-ID')} Pts</span>
-                    </div>
-                  </div>
-                )}
+                  )}
 
-              </div>
+                  {/* Rank 3 (Bronze) */}
+                  {top3[2] && (
+                    <div className="order-3 bg-white border-2 border-black p-3.5 shadow-[3px_3px_0px_#000] text-center relative">
+                      <div className="w-8 h-8 bg-amber-100 text-amber-900 border-2 border-black flex items-center justify-center font-mono font-black text-xs mx-auto mb-1.5 shadow-[1.5px_1.5px_0px_#000]">
+                        <Award className="w-4 h-4 text-amber-900" />
+                      </div>
+                      <span className="inline-block bg-amber-100 text-amber-900 px-1.5 py-0.2 text-[9px] font-mono font-black mb-1 border border-black">
+                        RANK #3
+                      </span>
+                      <div className="font-display font-black text-sm uppercase text-[#121212] truncate">
+                        {top3[2].name}
+                      </div>
+                      <div className="text-[10px] font-mono text-neutral-500 mb-1.5">
+                        {top3[2].phoneMasked}
+                      </div>
+                      <div className="bg-amber-50 border border-amber-300 py-1 px-1.5 font-mono text-xs font-black text-amber-900">
+                        Rp {top3[2].totalSpend.toLocaleString('id-ID')}
+                      </div>
+                      <div className="text-[9px] font-mono text-neutral-600 mt-1 flex items-center justify-center gap-1">
+                        <Sparkles className="w-2.5 h-2.5 text-yellow-500" />
+                        <span>{top3[2].points.toLocaleString('id-ID')} Pts</span>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              )}
 
               {/* Ranks 4 to 10 Table */}
               {rest.length > 0 && (

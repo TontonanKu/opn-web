@@ -553,7 +553,11 @@ export const CustomerProfileModal: React.FC = () => {
                   </span>
                 </div>
                 <p className="text-[11px] font-mono text-neutral-300">
-                  Posisi Anda saat ini: <strong className="text-emerald-400">#{stats.rank}</strong> dari <strong>{stats.totalMembers} Member Terdaftar</strong> ({stats.tier}).
+                  {stats.totalSpend > 0 ? (
+                    <>Posisi Anda saat ini: <strong className="text-emerald-400">#{stats.rank}</strong> dari <strong>{stats.totalMembers} Top Spender</strong> ({stats.tier}).</>
+                  ) : (
+                    <>Anda belum memiliki transaksi belanja. Selesaikan pesanan pertama untuk masuk ke Top Spender!</>
+                  )}
                 </p>
               </div>
 
@@ -566,29 +570,9 @@ export const CustomerProfileModal: React.FC = () => {
               ) : (
                 <>
                   {/* Top 3 Podium Cards with Modern Lucide Badges */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-end">
-                    
-                    {/* Rank 2 (Silver) */}
-                    {leaderboard[1] && (
-                      <div className="order-2 sm:order-1 bg-white border-2 border-black p-3 text-center shadow-[2px_2px_0px_#000]">
-                        <div className="w-7 h-7 bg-slate-200 border-2 border-black flex items-center justify-center mx-auto mb-1 shadow-[1px_1px_0px_#000]">
-                          <Medal className="w-4 h-4 text-slate-800" />
-                        </div>
-                        <span className="inline-block bg-slate-200 text-slate-900 px-1.5 py-0.2 text-[9px] font-mono font-black mb-1 border border-black">
-                          RANK #2
-                        </span>
-                        <div className="font-display font-black text-xs uppercase truncate">
-                          {leaderboard[1].name}
-                        </div>
-                        <div className="text-[10px] font-mono text-neutral-500 font-bold">
-                          Rp {leaderboard[1].totalSpend.toLocaleString('id-ID')}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Rank 1 (Gold / Sultan) */}
-                    {leaderboard[0] && (
-                      <div className="order-1 sm:order-2 bg-[#FFC700] border-2 border-black p-3.5 text-center shadow-[3px_3px_0px_#000] relative">
+                  {leaderboard.length === 1 ? (
+                    <div className="max-w-[240px] mx-auto">
+                      <div className="bg-[#FFC700] border-2 border-black p-3.5 text-center shadow-[3px_3px_0px_#000] relative">
                         <div className="w-8 h-8 bg-black text-[#FFC700] border-2 border-black flex items-center justify-center mx-auto mb-1 shadow-[1.5px_1.5px_0px_#000]">
                           <Crown className="w-4 h-4 text-[#FFC700]" />
                         </div>
@@ -602,26 +586,65 @@ export const CustomerProfileModal: React.FC = () => {
                           Rp {leaderboard[0].totalSpend.toLocaleString('id-ID')}
                         </div>
                       </div>
-                    )}
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-end">
+                      
+                      {/* Rank 2 (Silver) */}
+                      {leaderboard[1] && (
+                        <div className="order-2 sm:order-1 bg-white border-2 border-black p-3 text-center shadow-[2px_2px_0px_#000]">
+                          <div className="w-7 h-7 bg-slate-200 border-2 border-black flex items-center justify-center mx-auto mb-1 shadow-[1px_1px_0px_#000]">
+                            <Medal className="w-4 h-4 text-slate-800" />
+                          </div>
+                          <span className="inline-block bg-slate-200 text-slate-900 px-1.5 py-0.2 text-[9px] font-mono font-black mb-1 border border-black">
+                            RANK #2
+                          </span>
+                          <div className="font-display font-black text-xs uppercase truncate">
+                            {leaderboard[1].name}
+                          </div>
+                          <div className="text-[10px] font-mono text-neutral-500 font-bold">
+                            Rp {leaderboard[1].totalSpend.toLocaleString('id-ID')}
+                          </div>
+                        </div>
+                      )}
 
-                    {/* Rank 3 (Bronze) */}
-                    {leaderboard[2] && (
-                      <div className="order-3 bg-white border-2 border-black p-3 text-center shadow-[2px_2px_0px_#000]">
-                        <div className="w-7 h-7 bg-amber-100 border-2 border-black flex items-center justify-center mx-auto mb-1 shadow-[1px_1px_0px_#000]">
-                          <Award className="w-4 h-4 text-amber-900" />
+                      {/* Rank 1 (Gold / Sultan) */}
+                      {leaderboard[0] && (
+                        <div className="order-1 sm:order-2 bg-[#FFC700] border-2 border-black p-3.5 text-center shadow-[3px_3px_0px_#000] relative">
+                          <div className="w-8 h-8 bg-black text-[#FFC700] border-2 border-black flex items-center justify-center mx-auto mb-1 shadow-[1.5px_1.5px_0px_#000]">
+                            <Crown className="w-4 h-4 text-[#FFC700]" />
+                          </div>
+                          <span className="inline-block bg-black text-[#FFC700] px-2 py-0.5 text-[9px] font-mono font-black mb-1 border border-black">
+                            TOP #1 SULTAN
+                          </span>
+                          <div className="font-display font-black text-sm uppercase truncate">
+                            {leaderboard[0].name}
+                          </div>
+                          <div className="text-xs font-mono font-black">
+                            Rp {leaderboard[0].totalSpend.toLocaleString('id-ID')}
+                          </div>
                         </div>
-                        <span className="inline-block bg-amber-100 text-amber-900 px-1.5 py-0.2 text-[9px] font-mono font-black mb-1 border border-black">
-                          RANK #3
-                        </span>
-                        <div className="font-display font-black text-xs uppercase truncate">
-                          {leaderboard[2].name}
+                      )}
+
+                      {/* Rank 3 (Bronze) */}
+                      {leaderboard[2] && (
+                        <div className="order-3 bg-white border-2 border-black p-3 text-center shadow-[2px_2px_0px_#000]">
+                          <div className="w-7 h-7 bg-amber-100 border-2 border-black flex items-center justify-center mx-auto mb-1 shadow-[1px_1px_0px_#000]">
+                            <Award className="w-4 h-4 text-amber-900" />
+                          </div>
+                          <span className="inline-block bg-amber-100 text-amber-900 px-1.5 py-0.2 text-[9px] font-mono font-black mb-1 border border-black">
+                            RANK #3
+                          </span>
+                          <div className="font-display font-black text-xs uppercase truncate">
+                            {leaderboard[2].name}
+                          </div>
+                          <div className="text-[10px] font-mono text-neutral-500 font-bold">
+                            Rp {leaderboard[2].totalSpend.toLocaleString('id-ID')}
+                          </div>
                         </div>
-                        <div className="text-[10px] font-mono text-neutral-500 font-bold">
-                          Rp {leaderboard[2].totalSpend.toLocaleString('id-ID')}
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                      )}
+                    </div>
+                  )}
 
                   {/* Ranks 4 to 10 List */}
                   {leaderboard.length > 3 && (

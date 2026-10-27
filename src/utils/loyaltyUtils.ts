@@ -1,4 +1,5 @@
 import { Order, User, MemberTierName, CustomerStats, LeaderboardEntry } from '../types';
+import { isReservedAdminIdentifier } from './securityUtils';
 
 export interface TierInfo {
   name: MemberTierName;
@@ -82,7 +83,8 @@ export const getTierBySpend = (spend: number): TierInfo => {
 };
 
 /**
- * Generates the full sorted Leaderboard computed strictly from real orders and registered users.
+ * Generates the full sorted Leaderboard computed strictly from real orders.
+ * Strictly excludes admins, staff test accounts, and Rp 0 users.
  * NO DUMMY DATA.
  */
 export const getFullLeaderboard = (
@@ -108,46 +110,26 @@ export const getFullLeaderboard = (
     return null;
   };
 
-  // 1. Ingest registered users from localStorage (if any exist)
-  try {
-    const rawUsers = typeof window !== 'undefined' ? localStorage.getItem('zura_registered_users') : null;
-    if (rawUsers) {
-      const registeredUsers = JSON.parse(rawUsers);
-      if (Array.isArray(registeredUsers)) {
-        registeredUsers.forEach((reg: any) => {
-          if (reg && reg.name) {
-            const key = getCustomerKey(reg.name, reg.phone, reg.id) || `uid_${reg.id || reg.name}`;
-            const isMatch = Boolean(
-              currentUser && (
-                (reg.id && reg.id === currentUser.id) ||
-                (reg.phone && currentUser.phone && reg.phone.replace(/[^0-9]/g, '') === currentUser.phone.replace(/[^0-9]/g, '')) ||
-                (reg.name.toLowerCase() === currentUser.name.toLowerCase())
-              )
-            );
-
-            customerMap.set(key, {
-              name: reg.name,
-              phone: reg.phone || '',
-              totalSpend: 0,
-              totalTips: 0,
-              totalOrders: 0,
-              reviewsCount: 0,
-              isCurrentUser: isMatch
-            });
-          }
-        });
-      }
-    }
-  } catch (e) {
-    // Ignore storage parse error
-  }
-
-  // 2. Ingest real store orders (Only confirmed/active or completed orders count for spend and points)
-  const validOrders = (allOrders || []).filter(o => o.status === 'completed' || o.status === 'processing');
+  // Ingest ONLY real store orders with valid spending (completed or processing)
+  const validOrders = (allOrders || []).filter(o => 
+    (o.status === 'completed' || o.status === 'processing') &&
+    (o.totalAmount && o.totalAmount > 0)
+  );
 
   validOrders.forEach(order => {
     const name = order.customerName || 'Pelanggan Zura';
     const phone = order.customerPhone || '';
+    
+    // Strictly exclude admins and staff test accounts from customer leaderboard
+    if (
+      isReservedAdminIdentifier(name) ||
+      isReservedAdminIdentifier(phone) ||
+      order.userId === 'usr_admin' ||
+      name.toLowerCase().includes('admin')
+    ) {
+      return;
+    }
+
     const key = getCustomerKey(name, phone, order.userId) || `order_${order.id}`;
 
     const isMatch = Boolean(
@@ -182,68 +164,44 @@ export const getFullLeaderboard = (
     }
   });
 
-  // 3. Ensure current user is in the map if logged in
-  if (currentUser) {
-    const userKey = getCustomerKey(currentUser.name, currentUser.phone, currentUser.id) || `cur_${currentUser.id}`;
-    let found = false;
-    for (const [, val] of customerMap.entries()) {
-      if (
-        val.isCurrentUser ||
-        (currentUser.phone && val.phone && currentUser.phone.replace(/[^0-9]/g, '') === val.phone.replace(/[^0-9]/g, '')) ||
-        (currentUser.name && val.name.toLowerCase() === currentUser.name.toLowerCase())
-      ) {
-        val.isCurrentUser = true;
-        val.name = currentUser.name;
-        if (currentUser.phone) val.phone = currentUser.phone;
-        found = true;
-        break;
-      }
-    }
+  // Filter out any entries that have zero spending or are admin
+  const entries: Omit<LeaderboardEntry, 'rank'>[] = Array.from(customerMap.values())
+    .filter(cust => 
+      cust.totalSpend > 0 &&
+      !isReservedAdminIdentifier(cust.name) &&
+      !isReservedAdminIdentifier(cust.phone) &&
+      !cust.name.toLowerCase().includes('admin')
+    )
+    .map(cust => {
+      const spendPoints = Math.floor(cust.totalSpend / 1000);
+      const tipPoints = Math.floor((cust.totalTips * 2) / 1000);
+      const reviewPoints = cust.reviewsCount * 50;
+      const points = spendPoints + tipPoints + reviewPoints;
 
-    if (!found) {
-      customerMap.set(userKey, {
-        name: currentUser.name,
-        phone: currentUser.phone || '',
-        totalSpend: 0,
-        totalTips: 0,
-        totalOrders: 0,
-        reviewsCount: 0,
-        isCurrentUser: true
-      });
-    }
-  }
+      const cleanPhone = cust.phone.replace(/[^0-9]/g, '');
+      const phoneMasked = cleanPhone && cleanPhone.length >= 8
+        ? `${cleanPhone.slice(0, 4)}••••${cleanPhone.slice(-3)}`
+        : '08••••••••';
 
-  // 4. Transform to LeaderboardEntry array
-  const entries: Omit<LeaderboardEntry, 'rank'>[] = Array.from(customerMap.values()).map(cust => {
-    const spendPoints = Math.floor(cust.totalSpend / 1000);
-    const tipPoints = Math.floor((cust.totalTips * 2) / 1000);
-    const reviewPoints = cust.reviewsCount * 50;
-    const points = spendPoints + tipPoints + reviewPoints;
+      const tierInfo = getTierBySpend(cust.totalSpend);
 
-    const cleanPhone = cust.phone.replace(/[^0-9]/g, '');
-    const phoneMasked = cleanPhone && cleanPhone.length >= 8
-      ? `${cleanPhone.slice(0, 4)}••••${cleanPhone.slice(-3)}`
-      : '08••••••••';
+      return {
+        name: cust.name,
+        phoneMasked,
+        totalSpend: cust.totalSpend,
+        totalTips: cust.totalTips,
+        totalOrders: cust.totalOrders,
+        reviewsCount: cust.reviewsCount,
+        points,
+        tier: tierInfo.name,
+        isCurrentUser: cust.isCurrentUser
+      };
+    });
 
-    const tierInfo = getTierBySpend(cust.totalSpend);
-
-    return {
-      name: cust.name,
-      phoneMasked,
-      totalSpend: cust.totalSpend,
-      totalTips: cust.totalTips,
-      totalOrders: cust.totalOrders,
-      reviewsCount: cust.reviewsCount,
-      points,
-      tier: tierInfo.name,
-      isCurrentUser: cust.isCurrentUser
-    };
-  });
-
-  // 5. Sort descending: totalSpend DESC, then points DESC, then totalOrders DESC
+  // Sort descending: totalSpend DESC, then points DESC, then totalOrders DESC
   entries.sort((a, b) => b.totalSpend - a.totalSpend || b.points - a.points || b.totalOrders - a.totalOrders);
 
-  // 6. Assign 1-based ranks
+  // Assign 1-based ranks
   return entries.map((entry, idx) => ({
     ...entry,
     rank: idx + 1
