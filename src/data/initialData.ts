@@ -234,7 +234,7 @@ export const PREMIUM_APPS: PremiumApp[] = [
         id: "capcut-team-1m",
         name: "26-31 Hari",
         duration: "26 – 31 Hari",
-        price: 40000,
+        price: 35000,
         noteSeller: "Via akun seller, no garansi"
       }
     ]

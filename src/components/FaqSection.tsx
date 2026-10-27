@@ -28,7 +28,7 @@ const FAQ_ITEMS: FaqItem[] = [
     id: 'faq-3',
     category: 'Aplikasi Premium',
     question: 'Berapa durasi dan harga Spotify Premium serta CapCut Pro?',
-    answer: 'Spotify Premium saat ini tersedia durasi 26-31 Hari (Rp 25.000). Untuk CapCut Pro tersedia pilihan Team Plan (durasi 4-7 Hari Rp 9.000 & 26-31 Hari Rp 40.000) serta Individual Plan (durasi 4-7 Hari Rp 9.000 & 6-7 Bulan Rp 250.000) via akun seller.',
+    answer: 'Spotify Premium saat ini tersedia durasi 26-31 Hari (Rp 25.000). Untuk CapCut Pro tersedia pilihan Team Plan (durasi 4-7 Hari Rp 9.000 & 26-31 Hari Rp 35.000) serta Individual Plan (durasi 4-7 Hari Rp 9.000 & 6-7 Bulan Rp 250.000) via akun seller.',
     icon: <Smartphone className="w-4 h-4 text-purple-600" />
   },
   {
