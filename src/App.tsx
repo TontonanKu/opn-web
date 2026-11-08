@@ -5,6 +5,7 @@ import { HomePage } from './pages/HomePage';
 import { CategoryPage } from './pages/CategoryPage';
 import { ServiceDetailPage } from './pages/ServiceDetailPage';
 import { OrderGuidePage } from './pages/OrderGuidePage';
+import { TestimonialPage } from './pages/TestimonialPage';
 import { ExternalLink } from 'lucide-react';
 
 function parseHashRoute(): { path: string; params: URLSearchParams } {
@@ -51,6 +52,8 @@ export const App: React.FC = () => {
     rightContent = <HomePage mode="joki" onNavigate={navigate} />;
   } else if (segments[0] === 'produk') {
     rightContent = <HomePage mode="produk" onNavigate={navigate} />;
+  } else if (segments[0] === 'testimoni') {
+    rightContent = <TestimonialPage groupKey={segments[1] || null} onNavigate={navigate} />;
   } else if (segments[0] === 'cara-order') {
     rightContent = <OrderGuidePage onNavigate={navigate} />;
   } else if (segments[0] === 'kategori' && segments[1]) {
