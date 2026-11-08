@@ -1,0 +1,18 @@
+Ikon di folder ini diupload otomatis oleh bot sebagai "application emoji" (emoji milik bot, tidak makan slot emoji server).
+Nama emoji di Discord: zs_<nama file>, contoh tea.png -> zs_tea.
+
+Sumber:
+- Ikon 3D (tea, cat, announce, promo, bags, ticket, scroll, book, idcard, crown, trophy, card, receipt, check, heart,
+  wave, alarm, chart, gem, handshake, tools, lock, barchart, floppy, sparkles, gift),
+  plus robot (gaya "Color", sama kayak bentuk 🤖 di Windows):
+  Microsoft Fluent Emoji — https://github.com/microsoft/fluentui-emoji — lisensi MIT, (c) Microsoft Corporation.
+- Logo aplikasi (capcut, duolingo, ilovepdf): ikon resmi situs masing-masing. Merek & logo milik pemiliknya,
+  dipakai hanya untuk menandai produk yang dijual.
+
+Logo game Roblox: taruh PNG persegi maks 256 KB di folder ini dengan nama persis di bawah, lalu restart bot.
+Selama file-nya belum ada, tampilnya emoji standar.
+- anime_adventures.png  -> Anime Adventures (sudah ada, dari owner)
+- anime_vanguards.png   -> Anime Vanguards (belum ada)
+
+Mau ganti ikon? Timpa file PNG dengan nama yang sama (maks 256 KB), hapus emoji lamanya di
+Discord Developer Portal > aplikasi bot > Emojis, lalu restart bot supaya diupload ulang.
